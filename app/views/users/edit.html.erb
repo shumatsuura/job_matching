@@ -67,17 +67,13 @@
       <%= f.text_area :description, class: "form-control" %>
     </div>
 
-    <%= f.fields_for :educations do |education_form| %>
-      <h3>学歴<%= education_form.index + 1 %></h3>
-      <li><%= education_form.label :school_name %></li>
-      <li><%= education_form.text_field :school_name %></li>
-      <li><%= education_form.label :major %></li>
-      <li><%= education_form.text_field :major %></li>
-      <li><%= education_form.label :period_start %></li>
-      <li><%= education_form.datetime_select :period_start, {start_year: 1970, end_year: 2020, discard_day: true,discard_hour: true} %></li>
-      <li><%= education_form.label :period_end %></li>
-      <li><%= education_form.datetime_select :period_end, {start_year: 1970 ,end_year: 2020, discard_day: true,discard_hour: true} %></li>
-    <% end %>
+    <div class="education_area">
+      <%= f.fields_for :educations do |education_form| %>
+        <%= render partial: 'users/education_fields', locals: {f: education_form} %>
+      <% end %>
+      <%= link_to_add_fields "追加", f, :educations %>
+    </div>
+
 
     <div class="form-group">
       <%= f.submit class: "btn btn-primary"%>

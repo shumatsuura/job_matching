@@ -6,5 +6,9 @@ class UsersController < ApplicationController
   def index
   end
 
+  def dashboard
+    @user = User.find_by(id: params[:id])
+  end
+
 
 end

@@ -4,7 +4,7 @@ Rails.application.routes.draw do
   devise_for :users, controllers: {
         sessions: 'users/sessions'
       }
-  resources :users, only:[:show,:index] do
+  resources :users, only:[:show,:index,:edit,:update] do
     member do
       get :dashboard
     end

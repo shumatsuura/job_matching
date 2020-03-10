@@ -1,0 +1,28 @@
+<div class ="container">
+  <h4><%= @user.first_name %>のページ</h4>
+  <div class="panel panel-default">
+    <div class="panel-heading">
+      <div class="row">
+        <div class="col-xs-6">
+          プロフィール
+        </div>
+        <div class="col-xs-6 text-right">
+          <% if current_user == @user %>
+            <%= link_to t('view.edit'), edit_user_registration_path %>
+          <% end %>
+        </div>
+      </div>
+    </div>
+    <table class="table panel-body">
+      <tr>
+        <th><%= t('view.user_name') %>:</th>
+        <td><%= @user.first_name %></td>
+      </tr>
+      <tr>
+        <th><%= t('view.user_email') %>:</th>
+        <td><%= @user.email %></td>
+      </tr>
+
+    </table>
+  </div>
+</div>

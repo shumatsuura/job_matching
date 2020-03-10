@@ -13,11 +13,12 @@ Rails 5.2.4
 Ruby 2.6.5
 
 #### カタログ設計、機能一覧
-https://docs.google.com/spreadsheets/d/1tREWJyGpvD_f6uMb6TAtDlP0qQMP-cY98XpJW27wxVY/edit#gid=23603533
+下記リンクのカタログ設計シート
+https://docs.google.com/spreadsheets/d/1tREWJyGpvD_f6uMb6TAtDlP0qQMP-cY98XpJW27wxVY/edit?usp=sharing
 
 #### テーブル定義書
-
-https://docs.google.com/spreadsheets/d/1tREWJyGpvD_f6uMb6TAtDlP0qQMP-cY98XpJW27wxVY/edit#gid=0
+下記リンクのテーブル定義シート
+https://docs.google.com/spreadsheets/d/1tREWJyGpvD_f6uMb6TAtDlP0qQMP-cY98XpJW27wxVY/edit?usp=sharing
 
 #### ER図
 

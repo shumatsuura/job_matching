@@ -22,6 +22,10 @@ class UsersController < ApplicationController
     @user.languages.build
     end
 
+    if @user.desired_industries == []
+    @user.desired_industries.build
+    end
+
   end
 
   def update
@@ -47,6 +51,7 @@ class UsersController < ApplicationController
                                  :description,
                                  educations_attributes: [:id,:school_name,:major,:period_start,:period_end,:_destroy],
                                  languages_attributes: [:id,:name,:level,:_destroy],
+                                 desired_industries_attributes: [:id,:user_id,:industry_id,:_destroy],
                                )
   end
 

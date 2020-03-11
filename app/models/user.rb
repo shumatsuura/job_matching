@@ -11,6 +11,8 @@ class User < ApplicationRecord
   accepts_nested_attributes_for :languages, allow_destroy: true
 
   has_many :desired_industries, dependent: :destroy
+  accepts_nested_attributes_for :desired_industries, allow_destroy: true
+  
   has_many :industries, through: :desired_industries, source: :industry
 
 end

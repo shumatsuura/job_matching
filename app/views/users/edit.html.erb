@@ -81,6 +81,12 @@
       <%= link_to_add_fields "追加", f, :languages %>
     </div>
 
+    <div class="form-group desired_industries">
+      <%= f.fields_for :desired_industries do |builder| %>
+        <%= render 'users/desired_industry_fields', f: builder %>
+      <% end %>
+      <%= link_to_add_fields "追加", f, :desired_industries %>
+    </div>
 
     <div class="form-group">
       <%= f.submit class: "btn btn-primary"%>

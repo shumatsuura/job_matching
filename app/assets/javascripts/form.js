@@ -6,14 +6,15 @@ $(document).on('turbolinks:load', function(){
   });
 
   $('form').on('click', '.add_fields', function(event){
-    education_index = Number($('.educations_index:last').text()) + 1;
+    users_child_index = Number($(this).parent().find('.users_child_index:last').text()) + 1
+    // education_index = Number($('.educations_index:last').text()) + 1;
 
     var time = new Date().getTime();
     var regexp = new RegExp($(this).data('id'), 'g');
     $(this).before($(this).data('fields').replace(regexp, time));
     event.preventDefault();
 
-    $('.educations_index:last').text(education_index);
+    $(this).parent().find('.users_child_index:last').text(users_child_index);
 
     });
   });

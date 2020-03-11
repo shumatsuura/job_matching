@@ -67,11 +67,18 @@
       <%= f.text_area :description, class: "form-control" %>
     </div>
 
-    <div class="form-group">
+    <div class="form-group educations">
       <%= f.fields_for :educations do |builder| %>
         <%= render 'users/education_fields', f: builder %>
       <% end %>
       <%= link_to_add_fields "追加", f, :educations %>
+    </div>
+
+    <div class="form-group languages">
+      <%= f.fields_for :languages do |builder| %>
+        <%= render 'users/language_fields', f: builder %>
+      <% end %>
+      <%= link_to_add_fields "追加", f, :languages %>
     </div>
 
 

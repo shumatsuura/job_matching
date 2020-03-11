@@ -20,7 +20,6 @@ gem 'enum_help'
 gem 'faker'
 gem 'carrierwave'
 gem 'mini_magick'
-gem 'jquery-turbolinks'
 gem 'jquery-rails'
 
 group :development, :test do

@@ -13,6 +13,7 @@ class UsersController < ApplicationController
   end
 
   def edit
+    n = 0
     if @user.educations == [] or @user.educations.last.school_name != ""
     @user.educations.build
     end
@@ -40,7 +41,7 @@ class UsersController < ApplicationController
                                  :religion,
                                  :expected_salary,
                                  :description,
-                                 educations_attributes: [:id,:school_name,:major,:period_start,:period_end],
+                                 educations_attributes: [:id,:school_name,:major,:period_start,:period_end,:_destroy],
                                )
   end
 

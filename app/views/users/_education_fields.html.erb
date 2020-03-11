@@ -1,11 +1,13 @@
 <fieldset>
   <h3>学歴<%= f.index + 1 %></h3>
-  <li><%= f.label :school_name %></li>
-  <li><%= f.text_field :school_name %></li>
-  <li><%= f.label :major %></li>
-  <li><%= f.text_field :major %></li>
-  <li><%= f.label :period_start %></li>
-  <li><%= f.datetime_select :period_start, {start_year: 1970, end_year: 2020, discard_day: true,discard_hour: true} %></li>
-  <li><%= f.label :period_end %></li>
-  <li><%= f.datetime_select :period_end, {start_year: 1970 ,end_year: 2020, discard_day: true,discard_hour: true} %></li>
+  <%= f.label :school_name %>
+  <%= f.text_field :school_name %>
+  <%= f.label :major %>
+  <%= f.text_field :major %>
+  <%= f.label :period_start %>
+  <%= f.datetime_select :period_start, {start_year: 1970, end_year: 2020, discard_day: true, discard_hour: true} %></li>
+  <%= f.label :period_end %>
+  <%= f.datetime_select :period_end, {start_year: 1970 ,end_year: 2020, discard_day: true, discard_hour: true} %></li>
+  <%= f.hidden_field :_destroy %>
+  <%= link_to "削除", '#', class: "remove_fields" %>
 </fieldset>

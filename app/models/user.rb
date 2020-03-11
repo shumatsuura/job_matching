@@ -4,6 +4,6 @@ class User < ApplicationRecord
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :validatable
   has_many :educations, dependent: :destroy
-  accepts_nested_attributes_for :educations
-  
+  accepts_nested_attributes_for :educations, allow_destroy: true
+
 end

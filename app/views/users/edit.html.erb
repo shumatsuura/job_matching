@@ -67,9 +67,9 @@
       <%= f.text_area :description, class: "form-control" %>
     </div>
 
-    <div class="education_area">
-      <%= f.fields_for :educations do |education_form| %>
-        <%= render partial: 'users/education_fields', locals: {f: education_form} %>
+    <div class="form-group">
+      <%= f.fields_for :educations do |builder| %>
+        <%= render 'users/education_fields', f: builder %>
       <% end %>
       <%= link_to_add_fields "追加", f, :educations %>
     </div>

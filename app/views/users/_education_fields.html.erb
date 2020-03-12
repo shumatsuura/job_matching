@@ -5,9 +5,24 @@
   <%= f.label :major %>
   <%= f.text_field :major %>
   <%= f.label :period_start %>
-  <%= f.datetime_select :period_start, {start_year: 1970, end_year: 2020, discard_day: true, discard_hour: true} %></li>
+  <%= f.datetime_select :period_start,
+  {
+    include_blank: true,
+    default: nil,
+    start_year: 1970,
+    end_year: 2020,
+    discard_day: true,
+    discard_hour: true} %></li>
   <%= f.label :period_end %>
-  <%= f.datetime_select :period_end, {start_year: 1970 ,end_year: 2020, discard_day: true, discard_hour: true} %></li>
+  <%= f.datetime_select :period_end,
+   {
+    include_blank: true,
+    default: nil,
+    start_year: 1970,
+    end_year: 2020,
+    discard_day: true,
+    discard_hour: true,
+    include_blank: true} %></li>
   <%= f.hidden_field :_destroy %>
   <%= link_to "削除", '#', class: "remove_fields" %>
 </fieldset>

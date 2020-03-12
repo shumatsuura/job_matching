@@ -1,9 +1,14 @@
 <fieldset>
-  <h3>Education<span class="users_child_index"><%= f.index + 1 %><span></h3>
-  <%= f.label :school_name %>
-  <%= f.text_field :school_name %>
-  <%= f.label :major %>
-  <%= f.text_field :major %>
+  <h3>Work Experience<span class="users_child_index"><%= f.index + 1 %><span></h3>
+  <%= f.label :company %>
+  <%= f.text_field :company %>
+  <%= f.label :position %>
+  <%= f.text_field :position %>
+  <%= f.label :description %>
+  <%= f.text_area :description %>
+  <%= f.label :salary %>
+  <%= f.text_field :salary %>
+
   <%= f.label :period_start %>
   <%= f.datetime_select :period_start,
   {
@@ -23,6 +28,8 @@
     discard_day: true,
     discard_hour: true,
     include_blank: true} %>
+  <%= f.label :currently_employed %>
+  <%= f.check_box :currently_employed %>
   <%= f.hidden_field :_destroy %>
   <%= link_to "削除", '#', class: "remove_fields" %>
 </fieldset>

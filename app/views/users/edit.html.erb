@@ -88,6 +88,13 @@
       <%= link_to_add_fields "追加", f, :desired_industries %>
     </div>
 
+    <div class="form-group work_experiences">
+      <%= f.fields_for :work_experiences do |builder| %>
+        <%= render 'users/work_experience_fields', f: builder %>
+      <% end %>
+      <%= link_to_add_fields "追加", f, :work_experiences %>
+    </div>
+
     <div class="form-group">
       <%= f.submit class: "btn btn-primary"%>
     </div>

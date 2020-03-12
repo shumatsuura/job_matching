@@ -26,6 +26,10 @@ class UsersController < ApplicationController
     @user.desired_industries.build
     end
 
+    if @user.work_experiences == []
+    @user.work_experiences.build
+    end
+
   end
 
   def update
@@ -39,20 +43,22 @@ class UsersController < ApplicationController
   private
 
   def user_params
-    params.require(:user).permit(:first_name,
-                                 :last_name,
-                                 :date_of_birth,
-                                 :gender,
-                                 :address,
-                                 :phone_number,
-                                 :race,
-                                 :religion,
-                                 :expected_salary,
-                                 :description,
-                                 educations_attributes: [:id,:school_name,:major,:period_start,:period_end,:_destroy],
-                                 languages_attributes: [:id,:name,:level,:_destroy],
-                                 desired_industries_attributes: [:id,:user_id,:industry_id,:_destroy],
-                               )
+    params.require(:user).permit(
+      :first_name,
+      :last_name,
+      :date_of_birth,
+      :gender,
+      :address,
+      :phone_number,
+      :race,
+      :religion,
+      :expected_salary,
+      :description,
+      educations_attributes: [:id,:school_name,:major,:period_start,:period_end,:_destroy],
+      languages_attributes: [:id,:name,:level,:_destroy],
+      desired_industries_attributes: [:id,:user_id,:industry_id,:_destroy],
+      work_experiences_attributes: [:id,:user_id,:company,:position,:salary,:description,:period_start,:period_end,:currently_employed,:_destroy]
+    )
   end
 
   def set_user

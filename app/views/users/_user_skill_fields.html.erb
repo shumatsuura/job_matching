@@ -1,0 +1,8 @@
+<fieldset>
+  <h3>Skill<span class="users_child_index"><%= f.index + 1 %><span></h3>
+  <%= f.label :name %>
+  <%= f.text_field :name %>
+  
+  <%= f.hidden_field :_destroy %>
+  <%= link_to "削除", '#', class: "remove_fields" %>
+</fieldset>

@@ -30,6 +30,10 @@ class UsersController < ApplicationController
     @user.work_experiences.build
     end
 
+    if @user.user_skills == []
+    @user.user_skills.build
+    end
+
   end
 
   def update
@@ -57,7 +61,8 @@ class UsersController < ApplicationController
       educations_attributes: [:id,:school_name,:major,:period_start,:period_end,:_destroy],
       languages_attributes: [:id,:name,:level,:_destroy],
       desired_industries_attributes: [:id,:user_id,:industry_id,:_destroy],
-      work_experiences_attributes: [:id,:user_id,:company,:position,:salary,:description,:period_start,:period_end,:currently_employed,:_destroy]
+      work_experiences_attributes: [:id,:user_id,:company,:position,:salary,:description,:period_start,:period_end,:currently_employed,:_destroy],
+      user_skills_attributes: [:id,:user_id,:name]
     )
   end
 

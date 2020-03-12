@@ -88,6 +88,13 @@
       <%= link_to_add_fields "追加", f, :desired_industries %>
     </div>
 
+    <div class="form-group desired_job_categories">
+      <%= f.fields_for :desired_job_categories do |builder| %>
+        <%= render 'users/desired_job_category_fields', f: builder %>
+      <% end %>
+      <%= link_to_add_fields "追加", f, :desired_job_categories %>
+    </div>
+
     <div class="form-group work_experiences">
       <%= f.fields_for :work_experiences do |builder| %>
         <%= render 'users/work_experience_fields', f: builder %>

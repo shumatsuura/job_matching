@@ -38,6 +38,10 @@ class UsersController < ApplicationController
     @user.qualifications.build
     end
 
+    if @user.desired_job_categories == []
+    @user.desired_job_categories.build
+    end
+
   end
 
   def update
@@ -67,7 +71,8 @@ class UsersController < ApplicationController
       desired_industries_attributes: [:id,:user_id,:industry_id,:_destroy],
       work_experiences_attributes: [:id,:user_id,:company,:position,:salary,:description,:period_start,:period_end,:currently_employed,:_destroy],
       user_skills_attributes: [:id,:user_id,:name],
-      qualifications_attributes: [:id,:name,:date_of_acquisition,:user_id]
+      qualifications_attributes: [:id,:name,:date_of_acquisition,:user_id],
+      desired_job_categories_attributes: [:id,:user_id,:job_category_id,:_destroy]
     )
   end
 

@@ -20,5 +20,8 @@ class User < ApplicationRecord
   has_many :user_skills, dependent: :destroy
   accepts_nested_attributes_for :user_skills, allow_destroy: true
 
+  has_many :qualifications, dependent: :destroy
+  accepts_nested_attributes_for :qualifications, allow_destroy: true
+
 
 end

@@ -1,0 +1,17 @@
+<fieldset>
+  <h3>Qualification<span class="users_child_index"><%= f.index + 1 %><span></h3>
+  <%= f.label :name %>
+  <%= f.text_field :name %>
+  <%= f.label :date_of_acquisition %>
+  <%= f.datetime_select :date_of_acquisition,
+  {
+    include_blank: true,
+    default: nil,
+    start_year: 1970,
+    end_year: 2020,
+    discard_day: true,
+    discard_hour: true} %>
+
+  <%= f.hidden_field :_destroy %>
+  <%= link_to "削除", '#', class: "remove_fields" %>
+</fieldset>

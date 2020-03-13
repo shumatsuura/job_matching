@@ -6,7 +6,7 @@ class UsersController < ApplicationController
   end
 
   def index
-    @users = User.all 
+    @users = User.all
   end
 
   def dashboard
@@ -67,6 +67,8 @@ class UsersController < ApplicationController
       :religion,
       :expected_salary,
       :description,
+      :image,
+      :image_cache,
       educations_attributes: [:id,:school_name,:major,:period_start,:period_end,:_destroy],
       languages_attributes: [:id,:name,:level,:_destroy],
       desired_industries_attributes: [:id,:user_id,:industry_id,:_destroy],

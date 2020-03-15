@@ -53,11 +53,26 @@
       </div>
     </div>
   </div>
-  <div class="">
+  <table class="table">
+    <tr>
+      <th>title</th>
+      <th></th>
+      <th></th>
+    </tr>
     <% @company.posts.each do |post| %>
-      <%= link_to "#{post.title}", edit_post_path(post.id) %>
+    <tr>
+      <td>
+        <%= link_to "#{post.title}", post_path(post.id) %>
+      </td>
+      <td>
+        <%= link_to "edit", edit_post_path(post.id) %>
+      </td>
+      <td>
+        <%= link_to "delete", post_path(post.id), method: :delete, data:{ confirm: "Are you sure?"} %>
+      </td>
+    </tr>
     <% end %>
-  </div>
+  </table>
 </div>
 
 <%= link_to "new post", new_post_path %>

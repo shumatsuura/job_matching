@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_03_13_072236) do
+ActiveRecord::Schema.define(version: 2020_03_13_083155) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -85,6 +85,19 @@ ActiveRecord::Schema.define(version: 2020_03_13_072236) do
     t.index ["user_id"], name: "index_languages_on_user_id"
   end
 
+  create_table "posts", force: :cascade do |t|
+    t.string "title", null: false
+    t.integer "salary", null: false
+    t.string "number_of_recruits", null: false
+    t.string "position", null: false
+    t.text "description", null: false
+    t.string "location", null: false
+    t.bigint "company_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["company_id"], name: "index_posts_on_company_id"
+  end
+
   create_table "qualifications", force: :cascade do |t|
     t.string "name"
     t.datetime "date_of_acquisition"
@@ -142,6 +155,7 @@ ActiveRecord::Schema.define(version: 2020_03_13_072236) do
 
   add_foreign_key "educations", "users"
   add_foreign_key "languages", "users"
+  add_foreign_key "posts", "companies"
   add_foreign_key "qualifications", "users"
   add_foreign_key "user_skills", "users"
   add_foreign_key "work_experiences", "users"

@@ -28,6 +28,9 @@
             <% if user_signed_in? %>
               <%= link_to 'Dashboard', dashboard_user_path(current_user.id), {class: "nav-link"}  %>
             <% end %>
+            <% if company_signed_in? %>
+              <%= link_to 'Dashboard', dashboard_company_path(current_company.id), {class: "nav-link"}  %>
+            <% end %>
           </li>
           <li class="nav-item">
             <% if user_signed_in? %>
@@ -42,6 +45,7 @@
             <div class="dropdown-menu" aria-labelledby="navbarDropdown">
               <a class="dropdown-item" href="#">Action</a>
               <%= link_to "#{current_user.first_name}", user_path(current_user.id), {class: "dropdown-item"} if current_user %>
+              <%= link_to "Dashboard #{current_company.name}", company_path(current_company.id), {class: "dropdown-item"} if current_company %>
               <a class="dropdown-item" href="#">Another action</a>
               <div class="dropdown-divider"></div>
               <a class="dropdown-item" href="#">Something else here</a>
@@ -57,17 +61,35 @@
         </form>
 
         <ul class="navbar-nav">
-          <li class="nav-item">
-            <%= link_to 'Log-In', new_user_session_path, {class: "nav-link"} %>
-          </li>
-          <li class="nav-item">
-            <%= link_to 'Sign-Up', new_user_registration_path, {class: "nav-link"} %>
-          </li>
-          <li class="nav-item">
-            <%= link_to 'Log-out', destroy_user_session_path, {method: :delete, class: "nav-link"} %>
-          </li>
-        </ul>
+          <% if controller.action_name == "landing" %>
+            <li class="nav-item">
+              <%= link_to 'Log-In', new_user_session_path, {class: "nav-link"} unless user_signed_in? %>
+            </li>
+            <li class="nav-item">
+              <%= link_to 'Sign-Up', new_user_registration_path, {class: "nav-link"} unless user_signed_in? %>
+            </li>
+          <% end %>
 
+          <li class="nav-item">
+            <%= link_to 'Log-out', destroy_user_session_path, {method: :delete, class: "nav-link"} if user_signed_in? %>
+          </li>
+
+          <% if controller.action_name == "landing_for_company" %>
+          <li class="nav-item">
+            <%= link_to 'C Log-In', new_company_session_path, {class: "nav-link"} unless company_signed_in? %>
+          </li>
+
+
+          <li class="nav-item">
+            <%= link_to 'C Sign-Up', new_company_registration_path, {class: "nav-link"} unless company_signed_in? %>
+          </li>
+          <% end %>
+
+          <li class="nav-item">
+            <%= link_to 'C Log-out', destroy_company_session_path, {method: :delete, class: "nav-link"} if company_signed_in? %>
+          </li>
+
+        </ul>
       </div>
     </nav>
     <p class="notice"><%= notice %></p>

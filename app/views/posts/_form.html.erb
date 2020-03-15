@@ -43,6 +43,27 @@
       <%= f.text_area :location, class: "form-control" %>
     </div>
 
+    <div class="form-group user_skills">
+      <%= f.fields_for :post_skills do |builder| %>
+        <%= render 'posts/post_skill_fields', f: builder %>
+      <% end %>
+      <%= link_to_add_fields "追加", f, :post_skills %>
+    </div>
+
+    <div class="form-group user_skills">
+      <%= f.fields_for :post_industries do |builder| %>
+        <%= render 'posts/post_industry_fields', f: builder %>
+      <% end %>
+      <%= link_to_add_fields "追加", f, :post_industries %>
+    </div>
+
+    <div class="form-group user_skills">
+      <%= f.fields_for :post_job_categories do |builder| %>
+        <%= render 'posts/post_job_category_fields', f: builder %>
+      <% end %>
+      <%= link_to_add_fields "追加", f, :post_job_categories %>
+    </div>
+
     <div class="form-group">
       <%= f.submit class: "btn btn-primary"%>
     </div>

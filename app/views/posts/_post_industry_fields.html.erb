@@ -1,0 +1,10 @@
+<fieldset>
+  <h3>Industries<span class="users_child_index"><%= f.index + 1 %><span></h3>
+  <%= f.label :industry %>
+  <%= f.select :industry_id, Industry.select(:id, :name).map{ |n| [n.name.to_sym,n.id]}.to_h, include_blank: true %>
+
+  <%= f.hidden_field :company_id, :value => params[:id] %>
+
+  <%= f.hidden_field :_destroy %>
+  <%= link_to "削除", '#', class: "remove_fields" %>
+</fieldset>

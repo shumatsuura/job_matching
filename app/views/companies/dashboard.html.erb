@@ -53,6 +53,11 @@
       </div>
     </div>
   </div>
+  <div class="">
+    <% @company.posts.each do |post| %>
+      <%= link_to "#{post.title}", edit_post_path(post.id) %>
+    <% end %>
+  </div>
 </div>
 
 <%= link_to "new post", new_post_path %>

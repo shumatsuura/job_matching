@@ -31,4 +31,6 @@ Rails.application.routes.draw do
 
   resources :posts
 
+  resources :scouts, only:[:create, :destroy]
+
 end

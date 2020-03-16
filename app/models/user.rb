@@ -27,6 +27,8 @@ class User < ApplicationRecord
   accepts_nested_attributes_for :desired_job_categories, allow_destroy: true
   has_many :job_categories, through: :desired_job_categories, source: :job_category
 
+  has_many :scouts
+
   mount_uploader :image, ImageUploader
 
 end

@@ -73,6 +73,22 @@
     </tr>
     <% end %>
   </table>
+  <table class="table">
+    <tr>
+      <th>Scouted Users</th>
+      <th></th>
+    </tr>
+    <% @company.scouts.each do |scout| %>
+    <tr>
+      <td>
+        <%= link_to "#{scout.user.first_name}x", user_path(scout.user_id) %>
+      </td>
+      <td>
+        <%= link_to "message", "#" %>
+      </td>
+    </tr>
+    <% end %>
+  </table>
 </div>
 
 <%= link_to "new post", new_post_path %>

@@ -1,0 +1,16 @@
+<table class="table table-hover">
+  <thead>
+    <h2>スカウト一覧</h2>
+  </thead>
+  <tbody>
+    <% @scouts.each do |scout| %>
+    <tr>
+      <td>
+        <% if scout.user.present? %>
+          <%= link_to scout.user.first_name, scout_scout_messages_path(scout)%>
+        <% end %>
+      </td>
+    </tr>
+    <% end %>
+  </tbody>
+</table>

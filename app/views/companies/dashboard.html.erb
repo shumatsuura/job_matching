@@ -6,7 +6,7 @@
           Company Profile
         </div>
         <div class="col text-right">
-          <%= link_to 'edit', edit_user_path %>
+          <%= link_to 'edit', edit_company_path %>
         </div>
       </div>
     </div>
@@ -81,7 +81,7 @@
     <% @company.scouts.each do |scout| %>
     <tr>
       <td>
-        <%= link_to "#{scout.user.first_name}x", user_path(scout.user_id) %>
+        <%= link_to "#{scout.user.first_name.present? ? scout.user.first_name : "n/a" }", user_path(scout.user_id) %>
       </td>
       <td>
         <%= link_to "message", "#" %>

@@ -9,6 +9,11 @@ class CompaniesController < ApplicationController
   end
 
   def update
+    if @company.update(company_params)
+      redirect_to dashboard_company_path(@company.id)
+    else
+      render 'edit'
+    end
   end
 
   def index
@@ -20,8 +25,13 @@ class CompaniesController < ApplicationController
 
 
   private
+
   def set_company
-    
     @company = Company.find_by(id: params[:id])
   end
+
+  def company_params
+    params.require(:company).permit(:name)
+  end
+
 end

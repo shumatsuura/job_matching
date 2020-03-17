@@ -14,4 +14,6 @@ class Post < ApplicationRecord
   has_many :applies, dependent: :destroy
   has_many :apply_messages, through: :applies, source: :apply_messages
 
+  has_many :like_posts, dependent: :destroy
+
 end

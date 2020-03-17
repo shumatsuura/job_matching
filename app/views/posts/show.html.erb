@@ -4,11 +4,23 @@
 <%= @post.description %>
 <%= @post.location %>
 
-<% if user_signed_in? %>
+<div class="">
+  <% if user_signed_in? %>
   <% if current_user.applies.pluck(:post_id).include?(@post.id) %>
   "Already Applied"
   <%= link_to "Delete Application", apply_path(post_id: @post.id), method: :delete %>
   <% else %>
   <%= link_to "Apply Now", applies_path(apply:{user_id: current_user.id, post_id: @post.id}), method: :post %>
   <% end %>
-<% end %>
+  <% end %>
+</div>
+
+<div class="">
+  <% if user_signed_in? %>
+  <% if current_user.like_posts.pluck(:post_id).include?(@post.id) %>
+  <%= link_to "Unlike", like_post_path(post_id: @post.id), method: :delete %>
+  <% else %>
+  <%= link_to "Like", like_posts_path(like_post:{user_id: current_user.id, post_id: @post.id}), method: :post %>
+  <% end %>
+  <% end %>
+</div>

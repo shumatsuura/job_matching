@@ -31,6 +31,7 @@ class User < ApplicationRecord
   has_many :applies, dependent: :destroy
 
   has_many :follows, dependent: :destroy
+  has_many :like_posts, dependent: :destroy
 
   mount_uploader :image, ImageUploader
 

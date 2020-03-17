@@ -40,5 +40,6 @@ Rails.application.routes.draw do
 
   resources :follows, only:[:index,:create,:destroy]
   resources :like_posts, only:[:index,:create,:destroy]
+  resources :like_users, only:[:index,:create,:destroy]
 
 end

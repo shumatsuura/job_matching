@@ -14,4 +14,6 @@ class Company < ApplicationRecord
 
   has_many :follows, dependent: :destroy
 
+  has_many :like_users, dependent: :destroy
+
 end

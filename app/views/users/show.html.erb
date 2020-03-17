@@ -20,6 +20,14 @@
             <% end %>
           <% end %>
 
+          <% if company_signed_in? %>
+            <% if current_company.like_users.pluck(:user_id).include?(@user.id) %>
+              <%= link_to "Like", like_user_path(user_id: @user.id), method: :delete %>
+            <% else %>
+              <%= link_to "Unlike", like_users_path(like_user:{user_id: @user.id, company_id: current_company.id}), method: :post %>
+            <% end %>
+          <% end %>
+
         </div>
       </div>
     </div>

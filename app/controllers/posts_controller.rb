@@ -1,5 +1,9 @@
 class PostsController < ApplicationController
-  before_action :set_post, only:[:edit,:update,:show,:destroy]
+  before_action :set_post, only:[:index,:edit,:update,:show,:destroy]
+
+  def index
+    @posts = Post.all
+  end
 
   def new
     @post = current_company.posts.build

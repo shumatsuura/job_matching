@@ -1,0 +1,2 @@
+module ApplyMessagesHelper
+end

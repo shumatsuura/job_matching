@@ -1,0 +1,47 @@
+<div class ="container">
+      <% @posts.each do |post| %>
+      <div class="container">
+        <div class="card mb-3">
+          <div class="card-header">
+            Post Info
+          </div>
+          <div class="row no-gutters">
+            <div class="col-md-2">
+
+              <div class="">
+                <%= image_tag post.company.logo.url, class: 'img-thumbnail d-block mx-auto m-4' if post.company.logo.present? %>
+                <%= image_tag("default_image.jpeg", class: 'img-thumbnail d-block mx-auto m-4') unless post.company.logo.present? %>
+              </div>
+              <div class="pl-3">
+                <h6 class="card-title"><%= post.company.name if post.company.name %></h6>
+                <p>
+                  <%= link_to "detail", post_path(post.id) %>
+                </p>
+                <p>
+                  <%= post.title %>
+                </p>
+              </div>
+            </div>
+            <div class="col-md-10">
+              <div class="card-body">
+                <div class="row">
+                  <div class="col-md-6">
+                    <div class="card">
+                      <div class="card-body">
+                        <h6 class="card-title">xxx</h6>
+                        <p class="card-text">xxx</p>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col-md-6">
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+        <% end %>
+
+  </div>
+</div>

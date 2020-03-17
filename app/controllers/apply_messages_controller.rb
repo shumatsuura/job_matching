@@ -1,19 +1,19 @@
-class ScoutMessagesController < ApplicationController
+class ApplyMessagesController < ApplicationController
   before_action do
-    @scout = Scout.find(params[:scout_id])
+    @apply = Apply.find(params[:apply_id])
   end
 
   def index
-    @messages = @scout.scout_messages
+    @messages = @apply.apply_messages
 
     if @messages.length > 10
       @over_ten = true
-      @messages = ScoutMessage.where(id: @messages[-10..-1].pluck(:id))
+      @messages = ApplyMessage.where(id: @messages[-10..-1].pluck(:id))
     end
 
     if params[:m]
       @over_ten = false
-      @messages = @scout.scout_messages
+      @messages = @apply.apply_messages
     end
 
     if @messages.last && user_signed_in?
@@ -25,13 +25,13 @@ class ScoutMessagesController < ApplicationController
     end
 
     @messages = @messages.order(:created_at)
-    @message = @scout.scout_messages.build
+    @message = @apply.apply_messages.build
   end
 
   def create
-    @message = @scout.scout_messages.build(scout_message_params)
+    @message = @apply.apply_messages.build(apply_message_params)
     if @message.save!
-      redirect_to scout_scout_messages_path(@scout)
+      redirect_to apply_apply_messages_path(@apply)
     else
       render 'index'
     end
@@ -39,7 +39,7 @@ class ScoutMessagesController < ApplicationController
 
   private
 
-  def scout_message_params
-    params.require(:scout_message).permit(:body, :user_id, :company_id, :read)
+  def apply_message_params
+    params.require(:apply_message).permit(:body, :user_id, :apply_id, :company_id, :read)
   end
 end

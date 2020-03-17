@@ -1,0 +1,36 @@
+<% if @over_ten %>
+  <%= link_to '以前のメッセージ', '?m=all' %>
+<% end %>
+<div class="ui segment">
+  <% @messages.each do |message| %>
+    <% if message.body.present? %>
+      <div class="item">
+        <div class="content">
+          <div class="header"><strong><%= message.user_id.present? ? message.apply.user.first_name : message.post.company.name %></strong> <%= message.message_time %></div>
+          <div class="list">
+            <div class="item">
+              <i class="right triangle icon"></i>
+              <%= message.body %>
+              <% if user_signed_in? && message.user_id.present? %>
+                <%= message.read ? '/ 既読' : '/ 未読' %>
+              <% end %>
+              <% if company_signed_in? && message.company_id.present? %>
+                <%= message.read ? '/ 既読' : '/ 未読' %>
+              <% end %>
+            </div>
+          </div>
+        </div>
+      </div>
+    <% end %>
+  <% end %>
+</div>
+<%= form_with(model: [@apply, @message]) do |f| %>
+  <div class="field">
+    <%= f.text_area :body, class: "form-control" %>
+  </div>
+    <%= f.text_field :company_id, value: @apply.post.company_id, type: "hidden"  if company_signed_in? %>
+    <%= f.text_field :user_id, value: current_user.id, type: "hidden"  if user_signed_in? %>
+  <div>
+    <%= f.submit "メッセージを送る" %>
+  </div>
+<% end %>

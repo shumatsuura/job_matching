@@ -16,7 +16,6 @@ Rails.application.routes.draw do
     end
   end
 
-
   resources :users, only:[:show,:index,:edit,:update] do
     member do
       get :dashboard
@@ -33,6 +32,10 @@ Rails.application.routes.draw do
 
   resources :scouts, only:[:index, :create, :destroy] do
     resources :scout_messages
+  end
+
+  resources :applies do
+    resources :apply_messages
   end
 
 end

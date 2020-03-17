@@ -11,4 +11,7 @@ class Post < ApplicationRecord
   accepts_nested_attributes_for :post_skills
   has_many :skills, through: :post_skills, source: :company_skill
 
+  has_many :applies, dependent: :destroy
+  has_many :apply_messages, through: :applies, source: :apply_messages
+
 end

@@ -1,0 +1,17 @@
+<table class="table table-hover">
+  <thead>
+    <h2>アプライ一覧</h2>
+  </thead>
+  <tbody>
+    <% @applies.each do |apply| %>
+    <tr>
+      <td>
+        <%= link_to apply.post.title, apply_apply_messages_path(apply)%>
+      </td>
+      <td>
+        <%= link_to apply.post.company_id, company_path(apply.post.company_id)%>  
+      </td>
+    </tr>
+    <% end %>
+  </tbody>
+</table>

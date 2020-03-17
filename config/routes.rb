@@ -34,8 +34,10 @@ Rails.application.routes.draw do
     resources :scout_messages
   end
 
-  resources :applies do
+  resources :applies, only:[:index, :create, :destroy] do
     resources :apply_messages
   end
+
+  resources :follows, only:[:index,:create,:destroy]
 
 end

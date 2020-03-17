@@ -30,6 +30,8 @@ class User < ApplicationRecord
   has_many :scouts, dependent: :destroy
   has_many :applies, dependent: :destroy
 
+  has_many :follows, dependent: :destroy
+
   mount_uploader :image, ImageUploader
 
 end

@@ -1,1 +1,10 @@
 <%= @company.name %>
+
+<% if user_signed_in? %>
+  <% if current_user.follows.pluck(:company_id).include?(@company.id) %>
+  "フォロー済み"
+  <%= link_to "フォロー解除", follow_path(company_id: @company.id), method: :delete %>
+  <% else %>
+  <%= link_to "フォローする", follows_path(follow:{user_id: current_user.id, company_id: @company.id}), method: :post %>
+  <% end %>
+<% end %>

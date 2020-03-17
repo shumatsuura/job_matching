@@ -12,4 +12,6 @@ class Company < ApplicationRecord
   has_many :scouts, dependent: :destroy
   has_many :scouted_users, through: :scouts, source: :user
 
+  has_many :follows, dependent: :destroy
+
 end

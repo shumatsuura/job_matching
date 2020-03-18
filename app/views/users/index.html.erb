@@ -1,121 +1,151 @@
 <div class ="container">
-      <% @users.each do |user| %>
-      <div class="container">
-        <div class="card mb-3">
-          <div class="card-header">
-            User Profile
-          </div>
-          <div class="row no-gutters">
-            <div class="col-md-2">
 
-              <div class="">
-                <%= image_tag user.image.url, class: 'img-thumbnail d-block mx-auto m-4' if user.image.present? %>
-                <%= image_tag("default_image.jpeg", class: 'img-thumbnail d-block mx-auto m-4') unless user.image.present? %>
+  <%= search_form_for @q do |f| %>
+  <%= f.label :first_name_cont, "First Nameを含む" %>
+  <%= f.search_field :first_name_cont %>
+  <br>
+  <%= f.label :industries_id_in, "Industryを含む" %>
+  <% @industries.each do |industry| %>
+    <%= f.check_box :industries_id_in, {multiple: true, include_hidden: false}, industry.id %>
+    <%= industry.name %>
+  <% end %>
+  <br>
+  <%= f.label :job_categories_id_in, "Job Categoryを含む" %>
+  <% @job_categories.each do |job_category| %>
+    <%= f.check_box :job_categories_id_in, {multiple: true, include_hidden: false}, job_category.id %>
+    <%= job_category.name %>
+  <% end %>
+  <br>
+  <%= f.label :expected_salary %>
+  <%= f.number_field :expected_salary_gteq %>以上〜
+  <%= f.number_field :expected_salary_lt %>未満
+  <br>
+  <%= f.label :gender %>
+  <%= f.radio_button :gender_eq, '', {:checked => true} %>指定なし
+  <%= f.radio_button :gender_eq, "Male" %>男性
+  <%= f.radio_button :gender_eq, "Female" %>女性
+
+  <div class="actions"><%= f.submit "検索" %></div>
+
+  <% end %>
+
+  <% @users.each do |user| %>
+  <div class="container">
+    <div class="card mb-3">
+      <div class="card-header">
+        User Profile
+      </div>
+      <div class="row no-gutters">
+        <div class="col-md-2">
+
+          <div class="">
+            <%= image_tag user.image.url, class: 'img-thumbnail d-block mx-auto m-4' if user.image.present? %>
+            <%= image_tag("default_image.jpeg", class: 'img-thumbnail d-block mx-auto m-4') unless user.image.present? %>
+          </div>
+          <div class="pl-3">
+            <h6 class="card-title"><%= user.first_name + " " + user.last_name if user.first_name && user.last_name %></h6>
+            <p>
+              <%= link_to "detail", user_path(user.id) %>
+            </p>
+            <p>
+              <%= user.email %>
+            </p>
+          </div>
+        </div>
+        <div class="col-md-10">
+          <div class="card-body">
+            <div class="row">
+              <div class="col-md-6">
+                <div class="card">
+                  <div class="card-body">
+                    <h6 class="card-title">Date of Birth</h6>
+                    <p class="card-text"><%= user.date_of_birth.strftime("%d %b, %Y") if user.date_of_birth %></p>
+                  </div>
+                </div>
+
+                <p><%= user.phone_number %></p>
+                <div class="card">
+                  <div class="card-body">
+                    <h6 class="card-title">Job Category</h6>
+                    <p class="card-text  badge badge-light">
+                      <% user.job_categories.each do |job_category| %>
+                      <%= job_category.name %>
+                      <% end %>
+                    </p>
+                  </div>
+                </div>
+                <br>
+                <div class="card">
+                  <div class="card-body">
+                    <h6 class="card-title">Desired industry</h6>
+                    <p class="card-text badge badge-light">
+                      <% user.industries.each do |industry| %>
+                      <%= industry.name %>
+                      <% end %>
+                    </p>
+                  </div>
+                </div>
               </div>
-              <div class="pl-3">
-                <h6 class="card-title"><%= user.first_name + " " + user.last_name if user.first_name && user.last_name %></h6>
-                <p>
-                  <%= link_to "detail", user_path(user.id) %>
-                </p>
-                <p>
-                  <%= user.email %>
-                </p>
+              <div class="col-md-6">
+                <div class="card">
+                  <div class="card-body">
+                    <h6 class="card-title">Education</h6>
+                    <% user.educations.each do |education| %>
+                    <p class="card-text">
+                      <%= education.school_name %>
+                      <br>
+                      <span class = "small">
+                        <%= education.period_start.strftime("%b, %Y") if education.period_start.present? %>
+                        ~
+                        <%= education.period_end.strftime("%b, %Y") if education.period_start.present? %>
+                      </span>
+                    </p>
+                    <% end %>
+                  </div>
+                </div>
+                <br>
+                <div class="card">
+                  <div class="card-body">
+                    <h6 class="card-title">Work Experience</h6>
+                    <% user.work_experiences.each do |work_experience| %>
+                    <p class="card-text">
+                      <%= work_experience.company %><br>
+                      <span class = "small">
+                        Period:
+                        <%= work_experience.period_start.strftime("%b, %Y") if work_experience.period_start.present? %>
+                        ~
+                        <%= work_experience.period_end.strftime("%b, %Y") if work_experience.period_end.present? %>
+                      </span>
+                    </p>
+                    <% end %>
+                  </div>
+                </div>
+                <br>
+                <div class="card">
+                  <div class="card-body">
+                    <h6 class="card-title">Skill</h6>
+                    <p class="card-text">
+                      <% user.user_skills.each do |user_skill| %>
+                      <span class="badge badge-light"><%= user_skill.name %></span>
+                      <% end %>
+                    </p>
+                  </div>
+                </div>
+                <p><%= user.expected_salary %></p>
               </div>
             </div>
-            <div class="col-md-10">
-              <div class="card-body">
-                <div class="row">
-                  <div class="col-md-6">
-                    <div class="card">
-                      <div class="card-body">
-                        <h6 class="card-title">Date of Birth</h6>
-                        <p class="card-text"><%= user.date_of_birth.strftime("%d %b, %Y") if user.date_of_birth %></p>
-                      </div>
-                    </div>
+            <div class="row">
+              <p>Description</p>
+              <p class="card-text"><%= user.description %></p>
 
-                    <p><%= user.phone_number %></p>
-                    <div class="card">
-                      <div class="card-body">
-                        <h6 class="card-title">Job Category</h6>
-                        <p class="card-text  badge badge-light">
-                          <% user.job_categories.each do |job_category| %>
-                          <%= job_category.name %>
-                          <% end %>
-                        </p>
-                      </div>
-                    </div>
-                    <br>
-                    <div class="card">
-                      <div class="card-body">
-                        <h6 class="card-title">Desired industry</h6>
-                        <p class="card-text badge badge-light">
-                          <% user.industries.each do |industry| %>
-                          <%= industry.name %>
-                          <% end %>
-                        </p>
-                      </div>
-                    </div>
-                  </div>
-                  <div class="col-md-6">
-                    <div class="card">
-                      <div class="card-body">
-                        <h6 class="card-title">Education</h6>
-                          <% user.educations.each do |education| %>
-                          <p class="card-text">
-                            <%= education.school_name %>
-                            <br>
-                            <span class = "small">
-                            <%= education.period_start.strftime("%b, %Y") if education.period_start.present? %>
-                            ~
-                            <%= education.period_end.strftime("%b, %Y") if education.period_start.present? %>
-                            </span>
-                          </p>
-                          <% end %>
-                      </div>
-                    </div>
-                    <br>
-                    <div class="card">
-                      <div class="card-body">
-                        <h6 class="card-title">Work Experience</h6>
-                        <% user.work_experiences.each do |work_experience| %>
-                        <p class="card-text">
-                          <%= work_experience.company %><br>
-                          <span class = "small">
-                            Period:
-                            <%= work_experience.period_start.strftime("%b, %Y") if work_experience.period_start.present? %>
-                            ~
-                            <%= work_experience.period_end.strftime("%b, %Y") if work_experience.period_end.present? %>
-                          </span>
-                        </p>
-                        <% end %>
-                      </div>
-                    </div>
-                    <br>
-                    <div class="card">
-                      <div class="card-body">
-                        <h6 class="card-title">Skill</h6>
-                        <p class="card-text">
-                          <% user.user_skills.each do |user_skill| %>
-                          <span class="badge badge-light"><%= user_skill.name %></span>
-                          <% end %>
-                        </p>
-                      </div>
-                    </div>
-                    <p><%= user.expected_salary %></p>
-                  </div>
-                </div>
-                <div class="row">
-                  <p>Description</p>
-                  <p class="card-text"><%= user.description %></p>
-
-                  <p class="card-text"><small class="text-muted">Last updated 3 mins ago</small></p>
-                </div>
-              </div>
+              <p class="card-text"><small class="text-muted">Last updated 3 mins ago</small></p>
             </div>
           </div>
         </div>
       </div>
-        <% end %>
-
+    </div>
   </div>
+  <% end %>
+
+</div>
 </div>

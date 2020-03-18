@@ -1,26 +1,45 @@
-<%= @post.title %>
-<%= @post.salary %>
-<%= @post.position %>
-<%= @post.description %>
-<%= @post.location %>
+<div class="container">
+  <p>title: <%= @post.title %></p>
+  <p>salary: <%= @post.salary %></p>
+  <p>number_of_recruits: <%= @post.number_of_recruits %></p>
+  <p>position: <%= @post.position %></p>
+  <p>description: <%= @post.description %></p>
+  <p>location: <%= @post.location %></p>
 
-<div class="">
-  <% if user_signed_in? %>
-  <% if current_user.applies.pluck(:post_id).include?(@post.id) %>
-  "Already Applied"
-  <%= link_to "Delete Application", apply_path(post_id: @post.id), method: :delete %>
-  <% else %>
-  <%= link_to "Apply Now", applies_path(apply:{user_id: current_user.id, post_id: @post.id}), method: :post %>
+  <p>Industry:</p>
+  <% @post.industries.each do |n| %>
+    <p><%= n.name %></p>
   <% end %>
-  <% end %>
-</div>
 
-<div class="">
-  <% if user_signed_in? %>
-  <% if current_user.like_posts.pluck(:post_id).include?(@post.id) %>
-  <%= link_to "Unlike", like_post_path(post_id: @post.id), method: :delete %>
-  <% else %>
-  <%= link_to "Like", like_posts_path(like_post:{user_id: current_user.id, post_id: @post.id}), method: :post %>
+  <p>Job Category:</p>
+  <% @post.job_categories.each do |n| %>
+    <p><%= n.name %></p>
   <% end %>
+
+  <p>Skill:</p>
+  <% @post.skills.each do |n| %>
+    <p><%= n.name %></p>
   <% end %>
+
+  <div class="">
+    <% if user_signed_in? %>
+    <% if current_user.applies.pluck(:post_id).include?(@post.id) %>
+    "Already Applied"
+    <%= link_to "Delete Application", apply_path(post_id: @post.id), method: :delete %>
+    <% else %>
+    <%= link_to "Apply Now", applies_path(apply:{user_id: current_user.id, post_id: @post.id}), method: :post %>
+    <% end %>
+    <% end %>
+  </div>
+
+  <div class="">
+    <% if user_signed_in? %>
+    <% if current_user.like_posts.pluck(:post_id).include?(@post.id) %>
+    <%= link_to "Unlike", like_post_path(post_id: @post.id), method: :delete %>
+    <% else %>
+    <%= link_to "Like", like_posts_path(like_post:{user_id: current_user.id, post_id: @post.id}), method: :post %>
+    <% end %>
+    <% end %>
+  </div>
+
 </div>

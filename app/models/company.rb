@@ -7,6 +7,9 @@ class Company < ApplicationRecord
   has_many :posts, dependent: :destroy
   has_many :company_applies, through: :posts, source: :applies
 
+  has_many :industry_relations, dependent: :destroy
+  has_many :industries, through: :industry_relations, source: :industry
+
   has_many :company_skills, dependent: :destroy
 
   has_many :scouts, dependent: :destroy

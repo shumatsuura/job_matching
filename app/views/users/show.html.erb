@@ -34,11 +34,47 @@
     <table class="table panel-body">
       <tr>
         <th><%= t('view.user_name') %>:</th>
-        <td><%= @user.first_name %></td>
+        <td><%= @user.first_name %> <%= @user.last_name %></td>
       </tr>
       <tr>
         <th><%= t('view.user_email') %>:</th>
         <td><%= @user.email %></td>
+      </tr>
+      <tr>
+        <th><%= t('view.gender') %>:</th>
+        <td><%= @user.gender %></td>
+      </tr>
+      <tr>
+        <th><%= t('view.date_of_birth') %>:</th>
+        <td><%= @user.date_of_birth %></td>
+      </tr>
+      <tr>
+        <th><%= t('view.expected_salary') %>:</th>
+        <td><%= @user.expected_salary %></td>
+      </tr>
+      <tr>
+        <th><%= t('view.status') %>:</th>
+        <td><%= @user.status %></td>
+      </tr>
+      <tr>
+        <th><%= t('view.description') %>:</th>
+        <td><%= @user.description %></td>
+      </tr>
+      <tr>
+        <th><%= t('view.address') %>:</th>
+        <td><%= @user.address %></td>
+      </tr>
+      <tr>
+        <th><%= t('view.phone_number') %>:</th>
+        <td><%= @user.phone_number %></td>
+      </tr>
+      <tr>
+        <th><%= t('view.race') %>:</th>
+        <td><%= @user.race %></td>
+      </tr>
+      <tr>
+        <th><%= t('view.religion') %>:</th>
+        <td><%= @user.religion %></td>
       </tr>
 
     </table>

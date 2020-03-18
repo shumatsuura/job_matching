@@ -2,15 +2,19 @@ class UsersController < ApplicationController
   before_action :set_user, only:[:show, :dashboard, :edit, :update]
 
   def show
-    # @user = User.find_by(id: params[:id])
+
   end
 
   def index
-    @users = User.all
+    # @users = User.all
+    @industries = Industry.all
+    @job_categories = JobCategory.all
+    @q = User.ransack(params[:q])
+    @users = @q.result
   end
 
   def dashboard
-    # @user = User.find_by(id: params[:id])
+
   end
 
   def edit
@@ -75,13 +79,12 @@ class UsersController < ApplicationController
       work_experiences_attributes: [:id,:user_id,:company,:position,:salary,:description,:period_start,:period_end,:currently_employed,:_destroy],
       user_skills_attributes: [:id,:user_id,:name],
       qualifications_attributes: [:id,:name,:date_of_acquisition,:user_id],
-      desired_job_categories_attributes: [:id,:user_id,:job_category_id,:_destroy]
+      desired_job_categories_attributes: [:id,:user_id,:job_category_id,:_destroy],
     )
   end
 
   def set_user
     @user = User.find_by(id: params[:id])
   end
-
 
 end

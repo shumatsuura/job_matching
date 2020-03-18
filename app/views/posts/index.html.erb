@@ -30,6 +30,26 @@
                       <div class="card-body">
                         <h6 class="card-title">xxx</h6>
                         <p class="card-text">xxx</p>
+                        <p>salary: <%= post.salary %></p>
+                        <p>number_of_recruits: <%= post.number_of_recruits %></p>
+                        <p>position: <%= post.position %></p>
+                        <p>description: <%= post.description %></p>
+                        <p>location: <%= post.location %></p>
+
+                        <p>Industry:</p>
+                        <% post.industries.each do |n| %>
+                          <p><%= n.name %></p>
+                        <% end %>
+
+                        <p>Job Category:</p>
+                        <% post.job_categories.each do |n| %>
+                          <p><%= n.name %></p>
+                        <% end %>
+
+                        <p>Skill:</p>
+                        <% post.skills.each do |n| %>
+                          <p><%= n.name %></p>
+                        <% end %>
                       </div>
                     </div>
                   </div>

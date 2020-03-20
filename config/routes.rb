@@ -28,7 +28,11 @@ Rails.application.routes.draw do
     end
   end
 
-  resources :posts
+  resources :posts do
+    member do
+      get :manage
+    end
+  end
 
   resources :scouts, only:[:index, :create, :destroy] do
     resources :scout_messages

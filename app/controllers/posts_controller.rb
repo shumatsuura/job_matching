@@ -1,5 +1,5 @@
 class PostsController < ApplicationController
-  before_action :set_post, only:[:index,:edit,:update,:show,:destroy]
+  before_action :set_post, only:[:index,:edit,:update,:show,:manage,:destroy]
 
   PER = 10
 
@@ -15,7 +15,6 @@ class PostsController < ApplicationController
     @post.post_industries.build
     @post.post_job_categories.build
     @post.post_skills.build
-
   end
 
   def create
@@ -39,6 +38,9 @@ class PostsController < ApplicationController
   end
 
   def show
+  end
+
+  def manage
   end
 
   def destroy

@@ -58,6 +58,10 @@
   <table class="table">
     <tr>
       <th>title</th>
+      <th>position</th>
+      <th>status</th>
+      <th>No. of Applications</th>
+      <th></th>
       <th></th>
       <th></th>
     </tr>
@@ -67,7 +71,19 @@
         <%= link_to "#{post.title}", post_path(post.id) %>
       </td>
       <td>
+        <%= post.position %>
+      </td>
+      <td>
+        <%= post.status %>
+      </td>
+      <td>
+        <%= post.applies.count %>
+      </td>
+      <td>
         <%= link_to "edit", edit_post_path(post.id) %>
+      </td>
+      <td>
+        <%= link_to "Manage", manage_post_path(post.id) %>
       </td>
       <td>
         <%= link_to "delete", post_path(post.id), method: :delete, data:{ confirm: "Are you sure?"} %>

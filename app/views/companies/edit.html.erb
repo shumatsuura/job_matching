@@ -14,8 +14,56 @@
   <%= form_with(model: @company, local: true) do |f| %>
 
     <div class="form-group">
+      <%= f.label :logo %>
+      <%= f.file_field :logo, class: "form-control" %>
+    </div>
+
+    <div class="form-group">
+      <%= f.label :header_image %>
+      <%= f.file_field :header_image, class: "form-control" %>
+    </div>
+
+    <div class="form-group">
       <%= f.label :name %>
       <%= f.text_field :name, class: "form-control" %>
+    </div>
+    <div class="form-group">
+      <%= f.label :phone_number %>
+      <%= f.text_field :phone_number, class: "form-control" %>
+    </div>
+    <div class="form-group">
+      <%= f.label :location %>
+      <%= f.text_field :location, class: "form-control" %>
+    </div>
+    <div class="form-group">
+      <%= f.label :address %>
+      <%= f.text_field :address, class: "form-control" %>
+    </div>
+    <div class="form-group">
+      <%= f.label :number_of_employees %>
+      <%= f.text_field :number_of_employees, class: "form-control" %>
+    </div>
+
+    <div class="form-group">
+      <%= f.label :date_of_incorporation %>
+      <%= f.datetime_select :date_of_incorporation, start_year: 1800, start_year: 2020, discard_day: true, discard_hour: true, class: "form-control" %>
+    </div>
+
+    <div class="form-group">
+      <%= f.label :paid_up_capital %>
+      <%= f.text_field :paid_up_capital, discard_date: true, class: "form-control" %>
+    </div>
+
+    <div class="form-group industry_relations">
+      <%= f.fields_for :industry_relations do |builder| %>
+        <%= render 'companies/industry_relation_fields', f: builder %>
+      <% end %>
+      <%= link_to_add_fields "追加", f, :industry_relations %>
+    </div>
+
+    <div class="form-group">
+      <%= f.label :description %>
+      <%= f.text_area :description, class: "form-control" %>
     </div>
 
     <div class="form-group">

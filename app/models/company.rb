@@ -8,6 +8,7 @@ class Company < ApplicationRecord
   has_many :company_applies, through: :posts, source: :applies
 
   has_many :industry_relations, dependent: :destroy
+  accepts_nested_attributes_for :industry_relations, allow_destroy: true
   has_many :industries, through: :industry_relations, source: :industry
 
   has_many :company_skills, dependent: :destroy
@@ -18,5 +19,8 @@ class Company < ApplicationRecord
   has_many :follows, dependent: :destroy
 
   has_many :like_users, dependent: :destroy
+
+  mount_uploader :logo, ImageUploader
+  mount_uploader :header_image, HeaderUploader
 
 end

@@ -76,6 +76,20 @@
         <th><%= t('view.religion') %>:</th>
         <td><%= @user.religion %></td>
       </tr>
+      <tr>
+        <th><%= t('view.language') %>:</th>
+        <td><%= @user.religion %></td>
+      </tr>
+
+      <tr>
+        <th>language</th>
+        <td>
+          <% @user.languages.each do |language| %>
+          <%= language.name %>
+          <span class = "small"><%= language.level %></span>
+          <% end %>
+        </td>
+      </tr>
 
     </table>
   </div>

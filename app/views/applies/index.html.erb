@@ -9,7 +9,10 @@
         <%= link_to apply.post.title, apply_apply_messages_path(apply)%>
       </td>
       <td>
-        <%= link_to apply.post.company_id, company_path(apply.post.company_id)%>  
+        <%= link_to apply.post.company.name, company_path(apply.post.company_id)%>
+      </td>
+      <td>
+        <%= link_to "Message", apply_apply_messages_path(apply.id)%>  
       </td>
     </tr>
     <% end %>

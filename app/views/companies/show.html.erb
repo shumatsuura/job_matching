@@ -1,10 +1,61 @@
-<%= @company.name %>
-
-<% if user_signed_in? %>
-  <% if current_user.follows.pluck(:company_id).include?(@company.id) %>
-  "フォロー済み"
-  <%= link_to "フォロー解除", follow_path(company_id: @company.id), method: :delete %>
-  <% else %>
-  <%= link_to "フォローする", follows_path(follow:{user_id: current_user.id, company_id: @company.id}), method: :post %>
-  <% end %>
-<% end %>
+<div class="container">
+  <div class="row">
+    <div class="col">
+      <%= image_tag(@company.logo.url, class: 'img-thumbnail d-block mx-auto m-4') if @company.logo.present? %>
+      <%= image_tag("default_image.jpeg", class: 'img-thumbnail d-block mx-auto m-4') unless @company.logo.present? %>
+    </div>
+    <div class="col">
+      <%= @company.name %>
+      <%= @company.location %>
+      <p>Incorporation:<%= @company.date_of_incorporation.strftime("%b, %Y") if @company.date_of_incorporation %></p>
+    </div>
+    <div class="col">
+      <p>No. of Employees:<%= @company.number_of_employees %></p>
+      <p>Adress:<%= @company.address %></p>
+      <p>Paid up capital: <%= @company.paid_up_capital %></p>
+    </div>
+    <div class="col">
+      <% if user_signed_in? %>
+      <% if current_user.follows.pluck(:company_id).include?(@company.id) %>
+      "フォロー済み"
+      <%= link_to "フォロー解除", follow_path(company_id: @company.id), method: :delete %>
+      <% else %>
+      <%= link_to "フォローする", follows_path(follow:{user_id: current_user.id, company_id: @company.id}), method: :post %>
+      <% end %>
+      <% end %>
+    </div>
+  </div>
+</div>
+<div class="container-fluid">
+  <div class="row">
+    <%= image_tag(@company.header_image.url, class: "img-fluid") if @company.header_image.present? %>
+    <%= image_tag("default_header_image.jpeg", class: "img-fluid") unless @company.header_image.present? %>
+  </div>
+  <div class="row">
+    <p>
+      <%= simple_format(@company.description) %>
+    </p>
+  </div>
+  <div class="row">
+    <table class = "table">
+      <tr>
+        <th>No.</th>
+        <th>Title</th>
+        <th>Position</th>
+        <th>Job Category</th>
+        <th>Salary</th>
+        <th>link</th>
+      </tr>
+      <% @company.posts.each_with_index do |post,i| %>
+      <tr>
+        <th><%= i+1 %></th>
+        <td><%= post.title %></td>
+        <td><%= post.position %></td>
+        <td><%= post.job_categories.first.name %></td>
+        <td><%= post.salary %></td>
+        <td><%= link_to "Detail", post_path(post.id) %></td>
+      </tr>
+      <% end %>
+    </table>
+  </div>
+</div>

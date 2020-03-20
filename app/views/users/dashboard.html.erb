@@ -1,36 +1,39 @@
 
-<%= link_to 'edit', edit_user_path %>
 <div class="container">
+  <!-- プロフィール -->
   <div class="card mb-3">
     <div class="card-header">
-      User Profile
+      <div class="row">
+        <div class="col">
+          User Profile
+        </div>
+        <div class="col text-right">
+          <%= link_to 'edit', edit_user_path %>
+        </div>
+      </div>
     </div>
     <div class="row no-gutters">
       <div class="col-md-2">
-
         <div class="">
           <%= image_tag @user.image.url, class: 'img-thumbnail d-block mx-auto m-4' if @user.image.present? %>
           <%= image_tag("default_image.jpeg", class: 'img-thumbnail d-block mx-auto m-4') unless @user.image.present? %>
         </div>
         <div class="pl-3">
           <h6 class="card-title"><%= @user.first_name + " " + @user.last_name if @user.first_name && @user.last_name %></h6>
-          <p>
-            <%= @user.email %>
-          </p>
+          <p><%= @user.email %></p>
+          <p><%= @user.phone_number %></p>
+          <p><%= @user.date_of_birth.strftime("%d %b, %Y") if @user.date_of_birth %></p>
+          <p><%= @user.gender %></p>
+          <p><%= @user.address %></p>
+          <p><%= @user.race %></p>
+          <p><%= @user.religion %></p>
+          <%= link_to 'Edit Account', edit_user_registration_path %>
         </div>
       </div>
       <div class="col-md-10">
         <div class="card-body">
           <div class="row">
             <div class="col-md-6">
-              <div class="card">
-                <div class="card-body">
-                  <h6 class="card-title">Date of Birth</h6>
-                  <p class="card-text"><%= @user.date_of_birth.strftime("%d %b, %Y") if @user.date_of_birth %></p>
-                </div>
-              </div>
-
-              <p><%= @user.phone_number %></p>
               <div class="card">
                 <div class="card-body">
                   <h6 class="card-title">Job Category</h6>
@@ -111,12 +114,91 @@
       </div>
     </div>
   </div>
+  <!-- プロフィールここまで -->
+
+  <div class="row">
+    <!-- アプライ -->
+    <div class="col">
+      <div class="card">
+        <div class="card-header">
+          Apply
+        </div>
+        <div class="card-body">
+          <table class = "table">
+            <tr>
+              <th>Company</th>
+              <th>Title</th>
+              <th></th>
+              <th></th>
+            </tr>
+            <% @user.applies.limit(5).each do |apply| %>
+            <tr>
+              <td><%= link_to apply.post.company.name, company_path(apply.post.company_id) %></td>
+              <td><%= link_to apply.post.title, post_path(apply.post_id) %></td>
+              <td><%= link_to "M", apply_apply_messages_path(apply.id) %></td>
+              <td><%= apply.created_at.strftime("%d %b, %Y") %></td>
+            </tr>
+            <% end %>
+          </table>
+        </div>
+      </div>
+    </div>
+    <!-- アプライここまで -->
+    <!-- スカウト -->
+    <div class="col">
+      <table class = "table">
+        <tr>
+          <th>Company</th>
+          <th>Title</th>
+          <th></th>
+          <th></th>
+        </tr>
+        <% @user.scouts.limit(5).each do |scout| %>
+        <tr>
+          <td><%= link_to scout.company.name, company_path(scout.company_id) %></td>
+          <td><%= link_to "M", scout_scout_messages_path(scout.id) %></td>
+          <td><%= scout.created_at.strftime("%d %b, %Y") %></td>
+        </tr>
+        <% end %>
+      </table>
+    </div>
+    <!-- スカウトここまで -->
+  </div>
+
+  <div class="row">
+    <!-- LikePost -->
+    <div class="col">
+      <table class = "table">
+        <tr>
+          <th>Company</th>
+          <th>Title</th>
+          <th></th>
+          <th></th>
+        </tr>
+        <% @user.like_posts.limit(5).each do |like_post| %>
+        <tr>
+          <td><%= link_to like_post.post.company.name, company_path(like_post.post.company_id) %></td>
+          <td><%= link_to like_post.post.title, post_path(like_post.post_id) %></td>
+          <td><%= like_post.created_at.strftime("%d %b, %Y") %></td>
+        </tr>
+        <% end %>
+      </table>
+    </div>
+    <!-- Follow -->
+    <div class="col">
+      <table class = "table">
+        <tr>
+          <th>Company</th>
+          <th>Title</th>
+        </tr>
+        <% @user.follows.limit(5).each do |follow| %>
+        <tr>
+          <td><%= link_to follow.company.name, company_path(follow.company_id) %></td>
+          <td><%= follow.created_at.strftime("%d %b, %Y") %></td>
+        </tr>
+        <% end %>
+      </table>
+    </div>
+
+  </div>
 </div>
-
-
-<%= link_to 'edit registration', edit_user_registration_path %>
-
-<p><%= @user.gender %></p>
-<p><%= @user.address %></p>
-<p><%= @user.race %></p>
-<p><%= @user.religion %></p>

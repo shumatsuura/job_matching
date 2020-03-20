@@ -1,8 +1,13 @@
 class PostsController < ApplicationController
   before_action :set_post, only:[:index,:edit,:update,:show,:destroy]
 
+  PER = 10
+
   def index
-    @posts = Post.all
+    @industries = Industry.all
+    @job_categories = JobCategory.all
+    @q = Post.ransack(params[:q])
+    @posts = @q.result(distinct: true).page(params[:page]).per(PER)
   end
 
   def new

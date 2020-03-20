@@ -21,11 +21,16 @@
           <li class="nav-item active">
             <a class="nav-link" href="/">Home <span class="sr-only">(current)</span></a>
           </li>
+          <% if company_signed_in? %>
           <li class="nav-item">
             <%= link_to "Users", users_path, {class: "nav-link"}%>
           </li>
+          <% end %>
           <li class="nav-item">
             <%= link_to "Posts", posts_path, {class: "nav-link"}%>
+          </li>
+          <li class="nav-item">
+            <%= link_to "Companies", companies_path, {class: "nav-link"}%>
           </li>
           <li class="nav-item">
             <% if user_signed_in? %>
@@ -36,32 +41,10 @@
             <% end %>
           </li>
           <li class="nav-item">
-            <%= link_to 'Scouts', scouts_path, {class: "nav-link"}  %>
+            <%= link_to 'Scouts', scouts_path, {class: "nav-link"}  if user_signed_in? || company_signed_in? %>
           </li>
           <li class="nav-item">
-            <%= link_to 'Apply', applies_path, {class: "nav-link"}  %>
-          </li>
-          <li class="nav-item">
-            <% if user_signed_in? %>
-              <%= link_to 'Users', users_path, {class: "nav-link"}  %>
-            <% end %>
-          </li>
-
-          <li class="nav-item dropdown">
-            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-              Dropdown
-            </a>
-            <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-              <a class="dropdown-item" href="#">Action</a>
-              <%= link_to "#{current_user.first_name}", user_path(current_user.id), {class: "dropdown-item"} if current_user %>
-              <%= link_to "Dashboard #{current_company.name}", company_path(current_company.id), {class: "dropdown-item"} if current_company %>
-              <a class="dropdown-item" href="#">Another action</a>
-              <div class="dropdown-divider"></div>
-              <a class="dropdown-item" href="#">Something else here</a>
-            </div>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link disabled" href="#" tabindex="-1" aria-disabled="true">Disabled</a>
+            <%= link_to 'Apply', applies_path, {class: "nav-link"}  if user_signed_in? || company_signed_in? %>
           </li>
         </ul>
         <form class="form-inline my-2 my-lg-0">
@@ -70,18 +53,19 @@
         </form>
 
         <ul class="navbar-nav">
-          <% if controller.action_name == "landing" %>
+          <% if controller.action_name != "landing_for_company" %>
+            <% unless user_signed_in? || company_signed_in? %>
             <li class="nav-item">
-              <%= link_to 'Log-In', new_user_session_path, {class: "nav-link"} unless user_signed_in? %>
+              <%= link_to 'Log-In', new_user_session_path, {class: "nav-link"} %>
             </li>
             <li class="nav-item">
-              <%= link_to 'Sign-Up', new_user_registration_path, {class: "nav-link"} unless user_signed_in? %>
+              <%= link_to 'Sign-Up', new_user_registration_path, {class: "nav-link"} %>
             </li>
+            <li class="nav-item">
+              <%= link_to 'For Employer', landing_for_company_statics_path, class: "nav-link" %>
+            </li>
+            <% end %>
           <% end %>
-
-          <li class="nav-item">
-            <%= link_to 'Log-out', destroy_user_session_path, {method: :delete, class: "nav-link"} if user_signed_in? %>
-          </li>
 
           <% if controller.action_name == "landing_for_company" %>
           <li class="nav-item">
@@ -91,14 +75,23 @@
             <%= link_to 'C Sign-Up', new_company_registration_path, {class: "nav-link"} unless company_signed_in? %>
           </li>
           <% end %>
-          <li class="nav-item">
-            <%= link_to 'C Log-out', destroy_company_session_path, {method: :delete, class: "nav-link"} if company_signed_in? %>
+          <% if user_signed_in? || company_signed_in? %>
+          <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+              Dropdown
+            </a>
+            <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
+              <a class="dropdown-item" href="#">Action</a>
+              <%= link_to "#{current_user.first_name}", user_path(current_user.id), {class: "dropdown-item"} if current_user %>
+              <%= link_to "Dashboard #{current_company.name}", company_path(current_company.id), {class: "dropdown-item"} if current_company %>
+              <%= link_to 'Log-out', destroy_user_session_path, {method: :delete, class: "dropdown-item"} if user_signed_in? %>
+              <%= link_to 'C Log-out', destroy_company_session_path, {method: :delete, class: "dropdown-item"} if company_signed_in? %>
+              <a class="dropdown-item" href="#">Another action</a>
+              <div class="dropdown-divider"></div>
+              <a class="dropdown-item" href="#">Something else here</a>
+            </div>
           </li>
-
-          <li class="nav-item">
-            <%= link_to 'For Employer', landing_for_company_statics_path, class: "nav-link" %>
-          </li>
-
+          <% end %>
         </ul>
       </div>
     </nav>

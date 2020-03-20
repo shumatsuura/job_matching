@@ -1,16 +1,16 @@
 class UsersController < ApplicationController
   before_action :set_user, only:[:show, :dashboard, :edit, :update]
+  PER = 10
 
   def show
 
   end
 
   def index
-    # @users = User.all
     @industries = Industry.all
     @job_categories = JobCategory.all
     @q = User.ransack(params[:q])
-    @users = @q.result
+    @users = @q.result(distinct: true).page(params[:page]).per(PER)
   end
 
   def dashboard

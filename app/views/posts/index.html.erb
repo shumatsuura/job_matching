@@ -1,67 +1,109 @@
 <div class ="container">
-      <% @posts.each do |post| %>
-      <div class="container">
-        <div class="card mb-3">
-          <div class="card-header">
-            Post Info
+  <%= search_form_for @q do |f| %>
+  <%= f.label :title_or_position_or_description_cont, "Key Word" %>
+  <%= f.search_field :title_or_position_or_description_cont %>
+  <br>
+  <%= f.label :industries_id_in, "Industryを含む" %>
+  <% @industries.each do |industry| %>
+    <%= f.check_box :industries_id_in, {multiple: true, include_hidden: false}, industry.id %>
+    <%= industry.name %>
+  <% end %>
+  <br>
+  <%= f.label :job_categories_id_in, "Job Categoryを含む" %>
+  <% @job_categories.each do |job_category| %>
+    <%= f.check_box :job_categories_id_in, {multiple: true, include_hidden: false}, job_category.id %>
+    <%= job_category.name %>
+  <% end %>
+  <br>
+  <%= f.label :salary %>
+  <%= f.number_field :salary_gteq %>以上〜
+  <%= f.number_field :salary_lt %>未満
+  <br>
+  <%= f.label :number_of_recruits %>
+  <%= f.number_field :number_of_recruits_gteq %>以上〜
+  <%= f.number_field :number_of_recruits_lt %>未満
+  <br>
+  <%= f.label :location %>
+  <%= f.search_field :location_cont %>
+  <br>
+  <%= f.label :company_location %>
+  <%= f.search_field :company_location_cont %>
+  <br>
+  <%= f.label :company_number_of_employees %>
+  <%= f.number_field :company_number_of_employees_gteq %>以上〜
+  <%= f.number_field :company_number_of_employees_lt %>未満
+  <br>
+  <%= f.label :company_paid_up_capital %>
+  <%= f.number_field :company_paid_up_capital_gteq %>以上〜
+  <%= f.number_field :company_paid_up_capital_lt %>未満
+  <br>
+  <div class="actions"><%= f.submit "検索" %></div>
+
+  <% end %>
+
+  <%= paginate @posts %>
+
+  <% @posts.each do |post| %>
+  <div class="container">
+    <div class="card mb-3">
+      <div class="card-header">
+        Post Info
+      </div>
+      <div class="row no-gutters">
+        <div class="col-md-2">
+
+          <div class="">
+            <%= image_tag post.company.logo.url, class: 'img-thumbnail d-block mx-auto m-4' if post.company.logo.present? %>
+            <%= image_tag("default_image.jpeg", class: 'img-thumbnail d-block mx-auto m-4') unless post.company.logo.present? %>
           </div>
-          <div class="row no-gutters">
-            <div class="col-md-2">
+          <div class="pl-3">
+            <h6 class="card-title"><%= link_to post.company.name, company_path(post.company_id) if post.company.name %></h6>
+            <p>
+              <%= link_to "detail", post_path(post.id) %>
+            </p>
+            <p>
+              <%= post.title %>
+            </p>
+          </div>
+        </div>
+        <div class="col-md-10">
+          <div class="card-body">
+            <div class="row">
+              <div class="col-md-6">
+                <div class="card">
+                  <div class="card-body">
+                    <h6 class="card-title">xxx</h6>
+                    <p class="card-text">xxx</p>
+                    <p>salary: <%= post.salary %></p>
+                    <p>number_of_recruits: <%= post.number_of_recruits %></p>
+                    <p>position: <%= post.position %></p>
+                    <p>description: <%= post.description %></p>
+                    <p>location: <%= post.location %></p>
 
-              <div class="">
-                <%= image_tag post.company.logo.url, class: 'img-thumbnail d-block mx-auto m-4' if post.company.logo.present? %>
-                <%= image_tag("default_image.jpeg", class: 'img-thumbnail d-block mx-auto m-4') unless post.company.logo.present? %>
-              </div>
-              <div class="pl-3">
-                <h6 class="card-title"><%= link_to post.company.name, company_path(post.company_id) if post.company.name %></h6>
-                <p>
-                  <%= link_to "detail", post_path(post.id) %>
-                </p>
-                <p>
-                  <%= post.title %>
-                </p>
-              </div>
-            </div>
-            <div class="col-md-10">
-              <div class="card-body">
-                <div class="row">
-                  <div class="col-md-6">
-                    <div class="card">
-                      <div class="card-body">
-                        <h6 class="card-title">xxx</h6>
-                        <p class="card-text">xxx</p>
-                        <p>salary: <%= post.salary %></p>
-                        <p>number_of_recruits: <%= post.number_of_recruits %></p>
-                        <p>position: <%= post.position %></p>
-                        <p>description: <%= post.description %></p>
-                        <p>location: <%= post.location %></p>
+                    <p>Industry:</p>
+                    <% post.industries.each do |n| %>
+                    <p><%= n.name %></p>
+                    <% end %>
 
-                        <p>Industry:</p>
-                        <% post.industries.each do |n| %>
-                          <p><%= n.name %></p>
-                        <% end %>
+                    <p>Job Category:</p>
+                    <% post.job_categories.each do |n| %>
+                    <p><%= n.name %></p>
+                    <% end %>
 
-                        <p>Job Category:</p>
-                        <% post.job_categories.each do |n| %>
-                          <p><%= n.name %></p>
-                        <% end %>
-
-                        <p>Skill:</p>
-                        <% post.skills.each do |n| %>
-                          <p><%= n.name %></p>
-                        <% end %>
-                      </div>
-                    </div>
-                  </div>
-                  <div class="col-md-6">
+                    <p>Skill:</p>
+                    <% post.skills.each do |n| %>
+                    <p><%= n.name %></p>
+                    <% end %>
                   </div>
                 </div>
+              </div>
+              <div class="col-md-6">
               </div>
             </div>
           </div>
         </div>
       </div>
-        <% end %>
-
+    </div>
   </div>
+  <% end %>
 </div>

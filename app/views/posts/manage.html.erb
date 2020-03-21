@@ -1,79 +1,74 @@
 <div class="container">
   <div class="card mb-3">
-    <div class="card-header">
-      Post Info
-    </div>
     <div class="row no-gutters">
-      <div class="col-md-2">
-        <div class="pl-3">
-          <h6 class="card-title"><%= link_to @post.company.name, company_path(@post.company_id) if @post.company.name %></h6>
-          <p>
-            <%= link_to "detail", post_path(@post.id) %>
-          </p>
-          <p>
-            <%= @post.title %>
-          </p>
-        </div>
-      </div>
-      <div class="col-md-10">
-        <div class="card-body">
-          <div class="row">
-            <div class="col-md-6">
-              <div class="card">
-                <div class="card-body">
-                  <h6 class="card-title">xxx</h6>
-                  <p class="card-text">xxx</p>
-                  <p>salary: <%= @post.salary %></p>
-                  <p>number_of_recruits: <%= @post.number_of_recruits %></p>
-                  <p>position: <%= @post.position %></p>
-                  <p>description: <%= @post.description %></p>
-                </div>
-              </div>
-            </div>
-            <div class="col-md-6">
-              <div class="card">
-                <div class="card-body">
-                  <h6 class="card-title">xxx</h6>
-                  <p class="card-text">xxx</p>
-                  <p>location: <%= @post.location %></p>
-                  <p>Industry:</p>
-                  <% @post.industries.each do |n| %>
-                  <p><%= n.name %></p>
-                  <% end %>
-                  <p>Job Category:</p>
-                  <% @post.job_categories.each do |n| %>
-                  <p><%= n.name %></p>
-                  <% end %>
+      <div class="card-body">
+        <h4 class="card-title"><%= link_to @post.title, post_path(@post.id), class: "card-link text-primary" %></h4>
+        Position: <span class="badge badge-primary"><%= @post.position %></span>
+        Location: <span class="badge badge-primary"><%= @post.location %></span>
+        Job Category:
+        <% @post.job_categories.each do |n| %>
+        <span class="badge badge-primary">
+          <%= n.name %>
+        </span>
+        <% end %>
 
-                  <p>Skill:</p>
-                  <% @post.skills.each do |n| %>
-                  <p><%= n.name %></p>
-                  <% end %>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
+        Industry:
+        <% @post.industries.each do |n| %>
+        <span class="badge badge-primary">
+          <%= n.name %>
+        </span>
+        <% end %>
+
+        Salary
+        <span class="badge badge-primary">
+          <%= @post.salary %>
+        </span>
+
+        Skill:
+        <% @post.skills.each do |n| %>
+        <span class="badge badge-primary">
+          <%= n.name %>
+        </span>
+        <% end %>
+
+        <p class="card-subtitle"><%= @post.description %></p>
+      </div>
+    </div>
+    <div class="card-footer row no-gutters d-flex align-items-center">
+      <div class="col">
+
+        <%= image_tag @post.company.logo.url, class: 'img-thumbnail', width: "50px" if @post.company.logo.present? %>
+        <%= image_tag "default_image.jpeg", class: 'img-thumbnail', width: "50px" unless @post.company.logo.present? %>
+        <span class="card-text"><%= link_to @post.company.name, company_path(@post.company_id), class: 'text-info' if @post.company.name %></span>
+      </div>
+      <div class="col text-right">
+        <span class="card-text text-muted small">Posted: <%= @post.created_at.strftime("%Y%b%d") %></span>
       </div>
     </div>
   </div>
-  <table class= "table">
-    <tr>
-      <th>No.</th>
-      <th>Name</th>
-      <th>Gender</th>
-      <th>Age</th>
-      <th>Last_company</th>
-      <th>Position</th>
-      <th>Expected Salary</th>
-      <th>Education School</th>
-      <th>Education Major</th>
-    </tr>
-    <% @post.applies.each do |apply| %>
+
+  <table class= "table table-bordered table-hover">
+    <h4>List of Candidate</h4>
+
+    <thead class="thead-dark">
+      <tr>
+        <th>No.</th>
+        <th>Name</th>
+        <th>Gender</th>
+        <th>Age</th>
+        <th>Last_company</th>
+        <th>Position</th>
+        <th>Expected Salary</th>
+        <th>Education School</th>
+        <th>Education Major</th>
+        <th></th>
+      </tr>
+    </thead>
+    <% @post.applies.each_with_index do |apply,i| %>
       <% user = apply.user %>
       <tr>
-        <th></th>
-        <td><%= user.first_name %></td>
+        <th><%= i + 1 %></th>
+        <td><%= link_to user.first_name, user_path(user.id) %></td>
         <td><%= user.gender %></td>
         <td><%= user.age %></td>
         <td><%= user.work_experiences.last.company %></td>
@@ -81,9 +76,16 @@
         <td><%= user.expected_salary %></td>
         <td><%= user.educations.last.school_name %></td>
         <td><%= user.educations.last.major %></td>
-        <td><%= link_to "M", apply_apply_messages_path(apply.id) %></td>
-        <td><%= apply.apply_messages.where(read: false).count %></td>
+        <td><%= link_to(apply_apply_messages_path(apply.id)) do %>
+          <button type="button" class = "btn btn-primary">
+            <span>
+            <span class="small">Message</span><span class="badge badge-light"><%= apply.apply_messages.where(read: false, user_id: user.id).count %></span>
+            </span>
+          </button>
+          <% end %>
+        </td>
       </tr>
     <% end %>
+
   </table>
 </div>

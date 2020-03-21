@@ -5,14 +5,14 @@
   <br>
   <%= f.label :industries_id_in, "Industryを含む" %>
   <% @industries.each do |industry| %>
-    <%= f.check_box :industries_id_in, {multiple: true, include_hidden: false}, industry.id %>
-    <%= industry.name %>
+  <%= f.check_box :industries_id_in, {multiple: true, include_hidden: false}, industry.id %>
+  <%= industry.name %>
   <% end %>
   <br>
   <%= f.label :job_categories_id_in, "Job Categoryを含む" %>
   <% @job_categories.each do |job_category| %>
-    <%= f.check_box :job_categories_id_in, {multiple: true, include_hidden: false}, job_category.id %>
-    <%= job_category.name %>
+  <%= f.check_box :job_categories_id_in, {multiple: true, include_hidden: false}, job_category.id %>
+  <%= job_category.name %>
   <% end %>
   <br>
   <%= f.label :salary %>
@@ -41,67 +41,53 @@
 
   <% end %>
 
+
   <%= paginate @posts %>
-
   <% @posts.each do |post| %>
-  <div class="container">
-    <div class="card mb-3">
-      <div class="card-header">
-        Post Info
+  <div class="card mb-3">
+    <div class="row no-gutters">
+      <div class="card-body">
+        <h4 class="card-title"><%= link_to post.title, post_path(post.id), class: "card-link text-primary" %></h4>
+        Position: <span class="badge badge-primary"><%= post.position %></span>
+        Location: <span class="badge badge-primary"><%= post.location %></span>
+        Job Category:
+        <% post.job_categories.each do |n| %>
+        <span class="badge badge-primary">
+          <%= n.name %>
+        </span>
+        <% end %>
+
+        Industry:
+        <% post.industries.each do |n| %>
+        <span class="badge badge-primary">
+          <%= n.name %>
+        </span>
+        <% end %>
+
+        Salary
+        <span class="badge badge-primary">
+          <%= post.salary %>
+        </span>
+
+        Skill:
+        <% post.skills.each do |n| %>
+        <span class="badge badge-primary">
+          <%= n.name %>
+        </span>
+        <% end %>
+
+        <p class="card-subtitle"><%= post.description %></p>
       </div>
-      <div class="row no-gutters">
-        <div class="col-md-2">
+    </div>
+    <div class="card-footer row no-gutters d-flex align-items-center">
+      <div class="col">
 
-          <div class="">
-            <%= image_tag post.company.logo.url, class: 'img-thumbnail d-block mx-auto m-4' if post.company.logo.present? %>
-            <%= image_tag("default_image.jpeg", class: 'img-thumbnail d-block mx-auto m-4') unless post.company.logo.present? %>
-          </div>
-          <div class="pl-3">
-            <h6 class="card-title"><%= link_to post.company.name, company_path(post.company_id) if post.company.name %></h6>
-            <p>
-              <%= link_to "detail", post_path(post.id) %>
-            </p>
-            <p>
-              <%= post.title %>
-            </p>
-          </div>
-        </div>
-        <div class="col-md-10">
-          <div class="card-body">
-            <div class="row">
-              <div class="col-md-6">
-                <div class="card">
-                  <div class="card-body">
-                    <h6 class="card-title">xxx</h6>
-                    <p class="card-text">xxx</p>
-                    <p>salary: <%= post.salary %></p>
-                    <p>number_of_recruits: <%= post.number_of_recruits %></p>
-                    <p>position: <%= post.position %></p>
-                    <p>description: <%= post.description %></p>
-                    <p>location: <%= post.location %></p>
-
-                    <p>Industry:</p>
-                    <% post.industries.each do |n| %>
-                    <p><%= n.name %></p>
-                    <% end %>
-
-                    <p>Job Category:</p>
-                    <% post.job_categories.each do |n| %>
-                    <p><%= n.name %></p>
-                    <% end %>
-
-                    <p>Skill:</p>
-                    <% post.skills.each do |n| %>
-                    <p><%= n.name %></p>
-                    <% end %>
-                  </div>
-                </div>
-              </div>
-              <div class="col-md-6">
-              </div>
-            </div>
-          </div>
-        </div>
+        <%= image_tag post.company.logo.url, class: 'img-thumbnail', width: "50px" if post.company.logo.present? %>
+        <%= image_tag "default_image.jpeg", class: 'img-thumbnail', width: "50px" unless post.company.logo.present? %>
+        <span class="card-text"><%= link_to post.company.name, company_path(post.company_id), class: 'text-info' if post.company.name %></span>
+      </div>
+      <div class="col text-right">
+        <span class="card-text text-muted small">Posted: <%= post.created_at.strftime("%Y%b%d") %></span>
       </div>
     </div>
   </div>

@@ -1,45 +1,78 @@
+<div class="container-fluid">
+  <div class="row">
+    <%= image_tag(@post.company.header_image.url, class: "img-fluid") if @post.company.header_image.present? %>
+    <%= image_tag("default_header_image.jpeg", class: "img-fluid") unless @post.company.header_image.present? %>
+  </div>
+</div>
 <div class="container">
-  <p>title: <%= @post.title %></p>
-  <p>salary: <%= @post.salary %></p>
-  <p>number_of_recruits: <%= @post.number_of_recruits %></p>
-  <p>position: <%= @post.position %></p>
-  <p>description: <%= @post.description %></p>
-  <p>location: <%= @post.location %></p>
+  <div class="card">
+    <div class="card-body">
+      <div class="row d-flex justify-content-between">
+          <h2><%= @post.title %></h2>
+          <div class="">
+            <% if user_signed_in? %>
+            <% if current_user.like_posts.pluck(:post_id).include?(@post.id) %>
+            <%= link_to "Unlike", like_post_path(post_id: @post.id), method: :delete, class: "btn btn-primary" %>
+            <% else %>
+            <%= link_to "Like", like_posts_path(like_post:{user_id: current_user.id, post_id: @post.id}), method: :post, class: "btn btn-primary" %>
+            <% end %>
+            <% end %>
+            <% if user_signed_in? %>
+            <% if current_user.applies.pluck(:post_id).include?(@post.id) %>
+            "Already Applied"
 
-  <p>Industry:</p>
-  <% @post.industries.each do |n| %>
-    <p><%= n.name %></p>
-  <% end %>
+              <%= link_to "Delete Application", apply_path(post_id: @post.id), method: :delete, class: "btn btn-primary" %>
 
-  <p>Job Category:</p>
-  <% @post.job_categories.each do |n| %>
-    <p><%= n.name %></p>
-  <% end %>
+            <% else %>
 
-  <p>Skill:</p>
-  <% @post.skills.each do |n| %>
-    <p><%= n.name %></p>
-  <% end %>
+            <%= link_to "Apply Now", applies_path(apply:{user_id: current_user.id, post_id: @post.id}), method: :post, class: "btn btn-primary" %>
 
-  <div class="">
-    <% if user_signed_in? %>
-    <% if current_user.applies.pluck(:post_id).include?(@post.id) %>
-    "Already Applied"
-    <%= link_to "Delete Application", apply_path(post_id: @post.id), method: :delete %>
-    <% else %>
-    <%= link_to "Apply Now", applies_path(apply:{user_id: current_user.id, post_id: @post.id}), method: :post %>
-    <% end %>
-    <% end %>
+            <% end %>
+            <% end %>
+          </div>
+      </div>
+      <%= image_tag @post.company.logo.url, class: 'img-thumbnail', width: "50px" if @post.company.logo.present? %>
+      <%= image_tag "default_image.jpeg", class: 'img-thumbnail', width: "50px" unless @post.company.logo.present? %>
+      <p><%= @post.company.name %></p>
+      <div class="">
+        Position: <span class="badge badge-primary"><%= @post.position %></span>
+        Location: <span class="badge badge-primary"><%= @post.location %></span>
+        Job Category:
+        <% @post.job_categories.each do |n| %>
+        <span class="badge badge-primary">
+          <%= n.name %>
+        </span>
+        <% end %>
+
+        Industry:
+        <% @post.industries.each do |n| %>
+        <span class="badge badge-primary">
+          <%= n.name %>
+        </span>
+        <% end %>
+
+        Salary
+        <span class="badge badge-primary">
+          <%= @post.salary %>
+        </span>
+
+        Skill:
+        <% @post.skills.each do |n| %>
+        <span class="badge badge-primary">
+          <%= n.name %>
+        </span>
+        <% end %>
+      </div>
+
+      <div class="">
+        <p>number_of_recruits: <%= @post.number_of_recruits %></p>
+        <p>description: <%= @post.description %></p>
+        <p>location: <%= @post.location %></p>
+        <p>Skill:</p>
+        <% @post.skills.each do |n| %>
+        <p><%= n.name %></p>
+        <% end %>
+      </div>
+    </div>
   </div>
-
-  <div class="">
-    <% if user_signed_in? %>
-    <% if current_user.like_posts.pluck(:post_id).include?(@post.id) %>
-    <%= link_to "Unlike", like_post_path(post_id: @post.id), method: :delete %>
-    <% else %>
-    <%= link_to "Like", like_posts_path(like_post:{user_id: current_user.id, post_id: @post.id}), method: :post %>
-    <% end %>
-    <% end %>
-  </div>
-
 </div>

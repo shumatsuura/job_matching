@@ -1,36 +1,95 @@
-<% if @over_ten %>
-  <%= link_to '以前のメッセージ', '?m=all' %>
-<% end %>
-<div class="ui segment">
-  <% @messages.each do |message| %>
-    <% if message.body.present? %>
-      <div class="item">
-        <div class="content">
-          <div class="header"><strong><%= message.user_id.present? ? message.apply.user.first_name : message.post.company.name %></strong> <%= message.message_time %></div>
-          <div class="list">
-            <div class="item">
-              <i class="right triangle icon"></i>
-              <%= message.body %>
-              <% if user_signed_in? && message.user_id.present? %>
-                <%= message.read ? '/ 既読' : '/ 未読' %>
-              <% end %>
-              <% if company_signed_in? && message.company_id.present? %>
-                <%= message.read ? '/ 既読' : '/ 未読' %>
+<div class="container-fluid bg-dark">
+  <p>
+    <span class="text-light"><%= "Company: #{@apply.post.company.name}" if current_user %></span>
+    <span class="text-light"><%= "Candidate: #{@apply.user.first_name}" if current_company %></span>
+    <br><span class="text-light"><%= @apply.post.title%></span>
+    </p>
+</div>
+<div class="container">
+
+  <% if @over_ten %>
+    <%= link_to '以前のメッセージ', '?m=all' %>
+  <% end %>
+
+  <div class="ui segment">
+    <% last_sender = nil %>
+    <% @messages.each do |message| %>
+      <% if message.body.present? && message.user_id.present? %>
+        <div class="row d-flex">
+          <div class="col-2">
+            <div class="text-right">
+              <% if last_sender != message.apply.user.first_name %>
+              <%= image_tag(message.apply.user.image.url || "default_image.jpeg", width: "70px") %>
               <% end %>
             </div>
           </div>
+          <div class="col-7">
+            <% if last_sender != message.apply.user.first_name %>
+            <%= link_to message.apply.user.first_name, user_path(message.apply.user.id) %>
+            <% end %>
+
+            <div class="card">
+              <div class="card-body">
+                <%= message.body %>
+              </div>
+            </div>
+          </div>
+          <div class="col-3 align-self-end">
+            <%= message.message_time %>
+            <% if user_signed_in? %>
+            <%= message.read ? '既読' : '未読' %>
+            <% end %>
+          </div>
         </div>
-      </div>
+        <br>
+        <% last_sender = message.apply.user.first_name %>
+      <% end %>
+      <% if message.body.present? && message.company_id.present? %>
+        <div class="row d-flex flex-row-reverse">
+          <div class="col-2">
+            <% if last_sender != message.post.company.name %>
+            <%= image_tag(message.post.company.logo.url || "default_image.jpeg", width: "70px") %>
+            <% end %>
+          </div>
+          <div class="col-7">
+            <div class="text-right">
+              <% if last_sender != message.post.company.name %>
+              <%= message.post.company.name %>
+              <% end %>
+            </div>
+            <div class="card bg-light">
+              <div class="card-body">
+                <%= message.body %>
+              </div>
+            </div>
+          </div>
+          <div class="col-3 align-self-end text-right">
+            <% if company_signed_in? && message.company_id.present? %>
+              <%= message.read ? '既読' : '未読' %><br>
+            <% end %>
+
+            <%= message.message_time %>
+          </div>
+        </div>
+        <br>
+        <% last_sender = message.post.company.name %>
+      <% end %>
     <% end %>
+  </div>
+
+  <%= form_with(model: [@apply, @message]) do |f| %>
+  <div class="row">
+    <div class="col-8 offset-2">
+    <div class="field">
+      <%= f.text_area :body, class: "form-control" %>
+    </div>
+      <%= f.text_field :company_id, value: @apply.post.company_id, type: "hidden"  if company_signed_in? %>
+      <%= f.text_field :user_id, value: current_user.id, type: "hidden"  if user_signed_in? %>
+    <div>
+      <br>
+      <%= f.submit "メッセージを送る",class: "btn btn-primary" %>
+    </div>
+  </div>
+  </div>
   <% end %>
 </div>
-<%= form_with(model: [@apply, @message]) do |f| %>
-  <div class="field">
-    <%= f.text_area :body, class: "form-control" %>
-  </div>
-    <%= f.text_field :company_id, value: @apply.post.company_id, type: "hidden"  if company_signed_in? %>
-    <%= f.text_field :user_id, value: current_user.id, type: "hidden"  if user_signed_in? %>
-  <div>
-    <%= f.submit "メッセージを送る" %>
-  </div>
-<% end %>

@@ -49,12 +49,7 @@
   </div>
 </div>
 <div class="container">
-  <div class="row">
-    <p>
-      <%= simple_format(@company.description) %>
-    </p>
-  </div>
-
+  <%= raw @company.description %>
   <div class="row">
     <table class = "table table-bordered table-hover">
       <thead class= "thead-dark">

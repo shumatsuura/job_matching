@@ -22,6 +22,9 @@ gem 'carrierwave'
 gem 'mini_magick'
 gem 'jquery-rails'
 gem 'ransack'
+gem 'simple_form'
+gem 'summernote-rails', '~> 0.8.12.0'
+gem 'bootstrap'
 
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console

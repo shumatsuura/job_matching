@@ -13,6 +13,9 @@
 //= require jquery
 //= require jquery/dist/jquery.js
 //= require rails-ujs
+//= require popper
+//= require summernote/summernote-bs4.min
+//= require summernote-init
 //= require activestorage
 //= require turbolinks
 //= require bootstrap/dist/js/bootstrap.js

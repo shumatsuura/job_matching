@@ -34,6 +34,7 @@ class User < ApplicationRecord
   has_many :like_posts, dependent: :destroy
 
   mount_uploader :image, ImageUploader
+  mount_uploader :cv, CvUploader
 
   def age
     (DateTime.now.strftime("%Y%m%d").to_i - date_of_birth.strftime("%Y%m%d").to_i) / 10000 if date_of_birth

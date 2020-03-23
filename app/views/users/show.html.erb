@@ -90,7 +90,12 @@
           <% end %>
         </td>
       </tr>
-
+      <tr>
+        <th>CV</th>
+        <td>
+          <%= @user.cv.present? ? link_to("Download", @user.cv.url) : "N/A" %>
+        </td>
+      </tr>
     </table>
   </div>
 </div>

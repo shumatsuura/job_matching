@@ -9,12 +9,6 @@
           </a>
         </h6>
         <ul class="nav flex-column mb-2">
-          <li class="nav-item">
-            <a class="nav-link" href="#">
-              <span data-feather="file-text"></span>
-              Current month
-            </a>
-          </li>
             <%= search_form_for @q do |f| %>
             <li><%= f.label :work_experiences_company_cont, "Key Word", class: "nav-item" %></li>
             <%= f.search_field :work_experiences_company_or_educations_school_name_or_educations_major_or_user_skills_name_cont,
@@ -68,93 +62,81 @@
       <div class="container">
         <%= paginate @users %>
         <% @users.each do |user| %>
-        <div class="card">
+        <div class="card mb-2">
           <div class="row no-gutters">
             <div class="col-md-2">
-              <div class="">
-                <%= image_tag user.image.url, class: 'img-thumbnail d-block mx-auto m-4' if user.image.present? %>
-                <%= image_tag("default_image.jpeg", class: 'img-thumbnail d-block mx-auto m-4') unless user.image.present? %>
+              <div class="m-3">
+                <%= image_tag user.image.url, class: 'img-thumbnail d-block' if user.image.present? %>
+                <%= image_tag("default_image.jpeg", class: 'img-thumbnail d-block') unless user.image.present? %>
               </div>
               <div class="pl-3">
                 <h6 class="card-title"><%= user.first_name + " " + user.last_name if user.first_name && user.last_name %></h6>
-                <p>
-                  <%= link_to "detail", user_path(user.id) %>
-                </p>
-                <p>
-                  <%= user.email %>
-                </p>
-                <p>
-                  <%= user.status %>
-                </p>
+                <div><small><%= user.status %></small></div>
+                <div><small><%= user.age %> years old</small></div>
+                <div><small><%= user.email %></small></div>
+                <div><small><%= user.phone_number %></small></div>
+                <div><small><%= link_to "detail", user_path(user.id) %></small></div>
               </div>
             </div>
             <div class="col-md-10">
               <div class="card-body">
+                <small class="text-muted">Last updated 3 mins ago</small>
                 <div class="row">
                   <div class="col-md-6">
-                    <div class="card">
+                    <div class="card mb-2">
                       <div class="card-body">
-                        <h6 class="card-title">Date of Birth</h6>
-                        <p class="card-text"><%= user.age %></p>
-                      </div>
-                    </div>
-
-                    <p><%= user.phone_number %></p>
-                    <div class="card">
-                      <div class="card-body">
-                        <h6 class="card-title">Job Category</h6>
-                        <p class="card-text  badge badge-light">
+                        <h6 class="card-title">Preference</h6>
+                        <div class="mb-2">
+                          <strong>Job Category: </strong>
                           <% user.job_categories.each do |job_category| %>
                           <%= job_category.name %>
                           <% end %>
-                        </p>
-                      </div>
-                    </div>
-                    <br>
-                    <div class="card">
-                      <div class="card-body">
-                        <h6 class="card-title">Desired industry</h6>
-                        <p class="card-text badge badge-light">
+                        </div>
+                        <div class="mb-2">
+                          <strong>Industry: </strong>
                           <% user.industries.each do |industry| %>
                           <%= industry.name %>
                           <% end %>
-                        </p>
+                        </div>
+                        <div>
+                        <strong>Expected Salary: </strong>
+                        <%= user.expected_salary %>
+                      </div>
                       </div>
                     </div>
-                    <br>
                     <div class="card">
                       <div class="card-body">
-                        <h6 class="card-title">Language</h6>
+                        <h6 class="card-title">Skill</h6>
+                        <div class="mb-2">
                         <% user.languages.each do |language| %>
-                        <p class="card-text">
                           <%= language.name %>
-                          <br>
-                          <span class = "small"><%= language.level %></span>
-                        </p>
+                          <span class = "badge badge-primary"><%= language.level %></span>
+                        <% end %>
+                      </div>
+                        <% user.user_skills.each do |user_skill| %>
+                        <span class="badge badge-light"><%= user_skill.name %></span>
                         <% end %>
                       </div>
                     </div>
                   </div>
                   <div class="col-md-6">
-                    <div class="card">
+                    <div class="card mb-2">
                       <div class="card-body">
                         <h6 class="card-title">Education</h6>
                         <% user.educations.each do |education| %>
-                        <p class="card-text">
+                          <div class="">
+
                           <%= education.school_name %>
-                          <br>
                           <span class = "small"><%= education.major %></span>
-                          <br>
                           <span class = "small">
                             <%= education.period_start.strftime("%b, %Y") if education.period_start.present? %>
                             ~
                             <%= education.period_end.strftime("%b, %Y") if education.period_start.present? %>
                           </span>
-                        </p>
+                        </div>
                         <% end %>
                       </div>
                     </div>
-                    <br>
                     <div class="card">
                       <div class="card-body">
                         <h6 class="card-title">Work Experience</h6>
@@ -171,32 +153,7 @@
                         <% end %>
                       </div>
                     </div>
-                    <br>
-                    <div class="card">
-                      <div class="card-body">
-                        <h6 class="card-title">Skill</h6>
-                        <p class="card-text">
-                          <% user.user_skills.each do |user_skill| %>
-                          <span class="badge badge-light"><%= user_skill.name %></span>
-                          <% end %>
-                        </p>
-                      </div>
-                    </div>
-                    <br>
-                    <div class="card">
-                      <div class="card-body">
-                        <h6 class="card-title">Expected Salary</h6>
-                        <p class="card-text">
-                          <%= user.expected_salary %>
-                        </p>
-                      </div>
-                    </div>
                   </div>
-                </div>
-                <div class="row">
-                  <p>Description</p>
-                  <p class="card-text"><%= user.description %></p>
-                  <p class="card-text"><small class="text-muted">Last updated 3 mins ago</small></p>
                 </div>
               </div>
             </div>

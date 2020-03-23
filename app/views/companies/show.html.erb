@@ -1,11 +1,10 @@
 <div class="container">
-  <br>
-  <div class="row d-flex">
+  <div class="row d-flex mt-4">
     <div class="col-2 align-self-start text-right">
       <%= image_tag(@company.logo.url, class: 'img-thumbnail',width: "70px") if @company.logo.present? %>
       <%= image_tag("default_image.jpeg", class: 'img-thumbnail', width: "70px") unless @company.logo.present? %>
     </div>
-    <div class="col-5">
+    <div class="col-sm-4">
       <h4>
         <%= @company.name %>
       </h4>
@@ -18,27 +17,27 @@
         <% end %>
         <% end %>
         <span>Location:
-          <span class="badge badge-primary">
+          <span class = "badge badge-primary">
             <%= @company.location %>
+          </span>
+        </span>
+        <br>
+        <span >Industry:
+          <span class = "badge badge-primary">
+            <% @company.industries.each do |industry| %>
+            <%= industry.name %>
+            <% end %>
           </span>
         </span>
       </p>
     </div>
-    <div class="col-5">
-      <ul class = "list-unstyled">
-        <li>
-          Incorporation:<%= @company.date_of_incorporation.strftime("%b, %Y") if @company.date_of_incorporation %>
-        </li>
-        <li>
-          No. of Employees:<%= @company.number_of_employees %>
-        </li>
-        <li>
-          Adress:<%= @company.address %>
-        </li>
-        <li>
-          Paid up capital: <%= @company.paid_up_capital %>
-        </li>
-      </ul>
+    <div class="col-sm-6">
+      <table class="table table-borderless table-sm">
+        <tr><td>Incorporation:</td><td><%= @company.date_of_incorporation.strftime("%b, %Y") if @company.date_of_incorporation %></td></tr>
+        <tr><td>No. of Employees:</td><td><%= @company.number_of_employees %></td></tr>
+        <tr><td>Adress:</td><td><%= @company.address %></td></tr>
+        <tr><td>Paid up capital:</td><td><%= @company.paid_up_capital %></td></tr>
+      </table>
     </div>
   </div>
 </div>
@@ -50,18 +49,19 @@
 </div>
 <div class="container">
   <%= raw @company.description %>
-  <div class="row">
+  <div class="row mt-3">
+    <h3>List of Posts</h3>
     <table class = "table table-bordered table-hover">
       <thead class= "thead-dark">
-      <tr>
-        <th>No.</th>
-        <th>Title</th>
-        <th>Position</th>
-        <th>Job Category</th>
-        <th>Salary</th>
-        <th>link</th>
-      </tr>
-    </thead>
+        <tr>
+          <th>No.</th>
+          <th>Title</th>
+          <th>Position</th>
+          <th>Job Category</th>
+          <th>Salary</th>
+          <th>link</th>
+        </tr>
+      </thead>
       <% @company.posts.each_with_index do |post,i| %>
       <tr>
         <th><%= i+1 %></th>

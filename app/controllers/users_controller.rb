@@ -73,6 +73,7 @@ class UsersController < ApplicationController
       :description,
       :image,
       :image_cache,
+      :cv,
       educations_attributes: [:id,:school_name,:major,:period_start,:period_end,:_destroy],
       languages_attributes: [:id,:name,:level,:_destroy],
       desired_industries_attributes: [:id,:user_id,:industry_id,:_destroy],

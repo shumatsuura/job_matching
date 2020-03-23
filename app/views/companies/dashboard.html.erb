@@ -1,63 +1,38 @@
 <div class="container">
   <div class="card mb-3">
-    <div class="card-header">
-      <div class="row">
-        <div class="col">
-          Company Profile
-        </div>
-        <div class="col text-right">
-          <%= link_to 'preview', company_path, class: "btn btn-primary btn-sm" %>
-          <%= link_to 'edit', edit_company_path, class: "btn btn-primary btn-sm" %>
-        </div>
-      </div>
-    </div>
     <div class="row no-gutters">
       <div class="col-md-2">
-        <div class="">
+        <div class="m-1">
           <%= image_tag @company.logo.url, class: 'img-thumbnail d-block mx-auto m-4' if @company.logo.present? %>
           <%= image_tag("default_image.jpeg", class: 'img-thumbnail d-block mx-auto m-4') unless @company.logo.present? %>
         </div>
-        <div class="pl-3">
+        <div class="m-2">
           <h6 class="card-title"><%= @company.name %></h6>
           <p><%= @company.email %></p>
-
         </div>
       </div>
       <div class="col-md-10">
         <div class="card-body">
           <div class="row">
-            <div class="col-md-6">
-              <div class="card">
-                <div class="card-body">
-                  <p class="card-text">
-                    <%= @company.location %>
-                    Phone: <%= @company.phone_number %>
-                    Incorporation:<%= @company.date_of_incorporation.strftime("%b, %Y") if @company.date_of_incorporation %>
-                    No. of Employees:<%= @company.number_of_employees %>
-
-                  </p>
-                </div>
-              </div>
-              <br>
-            </div>
-            <div class="col-md-6">
-              <div class="card">
-                <div class="card-body">
-                  <p class="card-text">
-                    Adress:<%= @company.address %>
-                    Paid up capital: <%= @company.paid_up_capital %>
-                    Membership: <%= @company.member_status %>
-                  </p>
-                </div>
-              </div>
-
-            </div>
+            <div class=" col-md-8">
+            <table class="table table-sm">
+                <tr><td>Name:</td><td><%= @company.name %></td></tr>
+                <tr><td>Location:</td><td><%= @company.location %></td></tr>
+                <tr><td>Phone:</td><td><%= @company.phone_number %></td></tr>
+                <tr><td>Incorporation:</td><td><%= @company.date_of_incorporation.strftime("%b, %Y") if @company.date_of_incorporation %></td></tr>
+                <tr><td>No. of Employees:</td><td><%= @company.number_of_employees %></td></tr>
+                <tr><td>Adress:</td><td><%= @company.address %></td></tr>
+                <tr><td>Paid up capital:</td><td><%= @company.paid_up_capital %></td></tr>
+                <tr><td>Membership:</td><td><%= @company.member_status %></td></tr>
+            </table>
           </div>
-          <div class="row">
-            <p>Description</p>
-            <p class="card-text"><%= @company.description %></p>
-
-            <p class="card-text"><small class="text-muted">Last updated 3 mins ago</small></p>
+            <div class="col-md-4">
+                <%= link_to "Create New Post", new_post_path, class: "btn btn-primary w-100 mb-1" %>
+                <%= link_to "Confirm Company Page", company_path, class: "btn btn-primary w-100 mb-1" %>
+                <%= link_to "Confirm Scout List", scouts_path, class: "btn btn-primary w-100 mb-1" %>
+                <%= link_to 'edit registration', edit_company_registration_path, class: "btn btn-primary w-100 mb-1" %>
+                <%= link_to 'edit', edit_company_path, class: "btn btn-primary w-100 mb-1" %>
+            </div>
           </div>
         </div>
       </div>
@@ -148,8 +123,3 @@
     <% end %>
   </table>
 </div>
-
-<%= link_to "new post", new_post_path %>
-
-
-<%= link_to 'edit registration', edit_company_registration_path %>

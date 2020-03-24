@@ -1,34 +1,59 @@
 <fieldset>
-  <h3>Work Experience<span class="users_child_index"><%= f.index + 1 %><span></h3>
-  <%= f.label :company %>
-  <%= f.text_field :company %>
-  <%= f.label :position %>
-  <%= f.text_field :position %>
-  <%= f.label :description %>
-  <%= f.text_area :description %>
-  <%= f.label :salary %>
-  <%= f.text_field :salary %>
+  <div class="border rounded bg-light p-2 form-group">
+    <h5>Work Experience<span class="users_child_index"><%= f.index + 1 %><span></h5>
+      <div class="form-row">
+        <div class="form-group col-md-6">
+          <%= f.label :company %>
+          <%= f.text_field :company, class:"form-control" %>
+        </div>
+        <div class="form-group col-md-6">
+          <%= f.label :position %>
+          <%= f.text_field :position, class:"form-control" %>
+        </div>
+      </div>
 
-  <%= f.label :period_start %>
-  <%= f.datetime_select :period_start,
-  {
-    include_blank: true,
-    default: nil,
-    start_year: 1970,
-    end_year: 2020,
-    discard_day: true,
-    discard_hour: true} %>
-  <%= f.label :period_end %>
-  <%= f.datetime_select :period_end,
-   {
-    include_blank: true,
-    default: nil,
-    start_year: 1970,
-    end_year: 2020,
-    discard_day: true,
-    discard_hour: true} %>
-  <%= f.label :currently_employed %>
-  <%= f.check_box :currently_employed %>
-  <%= f.hidden_field :_destroy %>
-  <%= link_to "削除", '#', class: "remove_fields" %>
+      <div class="form-group">
+        <%= f.label :description %>
+        <%= f.text_area :description, class: "form-control" %>
+      </div>
+
+      <div class="form-row">
+        <div class="form-group col-md-4">
+          <%= f.label :salary %>
+          <%= f.text_field :salary, class: "form-control" %>
+        </div>
+        <div class="form-group col-md-4">
+          <%= f.label :period_start %><br>
+          <%= f.datetime_select :period_start,{
+            include_blank: true,
+            default: nil,
+            start_year: 1970,
+            end_year: 2020,
+            discard_day: true,
+            discard_hour: true,
+            class: "form-control",
+          } %>
+
+        </div>
+        <div class="form-group col-md-4">
+            <%= f.label :period_end %><br>
+            <%= f.datetime_select :period_end,
+            {
+              include_blank: true,
+              default: nil,
+              start_year: 1970,
+              end_year: 2020,
+              discard_day: true,
+              discard_hour: true,
+              class: "form-control",
+            } %>
+          </div>
+      </div>
+      <%= f.label :currently_employed %>
+      <%= f.check_box :currently_employed %>
+      <%= f.hidden_field :_destroy %>
+      <div class="text-right">
+        <%= link_to "Delete", '#', class: "remove_fields btn btn-danger btn-sm" %>
+      </div>
+  </div>
 </fieldset>

@@ -1,8 +1,15 @@
 <fieldset>
-  <h3>Skill<span class="users_child_index"><%= f.index + 1 %><span></h3>
-  <%= f.label :name %>
-  <%= f.text_field :name %>
-  
-  <%= f.hidden_field :_destroy %>
-  <%= link_to "削除", '#', class: "remove_fields" %>
+  <div class="border rounded bg-light p-2 form-group">
+  <h5>Skill<span class="users_child_index"><%= f.index + 1 %><span></h5>
+    <div class="form-row">
+      <%= f.label :name, class: "col-sm-3 col-form-label" %>
+      <div class="col-sm-7 d-flex align-items-center">
+        <%= f.text_field :name, class: "form-control" %>
+      </div>
+      <div class="col-sm-2 text-right">
+        <%= f.hidden_field :_destroy %>
+        <%= link_to "Delete", '#', class: "remove_fields btn btn-danger btn-sm" %>
+      </div>
+    </div>
+  </div>
 </fieldset>

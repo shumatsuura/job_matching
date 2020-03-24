@@ -18,12 +18,11 @@ class UsersController < ApplicationController
   end
 
   def edit
-
-    if @user.educations == [] or @user.educations.last.school_name != ""
+    if @user.educations == []
     @user.educations.build
     end
 
-    if @user.languages == [] or @user.languages.last.name != ""
+    if @user.languages == []
     @user.languages.build
     end
 
@@ -46,7 +45,6 @@ class UsersController < ApplicationController
     if @user.desired_job_categories == []
     @user.desired_job_categories.build
     end
-
   end
 
   def update
@@ -71,6 +69,7 @@ class UsersController < ApplicationController
       :religion,
       :expected_salary,
       :description,
+      :status,
       :image,
       :image_cache,
       :cv,

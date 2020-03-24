@@ -1,10 +1,19 @@
 <fieldset>
-  <h3>Language<span class="users_child_index"><%= f.index + 1 %><span></h3>
-  <%= f.label :name %>
-  <%= f.text_field :name %>
-  <%= f.label :level %>
-  <%= f.select :level, Language.levels.keys, include_blank: true %>
-
-  <%= f.hidden_field :_destroy %>
-  <%= link_to "削除", '#', class: "remove_fields" %>
-</fieldset>
+  <div class="border rounded bg-light p-2 form-group">
+    <h5>Language<span class="users_child_index"><%= f.index + 1 %><span></h5>
+      <div class="form-row">
+        <%= f.label :name, class: "col-sm-3 col-form-label" %>
+        <div class="col-sm-3">
+          <%= f.text_field :name, class: "form-control" %>
+        </div>
+        <%= f.label :level,class: "col-sm-1 col-form-label" %>
+        <div class="col-sm-3 d-flex align-items-center">
+          <%= f.select :level, Language.levels.keys, include_blank: true, class: "form-control" %>
+        </div>
+        <div class="col-sm-2 text-right">
+          <%= link_to "Delete", '#', class: "remove_fields btn btn-danger btn-sm" %>
+          <%= f.hidden_field :_destroy %>
+        </div>
+      </div>
+    </div>
+  </fieldset>

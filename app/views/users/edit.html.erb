@@ -2,134 +2,149 @@
   <h1>Edit</h1>
   <div id="error_explanation">
     <% if @user.errors.any? %>
-      <h2><%= pluralize(@user.errors.count, "error") %>prohibited this @user from being saved:</h2>
-      <ul>
+    <h2><%= pluralize(@user.errors.count, "error") %>prohibited this @user from being saved:</h2>
+    <ul>
       <% @user.errors.full_messages.each do |message| %>
-        <li><%= message %></li>
+      <li><%= message %></li>
       <% end %>
-      </ul>
+    </ul>
     <% end %>
   </div>
 
   <%= form_with(model: @user, local: true) do |f| %>
 
-    <div class="form-group">
-      <%= f.label :image %>
-      <%= f.file_field :image, class: "form-control" %>
-    </div>
+  <div class="form-group">
+    <%= f.label :image %>
+    <%= f.file_field :image, class: "form-control-file" %>
+  </div>
 
-    <div class="form-group">
-      <%= f.label :cv %>
-      <%= f.file_field :cv, class: "form-control" %>
-    </div>
-
-    <div class="form-group">
+  <div class="form-group">
+    <%= f.label :cv %>
+    <%= f.file_field :cv, class: "form-control-file" %>
+  </div>
+  <div class="form-row">
+    <div class="form-group col-md-6">
       <%= f.label :first_name %>
-      <%= f.text_field :first_name, class: "form-control" %>
+      <%= f.text_field :first_name, class: "form-control", placeholder: "First Name" %>
     </div>
 
-    <div class="form-group">
+    <div class="form-group col-md-6">
       <%= f.label :last_name %>
-      <%= f.text_field :last_name, class: "form-control" %>
+      <%= f.text_field :last_name, class: "form-control", placeholder: "Last Name" %>
     </div>
+  </div>
 
-    <div class="form-group">
+  <div class="form-row">
+    <div class="form-group col-md-6">
       <%= f.label :date_of_birth %>
-      <%= f.datetime_select :date_of_birth, {class: "form-control", start_year: 1960 ,end_year: 2005,discard_hour: true} %>
+      <div class="form-inline">
+        <%= f.datetime_select :date_of_birth, {start_year: 1960 , end_year: 2005, discard_hour: true, include_blank: true}, class: "form-control" %>
+      </div>
     </div>
 
-    <div class="form-group">
+    <div class="form-group col-md-6">
       <%= f.label :gender %>
-      <%= f.text_field :gender, class: "form-control" %>
+      <%= f.select :gender,["Male","Female"], {include_blank: true}, class: "form-control" %>
     </div>
+  </div>
 
-    <div class="form-group">
-      <%= f.label :address %>
-      <%= f.text_field :address, class: "form-control" %>
-    </div>
+  <div class="form-group">
+    <%= f.label :address %>
+    <%= f.text_field :address, class: "form-control" %>
+  </div>
 
-    <div class="form-group">
-      <%= f.label :phone_number %>
-      <%= f.text_field :phone_number, class: "form-control" %>
-    </div>
+  <div class="form-group">
+    <%= f.label :phone_number %>
+    <%= f.text_field :phone_number, class: "form-control" %>
+  </div>
 
-    <div class="form-group">
+  <div class="form-row">
+    <div class="form-group col-md-6">
       <%= f.label :race %>
       <%= f.text_field :race, class: "form-control" %>
     </div>
 
-    <div class="form-group">
+    <div class="form-group col-md-6">
       <%= f.label :religion %>
       <%= f.text_field :religion, class: "form-control" %>
     </div>
-
-    <div class="form-group">
+  </div>
+  <div class="form-row">
+    <div class="form-group col-md-6">
       <%= f.label :status %>
-      <%= f.text_field :status, class: "form-control" %>
+      <%= f.select :status,["Actively Looking","Closed","Open for Opportunity"], {include_blank: true}, class: "form-control" %>
     </div>
-
-    <div class="form-group">
+    <div class="form-group col-md-6">
       <%= f.label :expected_salary %>
       <%= f.text_field :expected_salary, class: "form-control" %>
     </div>
+  </div>
 
-    <div class="form-group">
-      <%= f.label :description %>
-      <%= f.text_area :description, class: "form-control" %>
-    </div>
 
-    <div class="form-group educations">
-      <%= f.fields_for :educations do |builder| %>
-        <%= render 'users/education_fields', f: builder %>
-      <% end %>
-      <%= link_to_add_fields "追加", f, :educations %>
-    </div>
+  <div class="form-group">
+    <%= f.label :description %>
+    <%= f.text_area :description, class: "form-control" %>
+  </div>
 
-    <div class="form-group languages">
-      <%= f.fields_for :languages do |builder| %>
-        <%= render 'users/language_fields', f: builder %>
-      <% end %>
-      <%= link_to_add_fields "追加", f, :languages %>
-    </div>
+  <div class="form-group educations">
+    <%= f.fields_for :educations do |builder| %>
+    <%= render 'users/education_fields', f: builder %>
+    <% end %>
+    <%= link_to_add_fields "Add Education Field", f, :educations %>
+  </div>
 
-    <div class="form-group desired_industries">
-      <%= f.fields_for :desired_industries do |builder| %>
-        <%= render 'users/desired_industry_fields', f: builder %>
-      <% end %>
-      <%= link_to_add_fields "追加", f, :desired_industries %>
-    </div>
+  <div class="form-group languages">
+    <%= f.fields_for :languages do |builder| %>
+    <%= render 'users/language_fields', f: builder %>
+    <% end %>
+    <%= link_to_add_fields "Add Language Field", f, :languages %>
+  </div>
 
-    <div class="form-group desired_job_categories">
-      <%= f.fields_for :desired_job_categories do |builder| %>
-        <%= render 'users/desired_job_category_fields', f: builder %>
-      <% end %>
-      <%= link_to_add_fields "追加", f, :desired_job_categories %>
-    </div>
+  <div class="form-group desired_industries">
+    <%= f.fields_for :desired_industries do |builder| %>
+    <%= render 'users/desired_industry_fields', f: builder %>
+    <% end %>
+    <%= link_to_add_fields "Add Industry Field", f, :desired_industries %>
+  </div>
 
-    <div class="form-group work_experiences">
-      <%= f.fields_for :work_experiences do |builder| %>
-        <%= render 'users/work_experience_fields', f: builder %>
-      <% end %>
-      <%= link_to_add_fields "追加", f, :work_experiences %>
-    </div>
+  <div class="form-group desired_job_categories">
+    <%= f.fields_for :desired_job_categories do |builder| %>
+    <%= render 'users/desired_job_category_fields', f: builder %>
+    <% end %>
 
-    <div class="form-group user_skills">
-      <%= f.fields_for :user_skills do |builder| %>
-        <%= render 'users/user_skill_fields', f: builder %>
-      <% end %>
-      <%= link_to_add_fields "追加", f, :user_skills %>
-    </div>
+    <%= link_to_add_fields "Add Job Category Field", f, :desired_job_categories %>
 
-    <div class="form-group user_skills">
-      <%= f.fields_for :qualifications do |builder| %>
-        <%= render 'users/qualification_fields', f: builder %>
-      <% end %>
-      <%= link_to_add_fields "追加", f, :qualifications %>
-    </div>
+  </div>
 
-    <div class="form-group">
-      <%= f.submit class: "btn btn-primary"%>
-    </div>
+  <div class="form-group work_experiences">
+    <%= f.fields_for :work_experiences do |builder| %>
+    <%= render 'users/work_experience_fields', f: builder %>
+    <% end %>
+    <%= link_to_add_fields "Add Work Experience Field", f, :work_experiences %>
+
+  </div>
+
+  <div class="form-group user_skills">
+    <%= f.fields_for :user_skills do |builder| %>
+    <%= render 'users/user_skill_fields', f: builder %>
+    <% end %>
+
+    <%= link_to_add_fields "Add Skill Field", f, :user_skills %>
+
+  </div>
+
+  <div class="form-group user_skills">
+    <%= f.fields_for :qualifications do |builder| %>
+    <%= render 'users/qualification_fields', f: builder %>
+    <% end %>
+
+    <%= link_to_add_fields "Add Skill Field", f, :qualifications %>
+
+  </div>
+
+  <div class="form-group">
+    <%= f.submit class: "btn btn-primary"%>
+  </div>
   <% end %>
 
 </div>

@@ -1,5 +1,6 @@
 <div class ="container-fluid">
   <div class="row">
+    <!-- Side Bar -->
     <nav class="col-md-2 d-none d-md-block bg-light sidebar">
       <div class="sidebar-sticky">
         <h6 class="sidebar-heading d-flex justify-content-between align-items-center px-3 mt-4 mb-1 text-muted">
@@ -9,57 +10,59 @@
           </a>
         </h6>
         <ul class="nav flex-column mb-2">
-            <%= search_form_for @q do |f| %>
-            <li><%= f.label :work_experiences_company_cont, "Key Word", class: "nav-item" %></li>
-            <%= f.search_field :work_experiences_company_or_educations_school_name_or_educations_major_or_user_skills_name_cont,
-            {class: "form-control nav-item", placeholder: "Search"} %>
+          <%= search_form_for @q do |f| %>
+          <li><%= f.label :work_experiences_company_cont, "Key Word", class: "nav-item" %></li>
+          <%= f.search_field :work_experiences_company_or_educations_school_name_or_educations_major_or_user_skills_name_cont,
+          {class: "form-control nav-item", placeholder: "Search"} %>
 
-            <%= f.label :industries_id_in, "Industryを含む" %>
-            <% @industries.each do |industry| %>
-              <br>
-              <%= f.check_box :industries_id_in, {multiple: true, include_hidden: false}, industry.id %>
-              <%= industry.name %>
-            <% end %>
-            <br>
-            <%= f.label :job_categories_id_in, "Job Categoryを含む" %>
-            <% @job_categories.each do |job_category| %>
-              <br>
-              <%= f.check_box :job_categories_id_in, {multiple: true, include_hidden: false}, job_category.id %>
-              <%= job_category.name %>
-            <% end %>
-            <br>
-            <%= f.label :expected_salary %>
-            <%= f.number_field :expected_salary_gteq, {class: "form-control"} %>以上〜
-            <%= f.number_field :expected_salary_lt, {class: "form-control"} %>未満
-            <br>
-            <%= f.label :gender %>
-            <br>
-            <%= f.radio_button :gender_eq, '', {:checked => true} %>指定なし
-            <%= f.radio_button :gender_eq, "Male" %>男性
-            <%= f.radio_button :gender_eq, "Female" %>女性
-            <br>
-            <%= f.label :age %>
-            <br>
-            <%= f.number_field :date_of_birth_to_age_gteq, {class: "form-control"} %>才以上
-            <%= f.number_field :date_of_birth_to_age_lteq, {class: "form-control"} %>才以上
-            <br>
-            <%= f.label :status %>
-            <%= f.select :status_eq ,["Actively Looking","Closed","Open for Opportunity"],include_blank: true, class: "form-control" %>
+          <%= f.label :industries_id_in, "Industryを含む" %>
+          <% @industries.each do |industry| %>
+          <br>
+          <%= f.check_box :industries_id_in, {multiple: true, include_hidden: false}, industry.id %>
+          <%= industry.name %>
+          <% end %>
+          <br>
+          <%= f.label :job_categories_id_in, "Job Categoryを含む" %>
+          <% @job_categories.each do |job_category| %>
+          <br>
+          <%= f.check_box :job_categories_id_in, {multiple: true, include_hidden: false}, job_category.id %>
+          <%= job_category.name %>
+          <% end %>
+          <br>
+          <%= f.label :expected_salary %>
+          <%= f.number_field :expected_salary_gteq, {class: "form-control"} %>以上〜
+          <%= f.number_field :expected_salary_lt, {class: "form-control"} %>未満
+          <br>
+          <%= f.label :gender %>
+          <br>
+          <%= f.radio_button :gender_eq, '', {:checked => true} %>指定なし
+          <%= f.radio_button :gender_eq, "Male" %>男性
+          <%= f.radio_button :gender_eq, "Female" %>女性
+          <br>
+          <%= f.label :age %>
+          <br>
+          <%= f.number_field :date_of_birth_to_age_gteq, {class: "form-control"} %>才以上
+          <%= f.number_field :date_of_birth_to_age_lteq, {class: "form-control"} %>才以上
+          <br>
+          <%= f.label :status %>
+          <%= f.select :status_eq ,["Actively Looking","Closed","Open for Opportunity"],include_blank: true, class: "form-control" %>
 
-            <br>
-            <%= f.label :language %>
-            <%= f.search_field :languages_name_cont, class: "form-control" %>
-            <%= f.select :languages_level_eq, Language.levels, include_blank: true, class: "form-control" %>
+          <br>
+          <%= f.label :language %>
+          <%= f.search_field :languages_name_cont, class: "form-control" %>
+          <%= f.select :languages_level_eq, Language.levels, include_blank: true, class: "form-control" %>
 
-            <%= f.submit "Search", class: "btn btn-outline-success my-2 my-sm-0" %>
+          <%= f.submit "Search", class: "btn btn-outline-success my-2 my-sm-0" %>
 
-            <% end %>
+          <% end %>
         </ul>
 
       </div>
     </nav>
+    <!-- Side Bar Until Here  -->
     <div class="col">
       <div class="container">
+        <% n = 1 %>
         <%= paginate @users %>
         <% @users.each do |user| %>
         <div class="card mb-2">
@@ -76,16 +79,20 @@
                 <div><small><%= user.email %></small></div>
                 <div><small><%= user.phone_number %></small></div>
                 <div><small><%= link_to "detail", user_path(user.id) %></small></div>
+                <small class="text-muted">Last updated 3 mins ago</small>
               </div>
             </div>
             <div class="col-md-10">
               <div class="card-body">
-                <small class="text-muted">Last updated 3 mins ago</small>
                 <div class="row">
+                  <!-- Left Side Card Area -->
                   <div class="col-md-6">
+                    <!-- Left Side Card 1 -->
                     <div class="card mb-2">
-                      <div class="card-body">
-                        <h6 class="card-title">Preference</h6>
+                      <div class="card-header p-2 bg-dark text-white">
+                        <strong>Preference</strong>
+                      </div>
+                      <div class="card-body p-2">
                         <div class="mb-2">
                           <strong>Job Category: </strong>
                           <% user.job_categories.each do |job_category| %>
@@ -99,49 +106,98 @@
                           <% end %>
                         </div>
                         <div>
-                        <strong>Expected Salary: </strong>
-                        <%= user.expected_salary %>
-                      </div>
+                          <strong>Expected Salary: </strong>
+                          <%= user.expected_salary %>
+                        </div>
                       </div>
                     </div>
-                    <div class="card">
-                      <div class="card-body">
-                        <h6 class="card-title">Skill</h6>
+                    <!-- Left Side Card 2 -->
+                    <div class="card mb-2">
+                      <div class="card-header p-2 bg-dark text-white">
+                        <strong>Skill</strong>
+                      </div>
+                      <div class="card-body p-2">
                         <div class="mb-2">
-                        <% user.languages.each do |language| %>
+                          <strong>Language:</strong>
+                          <% user.languages.each do |language| %>
                           <%= language.name %>
                           <span class = "badge badge-primary"><%= language.level %></span>
-                        <% end %>
-                      </div>
-                        <% user.user_skills.each do |user_skill| %>
-                        <span class="badge badge-light"><%= user_skill.name %></span>
-                        <% end %>
+                          <% end %>
+                        </div>
+                        <div class="mb-2">
+
+                          <strong>Skill:</strong>
+                          <% user.user_skills.each do |user_skill| %>
+                          <span class="badge badge-light"><%= user_skill.name %></span>
+                          <% end %>
+                        </div>
+                        <div class="mb-2">
+                          <strong>
+                            Qualification:
+                          </strong>
+                          <% user.qualifications.each do |qualification| %>
+                          <span class="badge badge-light"><%= qualification.name %></span>
+                          <% end %>
+                        </div>
                       </div>
                     </div>
                   </div>
+                  <!-- Right Side Card Area -->
                   <div class="col-md-6">
+                    <!-- Right Side Card 1 -->
+                    <div class="accordion" id = "accordion">
                     <div class="card mb-2">
-                      <div class="card-body">
-                        <h6 class="card-title">Education</h6>
-                        <% user.educations.each do |education| %>
-                          <div class="">
-
-                          <%= education.school_name %>
-                          <span class = "small"><%= education.major %></span>
-                          <span class = "small">
-                            <%= education.period_start.strftime("%b, %Y") if education.period_start.present? %>
-                            ~
-                            <%= education.period_end.strftime("%b, %Y") if education.period_start.present? %>
-                          </span>
-                        </div>
+                      <ul class="list-group list-group-flush">
+                        <li class="list-group-item p-2 bg-dark text-white">
+                          <strong>Education</strong>
+                        </li>
+                        <% user.educations.each_with_index do |education,i| %>
+                          <% if i + 1 == user.educations.count %>
+                            <li class="list-group-item">
+                          <% else %>
+                            <li class="list-group-item education_user_<%= n %> collapse" aria-labelledby="headingOne" data-parent = "#accordion">
+                          <% end %>
+                            <%= education.school_name %>
+                            <span class = "small"><%= education.major %></span>
+                            <br>
+                            <span class = "small">
+                              <%= education.period_start.strftime("%b, %Y") if education.period_start.present? %>
+                              ~
+                              <%= education.period_end.strftime("%b, %Y") if education.period_start.present? %>
+                            </span>
+                          </li>
                         <% end %>
+                        <!-- アコーディオンのButton -->
+                        <% if user.educations.count > 1 %>
+                        <li class = "list-group-item text-right p-1">
+                        <span
+                        class="badge badge-secondary"
+                        type="button"
+                        data-toggle="collapse"
+                        data-target=".education_user_<%= n %>"
+                        aria-expanded = "true"
+                        aria-controls="collapseOne">
+                          show more..
+                        </span>
+                      </li>
+                      <% end %>
+                      </ul>
                       </div>
                     </div>
+                    <!-- Right Side Card 2 -->
+                    <div class="accordion" id = "accordion_2">
                     <div class="card">
-                      <div class="card-body">
-                        <h6 class="card-title">Work Experience</h6>
-                        <% user.work_experiences.each do |work_experience| %>
-                        <p class="card-text">
+                      <ul class="list-group list-group-flush">
+                        <li class="list-group-item p-2 bg-dark text-white">
+                          <strong>Work Experience</strong>
+                        </li>
+                        <% user.work_experiences.each_with_index do |work_experience,i| %>
+                        <% if i + 1 == user.work_experiences.count %>
+                          <li class="list-group-item">
+                        <% else %>
+                          <li class="list-group-item work_experience_user_<%= n %> collapse" aria-labelledby="headingOne" data-parent = "#accordion_2">
+                        <% end %>
+
                           <%= work_experience.company %><br>
                           <span class = "small">
                             Period:
@@ -149,8 +205,23 @@
                             ~
                             <%= work_experience.period_end.strftime("%b, %Y") if work_experience.period_end.present? %>
                           </span>
-                        </p>
+                          </li>
                         <% end %>
+
+                        <% if user.work_experiences.count > 1 %>
+                        <li class = "list-group-item text-right p-1">
+                        <span
+                        class="badge badge-secondary"
+                        type="button"
+                        data-toggle="collapse"
+                        data-target=".work_experience_user_<%= n %>"
+                        aria-expanded = "true"
+                        aria-controls="collapseOne">
+                          show more..
+                        </span>
+                      </li>
+                      <% end %>
+                      </ul>
                       </div>
                     </div>
                   </div>
@@ -159,8 +230,8 @@
             </div>
           </div>
         </div>
+        <% n += 1 %>
         <% end %>
-
       </div>
     </div>
   </div>

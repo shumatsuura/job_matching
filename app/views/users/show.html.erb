@@ -1,86 +1,159 @@
+<br>
 <div class ="container">
   <h4><%= @user.first_name %>のページ</h4>
-  <div class="panel panel-default">
-    <div class="panel-heading">
-      <div class="row">
-        <div class="col-xs-6">
-          プロフィール
-        </div>
-        <div class="col-xs-6 text-right">
-          <% if current_user == @user %>
-            <%= link_to t('view.edit'), edit_user_registration_path %>
-          <% end %>
+    <table class="table table-bordered">
+      <thead class="thead-dark">
+        <tr>
+          <th colspan="4">
+            <div class="row d-flex justify-content-between align-items-center">
+              <div class="ml-3">
+                プロフィール
+              </div>
+              <div class="mr-3">
 
-          <% if company_signed_in? %>
-            <% if current_company.scouts.pluck(:user_id).include?(@user.id) %>
-            "スカウト済み"
-            <%= link_to "スカウト解除", scout_path(user_id: @user.id), method: :delete %>
-            <% else %>
-            <%= link_to "スカウトする", scouts_path(scout:{user_id: @user.id, company_id: current_company.id}), method: :post %>
+
+            <% if current_user == @user %>
+              <%= link_to "Edit Account Info", edit_user_registration_path, class:"btn btn-success btn-sm" %>
+              <%= link_to "Edit Profile", edit_user_path, class:"btn btn-success btn-sm" %>
             <% end %>
-          <% end %>
-
-          <% if company_signed_in? %>
-            <% if current_company.like_users.pluck(:user_id).include?(@user.id) %>
-              <%= link_to "Like", like_user_path(user_id: @user.id), method: :delete %>
-            <% else %>
-              <%= link_to "Unlike", like_users_path(like_user:{user_id: @user.id, company_id: current_company.id}), method: :post %>
+            <% if company_signed_in? %>
+              <% if current_company.scouts.pluck(:user_id).include?(@user.id) %>
+              "スカウト済み"
+              <%= link_to "スカウト解除", scout_path(user_id: @user.id), method: :delete %>
+              <% else %>
+              <%= link_to "スカウトする", scouts_path(scout:{user_id: @user.id, company_id: current_company.id}), method: :post %>
+              <% end %>
             <% end %>
-          <% end %>
 
-        </div>
-      </div>
-    </div>
-    <table class="table panel-body">
+            <% if company_signed_in? %>
+              <% if current_company.like_users.pluck(:user_id).include?(@user.id) %>
+                <%= link_to "Like", like_user_path(user_id: @user.id), method: :delete %>
+              <% else %>
+                <%= link_to "Unlike", like_users_path(like_user:{user_id: @user.id, company_id: current_company.id}), method: :post %>
+              <% end %>
+            <% end %>
+            </div>
+
+          </div>
+          </th>
+        </tr>
+      </thead>
       <tr>
-        <th><%= t('view.user_name') %>:</th>
-        <td><%= @user.first_name %> <%= @user.last_name %></td>
+        <th class=" align-middle">User Name:</th>
+        <td class="w-25 align-middle"><%= @user.first_name %> <%= @user.last_name %></td>
+        <th rowspan="2">Profile Image:</th>
+        <td rowspan="2"><%= image_tag(@user.image.url, class: "img-thumbnail img-fluid", width: "100px") if @user.image.present? %></td>
       </tr>
       <tr>
-        <th><%= t('view.user_email') %>:</th>
-        <td><%= @user.email %></td>
+        <th class="align-middle">Age:</th>
+        <td class="w-25 align-middle"><%= @user.age %></td>
       </tr>
       <tr>
-        <th><%= t('view.gender') %>:</th>
-        <td><%= @user.gender %></td>
-      </tr>
-      <tr>
-        <th><%= t('view.date_of_birth') %>:</th>
-        <td><%= @user.date_of_birth %></td>
-      </tr>
-      <tr>
-        <th><%= t('view.expected_salary') %>:</th>
-        <td><%= @user.expected_salary %></td>
-      </tr>
-      <tr>
+        <th class="w-25"><%= t('view.gender') %>:</th>
+        <td class="w-25"><%= @user.gender %></td>
         <th><%= t('view.status') %>:</th>
         <td><%= @user.status %></td>
       </tr>
       <tr>
-        <th><%= t('view.description') %>:</th>
-        <td><%= @user.description %></td>
-      </tr>
-      <tr>
-        <th><%= t('view.address') %>:</th>
-        <td><%= @user.address %></td>
-      </tr>
-      <tr>
-        <th><%= t('view.phone_number') %>:</th>
-        <td><%= @user.phone_number %></td>
+        <th><%= t('view.expected_salary') %>:</th>
+        <td><%= @user.expected_salary %></td>
+        <th>CV</th>
+        <td>
+          <%= @user.cv.present? ? link_to("Download", @user.cv.url) : "N/A" %>
+        </td>
       </tr>
       <tr>
         <th><%= t('view.race') %>:</th>
         <td><%= @user.race %></td>
-      </tr>
-      <tr>
         <th><%= t('view.religion') %>:</th>
         <td><%= @user.religion %></td>
       </tr>
       <tr>
-        <th><%= t('view.language') %>:</th>
-        <td><%= @user.religion %></td>
+        <th><%= t('view.description') %>:</th>
+        <td colspan="3"><%= simple_format(@user.description) %></td>
+      </tr>
+    </table>
+
+  <% @user.work_experiences.each_with_index do |work_experience,i| %>
+    <table class="table table-bordered mt-3 mb-3">
+      <thead class="thead-dark">
+        <tr>
+          <th colspan="4">
+            Work Experience <%= i + 1 %>
+          </th>
+        </tr>
+      </thead>
+      <tbody>
+      <tr>
+        <th class="w-25">Company</th>
+        <td class="w-25"><%= work_experience.company %></td>
+        <th class="w-25">Period</th>
+        <td class="w-25"><%= work_experience.period_start.strftime("%b, %Y") if work_experience.period_start.present? %>
+        ~
+        <%= work_experience.period_end.strftime("%b, %Y") if work_experience.period_end.present? %></td>
+      </tr>
+      <tr>
+        <th><strong>Salary:</strong></th>
+        <td><%= work_experience.salary %></td>
       </tr>
 
+      <tr>
+        <th>Description</th>
+        <td colspan="3"><%= simple_format(work_experience.description) %></td>
+      </tr>
+
+      </tbody>
+    </table>
+  <% end %>
+
+  <table class="table table-bordered mt-3 mb-3">
+    <thead class="thead-dark">
+      <tr>
+        <th colspan="6">
+          Education
+        </th>
+      </tr>
+    </thead>
+    <tbody>
+      <% @user.educations.each_with_index do |education,i| %>
+      <tr>
+        <th>School</th>
+        <td><%= education.school_name %></td>
+        <th>Major</th>
+        <td><%= education.major %></td>
+        <th>Period</th>
+        <td><%= education.period_start.strftime("%b, %Y") if education.period_start.present? %>
+        ~
+        <%= education.period_end.strftime("%b, %Y") if education.period_start.present? %></td>
+      </tr>
+      <% end %>
+    </tbody>
+  </table>
+
+  <table class="table table-bordered mt-3 mb-3">
+    <thead class="thead-dark">
+      <tr>
+        <th colspan="6">
+          Skill & Qualification & Language
+        </th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <th>Skill</th>
+        <td>
+          <% @user.user_skills.each do |skill| %>
+          <span class="badge badge-primary"><%= skill.name %></span>
+          <% end %>
+        </td>
+      </tr>
+      <% @user.qualifications.each do |qualification| %>
+      <tr>
+        <th>Qualification</th>
+        <td><%= qualification.name %></td>
+        <td><%= qualification.date_of_acquisition.strftime("%b, %Y") if qualification.date_of_acquisition.present? %></td>
+      </tr>
+      <% end %>
       <tr>
         <th>language</th>
         <td>
@@ -90,12 +163,7 @@
           <% end %>
         </td>
       </tr>
-      <tr>
-        <th>CV</th>
-        <td>
-          <%= @user.cv.present? ? link_to("Download", @user.cv.url) : "N/A" %>
-        </td>
-      </tr>
-    </table>
-  </div>
+
+    </tbody>
+  </table>
 </div>

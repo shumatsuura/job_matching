@@ -1,5 +1,6 @@
 class PostsController < ApplicationController
-  before_action :set_post, only:[:index,:edit,:update,:show,:manage,:destroy]
+  before_action :set_post, only:[:edit, :update, :show, :manage, :destroy]
+  before_action :authenticate_company!, only:[:new, :create, :edit, :update, :manage, :destroy]
 
   PER = 10
 
@@ -20,18 +21,19 @@ class PostsController < ApplicationController
   def create
     @post = current_company.posts.build(post_params)
     if @post.save
-      redirect_to post_path(@post)
+      redirect_to post_path(@post), notice: 'Created post successfully.'
     else
       render 'new'
     end
   end
 
   def edit
+    redirect_to root_path, notice: "No Access Right." unless @post.company == current_company
   end
 
   def update
     if @post.update(post_params)
-      redirect_to post_path(@post)
+      redirect_to post_path(@post), notice: 'Updated post successfully.'
     else
       render 'edit'
     end
@@ -41,6 +43,7 @@ class PostsController < ApplicationController
   end
 
   def manage
+    redirect_to root_path, notice: "No Access Right." unless @post.company == current_company
   end
 
   def destroy

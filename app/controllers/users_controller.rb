@@ -1,8 +1,12 @@
 class UsersController < ApplicationController
   before_action :set_user, only:[:show, :dashboard, :edit, :update]
+  before_action :authenticate_user!, only:[:dashboard, :edit, :update]
+  before_action :authenticate_company!, only:[:index]
+
   PER = 10
 
   def show
+    redirect_to root_path,notice: "No Access Right." unless @user == current_user || company_signed_in?
 
   end
 
@@ -14,10 +18,12 @@ class UsersController < ApplicationController
   end
 
   def dashboard
-
+    redirect_to root_path, notice: "No Access Right." unless @user == current_user
   end
 
   def edit
+    redirect_to root_path, notice: "No Access Right." unless @user == current_user
+
     if @user.educations == []
     @user.educations.build
     end
@@ -48,6 +54,7 @@ class UsersController < ApplicationController
   end
 
   def update
+    redirect_to root_path, notice: "No Access Right." unless @user == current_user
     if @user.update(user_params)
       redirect_to dashboard_user_path
     else

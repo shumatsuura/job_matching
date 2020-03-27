@@ -1,0 +1,24 @@
+<br>
+<div class="container">
+  <div class="col">
+    <div class="d-flex justify-content-between">
+      <div class>
+        <h5>Followed Company</h5>
+      </div>
+    </div>
+    <table class = "table table-bordered">
+      <thead class="thead-dark">
+        <tr>
+          <th>Company</th>
+          <th>Title</th>
+        </tr>
+      </thead>
+      <% @follows.each do |follow| %>
+      <tr>
+        <td><%= link_to follow.company.name, company_path(follow.company_id) %></td>
+        <td><%= follow.created_at.strftime("%d %b, %Y") %></td>
+      </tr>
+      <% end %>
+    </table>
+  </div>
+</div>

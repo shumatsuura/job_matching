@@ -43,8 +43,8 @@
 </div>
 <div class="container-fluid">
   <div class="row">
-    <%= image_tag(@company.header_image.url, class: "img-thumbnail img-fluid") if @company.header_image.present? %>
-    <%= image_tag("default_header_image.jpeg", class: "img-thumbnail img-fluid") unless @company.header_image.present? %>
+    <%= image_tag(@company.header_image.url, class: "img-fluid") if @company.header_image.present? %>
+    <%= image_tag("default_header_image.jpeg", class: "img-fluid") unless @company.header_image.present? %>
   </div>
 </div>
 <div class="container">

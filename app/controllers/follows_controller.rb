@@ -19,7 +19,7 @@ class FollowsController < ApplicationController
 
   def authenticate_user_and_company
     if not user_signed_in? || company_signed_in?
-      redirect_to root_path,notice: "You need to sign in or sign up before continuing."
+      redirect_to root_path, notice: "You need to sign in or sign up before continuing."
     end
   end
 

@@ -1,10 +1,14 @@
 class CompaniesController < ApplicationController
   before_action :set_company, only:[:show, :dashboard, :edit, :update]
+  before_action :authenticate_company!, only:[:dashboard, :edit, :update]
+
   PER = 10
+
   def show
   end
 
   def edit
+    redirect_to root_path, notice: "No Access Right." unless @company == current_company
     @company.industry_relations.build if @company.industry_relations == []
   end
 
@@ -21,9 +25,8 @@ class CompaniesController < ApplicationController
   end
 
   def dashboard
-
+    redirect_to root_path, notice: "No Access Right." unless @company == current_company
   end
-
 
   private
 

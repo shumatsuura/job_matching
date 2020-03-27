@@ -4,6 +4,12 @@ ENV['RAILS_ENV'] ||= 'test'
 
 require File.expand_path('../config/environment', __dir__)
 
+# DeviseのLogin functionを使うために追加
+include Warden::Test::Helpers
+
+
+
+
 # Prevent database truncation if the environment is production
 abort("The Rails environment is running in production mode!") if Rails.env.production?
 require 'rspec/rails'
@@ -60,7 +66,7 @@ RSpec.configure do |config|
   config.filter_rails_from_backtrace!
   # arbitrary gems may also be filtered via:
   # config.filter_gems_from_backtrace("gem name")
-  
+
   config.before(:suite) do
     DatabaseCleaner.strategy = :truncation
   end
@@ -72,4 +78,8 @@ RSpec.configure do |config|
   config.after(:all) do
     DatabaseCleaner.clean
   end
+
+  # DeviseのLogin functionを使うために追加
+  config.include Warden::Test::Helpers
+
 end

@@ -28,30 +28,78 @@ RSpec.describe User, type: :model do
       @user.date_of_birth = DateTime.now - 20.years
     end
 
-    it '編集時にバリデーションが通る' do
-      expect(@user).to be_valid(:update)
+    context '親レコード' do
+
+      it '編集時にバリデーションが通る' do
+        expect(@user).to be_valid(:update)
+      end
+
+      it '編集時にfirst_nameが空ならバリデーションが通らない' do
+        @user.first_name = ""
+        expect(@user).not_to be_valid(:update)
+      end
+
+      it '編集時にlast_nameが空ならバリデーションが通らない' do
+        @user.last_name = ""
+        expect(@user).not_to be_valid(:update)
+      end
+
+      it '編集時にstatusが空ならバリデーションが通らない' do
+        @user.status = ""
+        expect(@user).not_to be_valid(:update)
+      end
+
+      it '編集時にgenderが空ならバリデーションが通らない' do
+        @user.gender = ""
+        expect(@user).not_to be_valid(:update)
+      end
     end
 
-    it '編集時にfirst_nameが空ならバリデーションが通らない' do
-      @user.first_name = ""
-      expect(@user).not_to be_valid(:update)
+    context 'Education' do
+      it 'Shool Nameが空ならバリデーションが通らない' do
+        education = @user.educations.build(school_name: "")
+        expect(education).not_to be_valid
+      end
+
+      it 'School Nameがあればバリデーションが通る' do
+        education = @user.educations.build(school_name: "aaa")
+        expect(education).to be_valid
+      end
+
+      it 'Period EndかCurrently Attendingどちらが入ってないと通らない' do
+        
+
+      end
+
     end
 
-    it '編集時にlast_nameが空ならバリデーションが通らない' do
-      @user.last_name = ""
-      expect(@user).not_to be_valid(:update)
+    context 'Work Experience' do
+      it 'Companyが空ならバリデーションが通らない' do
+
+      end
+
+      it 'Period EndかCurrently Employedどちらかが入ってないと通らない' do
+      end
+      it 'Period EndかCurrently Employed両方入ってると通らない' do
+      end
     end
 
-    it '編集時にstatusが空ならバリデーションが通らない' do
-      @user.status = ""
-      expect(@user).not_to be_valid(:update)
+    context 'Skill' do
+
     end
 
-    it '編集時にgenderが空ならバリデーションが通らない' do
-      @user.gender = ""
-      expect(@user).not_to be_valid(:update)
+    context 'Qualification' do
+
+    end
+
+    context 'Desired Industry' do
+
+    end
+
+    context 'Desired Job Category' do
     end
   end
+
 
   # it '通常ユーザーの削除' do
   #   x = User.all

@@ -1,68 +1,67 @@
-<%= paginate @companies %>
+<div class = "container">
+  <%= paginate @companies %>
   <% @companies.each do |company| %>
-  <div class="container">
-    <div class="card mb-3">
-      <div class="row no-gutters">
-        <div class="col-md-2">
+  <div class="card mb-3">
+    <div class="row no-gutters">
+      <div class="col-md-2">
 
-          <div class="">
-            <%= image_tag company.logo.url, class: 'img-thumbnail d-block mx-auto m-4' if company.logo.present? %>
-            <%= image_tag("default_image.jpeg", class: 'img-thumbnail d-block mx-auto m-4') unless company.logo.present? %>
-          </div>
-          <div class="pl-3">
-            <h6 class="card-title"><%= company.name if company.name %></h6>
-            <p>
-              <%= link_to "detail", company_path(company.id) %>
-            </p>
-            <p>
-              <%= company.email %>
-            </p>
-          </div>
+        <div class="">
+          <%= image_tag company.logo.url, class: 'img-thumbnail d-block mx-auto m-4' if company.logo.present? %>
+          <%= image_tag("default_image.jpeg", class: 'img-thumbnail d-block mx-auto m-4') unless company.logo.present? %>
         </div>
-        <div class="col-md-10">
-          <div class="card-body">
-            <div class="row">
-              <div class="col-md-6">
-                <div class="card">
-                  <div class="card-body">
-                    <h6 class="card-title">Incorporation</h6>
-                    <p class="card-text"><%= company.date_of_incorporation.strftime("%d %b, %Y") if company.date_of_incorporation %></p>
-                  </div>
+        <div class="pl-3">
+          <h6 class="card-title"><%= company.name if company.name %></h6>
+          <p>
+            <%= link_to "detail", company_path(company.id) %>
+          </p>
+          <p>
+            <%= company.email %>
+          </p>
+        </div>
+      </div>
+      <div class="col-md-10">
+        <div class="card-body">
+          <div class="row">
+            <div class="col-md-6">
+              <div class="card">
+                <div class="card-body">
+                  <h6 class="card-title">Incorporation</h6>
+                  <p class="card-text"><%= company.date_of_incorporation.strftime("%d %b, %Y") if company.date_of_incorporation %></p>
                 </div>
-
-                <p><%= company.phone_number %></p>
-                <div class="card">
-                  <div class="card-body">
-                    <h6 class="card-title">Job Category</h6>
-                    <p class="card-text  badge badge-light">
-                      <% company.industries.each do |industry| %>
-                      <%= industry.name %>
-                      <% end %>
-                    </p>
-                  </div>
-                </div>
-                <br>
               </div>
-              <div class="col-md-6">
 
-                <div class="card">
-                  <div class="card-body">
-                    <h6 class="card-title">Skill</h6>
-                    <p class="card-text">
-                      <% company.company_skills.each do |company_skill| %>
-                      <span class="badge badge-light"><%= company_skill.name %></span>
-                      <% end %>
-                    </p>
-                  </div>
+              <p><%= company.phone_number %></p>
+              <div class="card">
+                <div class="card-body">
+                  <h6 class="card-title">Job Category</h6>
+                  <p class="card-text  badge badge-light">
+                    <% company.industries.each do |industry| %>
+                    <%= industry.name %>
+                    <% end %>
+                  </p>
                 </div>
+              </div>
+              <br>
+            </div>
+            <div class="col-md-6">
 
-                <div class="card">
-                  <div class="card-body">
-                    <h6 class="card-title">Employees</h6>
-                    <p class="card-text">
-                      <%= company.number_of_employees %>
-                    </p>
-                  </div>
+              <div class="card">
+                <div class="card-body">
+                  <h6 class="card-title">Skill</h6>
+                  <p class="card-text">
+                    <% company.company_skills.each do |company_skill| %>
+                    <span class="badge badge-light"><%= company_skill.name %></span>
+                    <% end %>
+                  </p>
+                </div>
+              </div>
+
+              <div class="card">
+                <div class="card-body">
+                  <h6 class="card-title">Employees</h6>
+                  <p class="card-text">
+                    <%= company.number_of_employees %>
+                  </p>
                 </div>
               </div>
             </div>
@@ -72,6 +71,5 @@
     </div>
   </div>
   <% end %>
-
+  <%= paginate @companies %>
 </div>
-<%= paginate @companies %>

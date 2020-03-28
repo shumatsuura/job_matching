@@ -2,8 +2,10 @@ class ScoutMessagesController < ApplicationController
   before_action do
     @scout = Scout.find(params[:scout_id])
   end
+  before_action :authenticate_user_and_company
 
   def index
+    redirect_to root_path, notice: "No Access Right." unless @scout.user == current_user || @scout.company == current_company
     @messages = @scout.scout_messages
 
     if @messages.length > 10
@@ -29,6 +31,7 @@ class ScoutMessagesController < ApplicationController
   end
 
   def create
+    redirect_to root_path, notice: "No Access Right." unless @scout.user == current_user || @scout.company == current_company
     @message = @scout.scout_messages.build(scout_message_params)
     if @message.save!
       redirect_to scout_scout_messages_path(@scout)
@@ -38,6 +41,12 @@ class ScoutMessagesController < ApplicationController
   end
 
   private
+
+  def authenticate_user_and_company
+    if not user_signed_in? || company_signed_in?
+      redirect_to root_path, notice: "You need to sign in or sign up before continuing."
+    end
+  end
 
   def scout_message_params
     params.require(:scout_message).permit(:body, :user_id, :company_id, :read)

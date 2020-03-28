@@ -1,16 +1,56 @@
-<table class="table table-hover">
-  <thead>
-    <h2>スカウト一覧</h2>
-  </thead>
-  <tbody>
+<br>
+<div class="container">
+  <table class="table table-bordered table-hover">
+    <h5>スカウト一覧</h5>
+    <thead class="thead-dark">
+      <% if user_signed_in? %>
+        <th>Company</th>
+        <th>Industry</th>
+        <th>No. of Employee</th>
+      <% elsif company_signed_in? %>
+        <th>Name</th>
+        <th>Gender</th>
+        <th>Age</th>
+        <th>Last_company</th>
+        <th>Position</th>
+        <th>Expected Salary</th>
+        <th>School</th>
+        <th>Major</th>
+      <% end %>
+      <th>Message</th>
+    </thead>
+    <tbody>
     <% @scouts.each do |scout| %>
-    <tr>
-      <td>
-        <% if scout.user.present? %>
-          <%= link_to scout.user.first_name, scout_scout_messages_path(scout)%>
+      <tr>
+      <% if user_signed_in? %>
+        <td><%= scout.company.name %></td>
+        <td><%= scout.company.industries.present? ? scout.company.industries.first.name : "" %></td>
+        <td><%= scout.company.number_of_employees %></td>
+      <% elsif %>
+        <% user = scout.user %>
+        <td><%= link_to user.first_name || "No Name", user_path(user.id) %></td>
+        <td><%= user.gender %></td>
+        <td><%= user.age %></td>
+        <td><%= user.work_experiences.present? ? user.work_experiences.last.company : "" %></td>
+        <td><%= user.work_experiences.present? ? user.work_experiences.last.position : "" %></td>
+        <td><%= user.expected_salary %></td>
+        <td><%= user.work_experiences.present? ? user.educations.last.school_name : "" %></td>
+        <td><%= user.work_experiences.present? ? user.educations.last.major : "" %></td>
         <% end %>
-      </td>
-    </tr>
+        <td class="text-center">
+          <%= link_to(scout_scout_messages_path(scout.id)) do %>
+            <button type="button" class = "btn btn-primary">
+              <span>
+              <span class="small">Message </span>
+                <span class="badge badge-light scout_count_badge">
+                  <%= company_signed_in? ? scout.scout_messages.where(read: false, user_id: user.id).count : scout.scout_messages.where(read: false, company_id: scout.company_id).count %>
+                </span>
+              </span>
+            </button>
+          <% end %>
+        </td>
+      </tr>
     <% end %>
-  </tbody>
-</table>
+    </tbody>
+  </table>
+</div>

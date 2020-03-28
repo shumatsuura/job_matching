@@ -48,7 +48,11 @@
   </div>
 
   <table class= "table table-bordered table-hover">
-    <h4>List of Candidate</h4>
+    <span>
+      <h4>List of Candidate
+        <small>(<%= @post.applies.count %> People)</small>
+      </h4>
+    </span>
 
     <thead class="thead-dark">
       <tr>
@@ -71,11 +75,11 @@
         <td><%= link_to user.first_name, user_path(user.id) %></td>
         <td><%= user.gender %></td>
         <td><%= user.age %></td>
-        <td><%= user.work_experiences.last.company %></td>
-        <td><%= user.work_experiences.last.position %></td>
+        <td><%= user.work_experiences.last.company if user.work_experiences.present? %></td>
+        <td><%= user.work_experiences.last.position if user.work_experiences.present? %></td>
         <td><%= user.expected_salary %></td>
-        <td><%= user.educations.last.school_name %></td>
-        <td><%= user.educations.last.major %></td>
+        <td><%= user.educations.last.school_name if user.educations.present? %></td>
+        <td><%= user.educations.last.major if user.educations.present? %></td>
         <td><%= link_to(apply_apply_messages_path(apply.id)) do %>
           <button type="button" class = "btn btn-primary">
             <span>

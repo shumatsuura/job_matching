@@ -20,7 +20,10 @@
           <%= link_to(apply_apply_messages_path(apply.id)) do %>
           <button type="button" class = "btn btn-primary">
             <span>
-            <span class="small">Message </span><span class="badge badge-light"><%= apply.apply_messages.where(read: false, user_id: apply.user_id).count %></span>
+            <span class="small">Message </span>
+              <span class="badge badge-light">
+                <%= company_signed_in? ? apply.apply_messages.where(read: false, user_id: apply.user_id).count : apply.apply_messages.where(read: false, company_id: apply.post.company_id).count %>
+              </span>
             </span>
           </button>
           <% end %>

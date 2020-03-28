@@ -102,14 +102,14 @@
       <% user = scout.user %>
     <tr>
       <th><%= i + 1 %></th>
-      <td><%= link_to user.first_name, user_path(user.id) %></td>
+      <td><%= link_to user.first_name || "No Name", user_path(user.id) %></td>
       <td><%= user.gender %></td>
       <td><%= user.age %></td>
-      <td><%= user.work_experiences.last.company %></td>
-      <td><%= user.work_experiences.last.position %></td>
+      <td><%= user.work_experiences.present? ? user.work_experiences.last.company : "" %></td>
+      <td><%= user.work_experiences.present? ? user.work_experiences.last.position : "" %></td>
       <td><%= user.expected_salary %></td>
-      <td><%= user.educations.last.school_name %></td>
-      <td><%= user.educations.last.major %></td>
+      <td><%= user.work_experiences.present? ? user.educations.last.school_name : "" %></td>
+      <td><%= user.work_experiences.present? ? user.educations.last.major : "" %></td>
       <td><%= link_to(scout_scout_messages_path(scout.id)) do %>
         <button type="button" class = "btn btn-primary">
           <span>

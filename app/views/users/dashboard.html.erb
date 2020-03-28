@@ -244,7 +244,10 @@
           <td><%= link_to(scout_scout_messages_path(scout.id)) do %>
             <button type="button" class = "btn btn-primary">
               <span>
-              <span class="small">Message </span><span class="badge badge-light"><%= scout.scout_messages.where(read: false, company_id: scout.company_id).count %></span>
+                <span class="small">Message </span>
+                <span class="badge badge-light scout_count_badge">
+                  <%= scout.scout_messages.where(read: false, company_id: scout.company_id).count %>
+                </span>
               </span>
             </button>
             <% end %>

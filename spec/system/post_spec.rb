@@ -1,10 +1,9 @@
 require 'rails_helper'
 
-RSpec.describe 'Post Function', type: :system, js: true do
+RSpec.describe 'Post Test', type: :system, js: true do
   before do
     @user = User.create(email: 'user@sample.com', password: "password", password_confirmation: "password")
     @user1 = User.create(email: 'user1@sample.com', password: "password", password_confirmation: "password")
-    @user2 = User.create(email: 'user2@sample.com', password: "password", password_confirmation: "password")
     @company = Company.create!(name: "sample_company", :email => 'test@example.com', :password => 'f4k3p455w0rd')
     @post = FactoryBot.create(:post, company_id: @company.id)
     @company1 = Company.create(email: 'company1@sample.com', password: "password", password_confirmation: "password")

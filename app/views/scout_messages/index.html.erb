@@ -31,6 +31,6 @@
     <%= f.text_field :company_id, value: current_company.id, type: "hidden"  if company_signed_in? %>
     <%= f.text_field :user_id, value: current_user.id, type: "hidden"  if user_signed_in? %>
   <div>
-    <%= f.submit "メッセージを送る" %>
+    <%= f.submit "Send message" %>
   </div>
 <% end %>

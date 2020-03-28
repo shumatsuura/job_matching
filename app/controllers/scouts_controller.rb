@@ -2,7 +2,11 @@ class ScoutsController < ApplicationController
   before_action :authenticate_user_and_company
 
   def index
-    @scouts = company_signed_in? ? current_company.scouts : current_user.scouts
+    if company_signed_in?
+      @scouts = current_company.scouts
+    elsif user_signed_in?
+      @scouts = current_user.scouts
+    end
   end
 
   def create

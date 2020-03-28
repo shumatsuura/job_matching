@@ -137,11 +137,6 @@ RSpec.describe 'ユーザー機能', type: :system, js: true do
         expect(page).to have_current_path root_path
       end
 
-      it '他ユーザーのプロフィール編集ページにアクセスできないこと' do
-        visit edit_user_registration_path(@user1.id)
-        expect(page).to have_current_path root_path
-      end
-
       it 'ログイン後ユーザー登録ページにアクセスできない' do
         visit new_user_registration_path
         expect(page).to have_current_path root_path

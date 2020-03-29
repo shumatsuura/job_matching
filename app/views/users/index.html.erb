@@ -1,61 +1,133 @@
-<div class ="container-fluid">
+<div class ="container">
   <div class="row">
     <!-- Side Bar -->
-    <nav class="col-md-2 d-none d-md-block bg-light sidebar">
-      <div class="sidebar-sticky">
-        <h6 class="sidebar-heading d-flex justify-content-between align-items-center px-3 mt-4 mb-1 text-muted">
-          <span>Saved reports</span>
-          <a class="d-flex align-items-center text-muted" href="#" aria-label="Add a new report">
-            <span data-feather="plus-circle"></span>
-          </a>
-        </h6>
-        <ul class="nav flex-column mb-2">
+    <nav class="col-md-2 d-none d-md-block bg-white mr-2">
+      <div>
+        <h5 class="d-flex justify-content-between align-items-center mt-4 mb-1 text-muted">
+          <span>Search & Filter</span>
+        </h5>
           <%= search_form_for @q do |f| %>
-          <li><%= f.label :work_experiences_company_cont, "Key Word", class: "nav-item" %></li>
-          <%= f.search_field :work_experiences_company_or_educations_school_name_or_educations_major_or_user_skills_name_cont,
-          {class: "form-control nav-item", placeholder: "Search"} %>
+          <ul class="nav">
+            <li><%= f.label :work_experiences_company_cont, "Key Word", class: "nav-item" %></li>
+            <li>
+              <%= f.search_field :work_experiences_company_or_educations_school_name_or_educations_major_or_user_skills_name_cont,
+              {class: "form-control nav-item", placeholder: "Search"} %>
+            </li>
+          </ul>
 
-          <%= f.label :industries_id_in, "Industryを含む" %>
-          <% @industries.each do |industry| %>
-          <br>
-          <%= f.check_box :industries_id_in, {multiple: true, include_hidden: false}, industry.id %>
-          <%= industry.name %>
+          <a href="#industrySubmenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">
+            Industry
+          </a>
+          <ul class="collapse list-unstyled" id="industrySubmenu">
+            <% @industries.each do |industry| %>
+            <li>
+              <%= f.check_box :industries_id_in, {multiple: true, include_hidden: false}, industry.id %>
+              <%= f.label :industries_id_in, industry.name %>
+            </li>
+            <% end %>
+          </ul>
+
+          <a href="#jobcategorySubmenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">
+            Job Category
+          </a>
+          <ul class="collapse list-unstyled" id="jobcategorySubmenu">
+            <% @job_categories.each do |job_category| %>
+            <li>
+              <%= f.check_box :job_categories_id_in, {multiple: true, include_hidden: false}, job_category.id %>
+              <%= job_category.name %>
+            </li>
+            <% end %>
+          </ul>
+
+          <a href="#salarySubmenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">
+            Expected Salary
+          </a>
+          <div class="collapse list-unstyled" id="salarySubmenu">
+            <div class="row">
+              <div class="col-2">
+                Min
+              </div>
+              <div class="col-10">
+                <%= f.number_field :expected_salary_gteq, {class: "form-control"} %>
+              </div>
+            </div>
+            <div class="row pt-1">
+              <div class="col-2">
+                Max
+              </div>
+              <div class="col-10">
+                <%= f.number_field :expected_salary_lt, {class: "form-control"} %>
+              </div>
+            </div>
+          </div>
+
+          <a href="#genderSubmenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">
+            <%= f.label :gender %>
+          </a>
+          <ul class="collapse list-unstyled" id="genderSubmenu">
+            <li>
+              <%= f.radio_button :gender_eq, '', {:checked => true} %>指定なし
+            </li>
+            <li>
+              <%= f.radio_button :gender_eq, "Male" %>Male
+            </li>
+            <li>
+              <%= f.radio_button :gender_eq, "Female" %>Female
+            </li>
+          </ul>
+
+          <li class="nav">
+            <a href="#ageSubmenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">
+              <%= f.label :age %>
+            </a>
+          </li>
+          <div class="collapse list-unstyled" id="ageSubmenu">
+            <div class="row">
+              <div class="col-2">
+                Min
+              </div>
+              <div class="col-10">
+                <%= f.number_field :date_of_birth_to_age_gteq, {class: "form-control"} %>
+              </div>
+            </div>
+            <div class="row pt-1">
+              <div class="col-2">
+                Max
+              </div>
+              <div class="col-10">
+                <%= f.number_field :date_of_birth_to_age_lteq, {class: "form-control"} %>才以上
+              </div>
+            </div>
+          </div>
+
+          <li class="nav">
+          <a href="#statusSubmenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">
+            <%= f.label :status %>
+          </a>
+          </li>
+          <ul class="collapse list-unstyled" id="statusSubmenu">
+            <li>
+              <%= f.select :status_eq ,["Actively Looking","Closed","Open for Opportunity"],include_blank: true, class: "form-control" %>
+            </li>
+          </ul>
+
+          <li class="nav">
+            <a href="#languageSubmenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">
+              <%= f.label :language %>
+            </a>
+          </li>
+          <ul class="collapse list-unstyled" id="languageSubmenu">
+            <li>
+              <%= f.search_field :languages_name_cont, class: "form-control" %>
+            </li>
+            <li>
+              <%= f.select :languages_level_eq, Language.levels, include_blank: true, class: "form-control" %>
+            </li>
+          </ul>
+
+          <%= f.submit "Search", class: "btn btn-success my-2 my-sm-0" %>
+
           <% end %>
-          <br>
-          <%= f.label :job_categories_id_in, "Job Categoryを含む" %>
-          <% @job_categories.each do |job_category| %>
-          <br>
-          <%= f.check_box :job_categories_id_in, {multiple: true, include_hidden: false}, job_category.id %>
-          <%= job_category.name %>
-          <% end %>
-          <br>
-          <%= f.label :expected_salary %>
-          <%= f.number_field :expected_salary_gteq, {class: "form-control"} %>以上〜
-          <%= f.number_field :expected_salary_lt, {class: "form-control"} %>未満
-          <br>
-          <%= f.label :gender %>
-          <br>
-          <%= f.radio_button :gender_eq, '', {:checked => true} %>指定なし
-          <%= f.radio_button :gender_eq, "Male" %>男性
-          <%= f.radio_button :gender_eq, "Female" %>女性
-          <br>
-          <%= f.label :age %>
-          <br>
-          <%= f.number_field :date_of_birth_to_age_gteq, {class: "form-control"} %>才以上
-          <%= f.number_field :date_of_birth_to_age_lteq, {class: "form-control"} %>才以上
-          <br>
-          <%= f.label :status %>
-          <%= f.select :status_eq ,["Actively Looking","Closed","Open for Opportunity"],include_blank: true, class: "form-control" %>
-
-          <br>
-          <%= f.label :language %>
-          <%= f.search_field :languages_name_cont, class: "form-control" %>
-          <%= f.select :languages_level_eq, Language.levels, include_blank: true, class: "form-control" %>
-
-          <%= f.submit "Search", class: "btn btn-outline-success my-2 my-sm-0" %>
-
-          <% end %>
-        </ul>
 
       </div>
     </nav>
@@ -69,8 +141,8 @@
           <div class="row no-gutters">
             <div class="col-md-2">
               <div class="m-3">
-                <%= image_tag user.image.url, class: 'img-thumbnail d-block' if user.image.present? %>
-                <%= image_tag("default_image.jpeg", class: 'img-thumbnail d-block') unless user.image.present? %>
+                <%= image_tag user.image.url, class: 'img-thumbnail',width: "150" if user.image.present? %>
+                <%= image_tag("default_image.jpeg", class: 'img-thumbnail',width: "150") unless user.image.present? %>
               </div>
               <div class="pl-3">
                 <h6 class="card-title"><%= user.first_name + " " + user.last_name if user.first_name && user.last_name %></h6>

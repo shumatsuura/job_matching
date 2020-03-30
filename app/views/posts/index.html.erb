@@ -81,7 +81,6 @@
     </div>
     <div class="card-footer row no-gutters d-flex align-items-center">
       <div class="col">
-
         <%= image_tag post.company.logo.url, class: 'img-thumbnail', width: "50px" if post.company.logo.present? %>
         <%= image_tag "default_image.jpeg", class: 'img-thumbnail', width: "50px" unless post.company.logo.present? %>
         <span class="card-text"><%= link_to post.company.name, company_path(post.company_id), class: 'text-info' if post.company.name %></span>

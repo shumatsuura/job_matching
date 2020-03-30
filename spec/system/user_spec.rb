@@ -78,9 +78,8 @@ RSpec.describe 'ユーザー機能', type: :system, js: true do
 
   describe 'ログインユーザーの機能' do
     before do
-      user = User.create!(:email => 'test@example.com', :password => 'f4k3p455w0rd')
-      login_as(user, :scope => :user)
-      @user = user
+      @user = User.create!(:email => 'test@example.com', :password => 'f4k3p455w0rd')
+      login_as(@user, :scope => :user)
     end
 
     context 'ログアウト機能' do
@@ -147,25 +146,64 @@ RSpec.describe 'ユーザー機能', type: :system, js: true do
       end
 
     end
+  end
 
-    # context 'アドミン管理画面へのアクセス権限' do
-    #   it 'アドミン管理一覧画面にアクセスできない' do
-    #     visit admin_users_path
-    #     expect(page).to have_current_path tasks_path
-    #     expect(page).to have_content "権限がありません。"
-    #   end
-    #
-    #   it 'アドミン管理ユーザー詳細画面にアクセスできない' do
-    #     visit admin_user_path(@user2.id)
-    #     expect(page).to have_current_path tasks_path
-    #     expect(page).to have_content "権限がありません。"
-    #   end
-    #
-    #   it 'アドミン管理ユーザー編集画面にアクセスできない' do
-    #     visit edit_admin_user_path(@user2.id)
-    #     expect(page).to have_current_path tasks_path
-    #     expect(page).to have_content "権限がありません。"
-    #   end
-    # end
+  describe 'アドミンユーザーのアクセス権限' do
+    before do
+      @admin_user = User.create(email: 'admin_user@sample.com', password: "password", password_confirmation: "password", admin: true)
+      login_as(@admin_user, :scope => :user)
+    end
+
+    it 'ユーザーを作成できる' do
+      aaaa
+    end
+
+    it 'ユーザー詳細ページにアクセスできる' do
+      visit user_path(@user1.id)
+      expect(page).to have_current_path user_path(@user1.id)
+    end
+
+    it 'ユーザーダッシュボードにアクセスできる' do
+      visit dashboard_user_path(@user1.id)
+      expect(page).to have_current_path dashboard_user_path(@user1.id)
+    end
+
+    it 'ユーザー情報を編集できる' do
+      JobCategory.create(name: "test_category")
+      Industry.create(name: "test_industry")
+
+      visit edit_user_path(@user1.id)
+      fill_in 'user_first_name', with:'admin'
+      fill_in 'user_last_name', with:'admin'
+      select 'Male', from:'user_gender'
+      select 'Closed', from:'user_status'
+      select '1986', from: 'user_date_of_birth_1i'
+      select 'November', from: 'user_date_of_birth_2i'
+      select '2', from: 'user_date_of_birth_3i'
+      select 'test_category', from: "user_desired_job_categories_attributes_0_job_category_id"
+      select 'test_industry', from: "user_desired_industries_attributes_0_industry_id"
+      fill_in 'user_educations_attributes_0_school_name', with: "test_school"
+      select '1999', from: 'user_educations_attributes_0_period_start_1i'
+      select 'April', from: 'user_educations_attributes_0_period_start_2i'
+
+      click_on 'Update User'
+
+      sleep 10
+      expect(page).to have_content 'successfully'
+    end
+
+    it 'ユーザーを削除できる' do
+      visit admin_users_path
+      x = User.all.count
+
+      accept_alert do
+        click_link 'Delete',match: :first
+      end
+
+      sleep 1
+      y = User.all.count
+      expect(x-y).to eq 1
+    end
+
   end
 end

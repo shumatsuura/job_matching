@@ -1,7 +1,5 @@
-class CompaniesController < ApplicationController
+class Admin::CompaniesController < ApplicationController
   before_action :set_company, only:[:show, :dashboard, :edit, :update]
-  before_action :authenticate_company_without_admin_user, only:[:dashboard, :edit, :update]
-  before_action :ensure_correct_company_without_admin_user, only:[:dashboard, :edit, :update]
 
   PER = 10
 
@@ -9,6 +7,7 @@ class CompaniesController < ApplicationController
   end
 
   def edit
+
     @company.industry_relations.build if @company.industry_relations == []
   end
 
@@ -25,16 +24,13 @@ class CompaniesController < ApplicationController
   end
 
   def dashboard
+    redirect_to root_path, notice: "No Access Right." unless @company == current_company
   end
 
   private
 
   def set_company
     @company = Company.find_by(id: params[:id])
-  end
-
-  def ensure_correct_company_without_admin_user
-    redirect_to root_path, notice: "No Access Right." unless (@company == current_company) || current_user.admin
   end
 
   def company_params
@@ -57,4 +53,5 @@ class CompaniesController < ApplicationController
       industry_relations_attributes: [:id, :company_id,:industry_id,:_destroy],
     )
   end
+
 end

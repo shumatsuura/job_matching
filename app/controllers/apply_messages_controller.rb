@@ -3,9 +3,9 @@ class ApplyMessagesController < ApplicationController
     @apply = Apply.find(params[:apply_id])
   end
   before_action :authenticate_user_and_company
+  before_action :authenticate_for_apply_messages
 
   def index
-    redirect_to root_path, notice: "No Access Right." unless @apply.user == current_user || @apply.post.company == current_company
     @messages = @apply.apply_messages
 
     if @messages.length > 10
@@ -31,7 +31,6 @@ class ApplyMessagesController < ApplicationController
   end
 
   def create
-    redirect_to root_path, notice: "No Access Right." unless @apply.user == current_user || @apply.post.company == current_company
     @message = @apply.apply_messages.build(apply_message_params)
     if @message.save!
       redirect_to apply_apply_messages_path(@apply)
@@ -42,10 +41,8 @@ class ApplyMessagesController < ApplicationController
 
   private
 
-  def authenticate_user_and_company
-    if not user_signed_in? || company_signed_in?
-      redirect_to root_path, notice: "You need to sign in or sign up before continuing."
-    end
+  def authenticate_for_apply_messages
+    redirect_to root_path, notice: "No Access Right." unless @apply.user == current_user || @apply.post.company == current_company
   end
 
   def apply_message_params

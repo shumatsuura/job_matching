@@ -42,6 +42,9 @@
               <% end %>
             </li>
             <li class="nav-item">
+              <%= link_to 'Admin', dashboard_admin_users_path, {class: "nav-link"}  if user_signed_in? && current_user.admin %>
+            </li>
+            <li class="nav-item">
               <%= link_to 'Scouts', scouts_path, {class: "nav-link"}  if user_signed_in? || company_signed_in? %>
             </li>
             <li class="nav-item">

@@ -3,11 +3,10 @@ class ScoutMessagesController < ApplicationController
     @scout = Scout.find(params[:scout_id])
   end
   before_action :authenticate_user_and_company
+  before_action :authenticate_for_scout_messages
 
   def index
-    redirect_to root_path, notice: "No Access Right." unless @scout.user == current_user || @scout.company == current_company
     @messages = @scout.scout_messages
-
     if @messages.length > 10
       @over_ten = true
       @messages = ScoutMessage.where(id: @messages[-10..-1].pluck(:id))
@@ -31,7 +30,6 @@ class ScoutMessagesController < ApplicationController
   end
 
   def create
-    redirect_to root_path, notice: "No Access Right." unless @scout.user == current_user || @scout.company == current_company
     @message = @scout.scout_messages.build(scout_message_params)
     if @message.save!
       redirect_to scout_scout_messages_path(@scout)
@@ -42,10 +40,8 @@ class ScoutMessagesController < ApplicationController
 
   private
 
-  def authenticate_user_and_company
-    if not user_signed_in? || company_signed_in?
-      redirect_to root_path, notice: "You need to sign in or sign up before continuing."
-    end
+  def authenticate_for_scout_messages
+    redirect_to root_path, notice: "No Access Right." unless @scout.user == current_user || @scout.company == current_company
   end
 
   def scout_message_params

@@ -22,6 +22,15 @@ Rails.application.routes.draw do
     end
   end
 
+  namespace :admin do
+    resources :users do
+      collection do
+        get :dashboard
+      end
+    end
+    resources :companies
+  end
+
   resources :companies, only:[:show,:index,:edit,:update] do
     member do
       get :dashboard

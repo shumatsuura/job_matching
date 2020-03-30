@@ -21,12 +21,6 @@ class ScoutsController < ApplicationController
 
   private
 
-  def authenticate_user_and_company
-    if not user_signed_in? || company_signed_in?
-      redirect_to root_path,notice: "You need to sign in or sign up before continuing."
-    end
-  end
-
   def scout_params
     params.require(:scout).permit(:user_id, :company_id)
   end

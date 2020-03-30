@@ -10,7 +10,7 @@
           <%= image_tag("default_image.jpeg", class: 'img-thumbnail d-block mx-auto m-4') unless company.logo.present? %>
         </div>
         <div class="pl-3">
-          <h6 class="card-title"><%= company.name if company.name %></h6>
+          <h6 class="card-title"><%= company.name %></h6>
           <p>
             <%= link_to "detail", company_path(company.id) %>
           </p>

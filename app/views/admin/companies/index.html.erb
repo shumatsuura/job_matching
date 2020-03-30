@@ -1,0 +1,31 @@
+<div class="container">
+  <table class="table table-bordered">
+    <h5>Companies</h5>
+    <thead class="thead-dark">
+      <th>ID</th>
+      <th>Company</th>
+      <th>Status</th>
+      <th>No.of Employees</th>
+      <th>Email</th>
+      <th>Phone</th>
+      <th colspan="2">Action</th>
+    </thead>
+    <tbody>
+
+    <% @companies.each do |company| %>
+    <tr>
+
+    <td><%= company.id %></td>
+    <td><%= link_to company.name, company_path(company.id) %></td>
+    <td><%= company.member_status %></td>
+    <td><%= company.number_of_employees %></td>
+    <td><%= company.email %></td>
+    <td><%= company.phone_number %></td>
+    <td><%= link_to "Edit", edit_company_path(company.id) %></td>
+    <td><%= link_to "Delete", "#" %> </td>
+    </tr>
+    <% end %>
+  </tbody>
+
+  </table>
+</div>

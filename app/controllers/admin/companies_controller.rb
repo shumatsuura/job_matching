@@ -1,5 +1,6 @@
 class Admin::CompaniesController < ApplicationController
-  before_action :set_company, only:[:show, :dashboard, :edit, :update]
+  before_action :set_company, only:[:show, :dashboard, :edit, :update, :destroy]
+  before_action :ensure_admin_user
 
   PER = 10
 
@@ -7,7 +8,6 @@ class Admin::CompaniesController < ApplicationController
   end
 
   def edit
-
     @company.industry_relations.build if @company.industry_relations == []
   end
 
@@ -27,6 +27,11 @@ class Admin::CompaniesController < ApplicationController
     redirect_to root_path, notice: "No Access Right." unless @company == current_company
   end
 
+  def destroy
+    @company.destroy
+    redirect_to admin_companies_path, notice: "Deleted a company successfully."
+  end
+
   private
 
   def set_company
@@ -35,6 +40,9 @@ class Admin::CompaniesController < ApplicationController
 
   def company_params
     params.require(:company).permit(
+      :email,
+      :password,
+      :password_confirmation,
       :name,
       :phone_number,
       :location,

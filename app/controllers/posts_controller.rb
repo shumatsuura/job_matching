@@ -1,6 +1,8 @@
 class PostsController < ApplicationController
   before_action :set_post, only:[:edit, :update, :show, :manage, :destroy]
-  before_action :authenticate_company!, only:[:new, :create, :edit, :update, :manage, :destroy]
+  before_action :authenticate_company!, only:[:destroy]
+  before_action :authenticate_company_without_admin_user, only:[:new, :create, :edit, :update, :manage]
+  before_action :ensure_correct_user, only: [:edit, :update, :manage]
 
   PER = 10
 
@@ -12,14 +14,16 @@ class PostsController < ApplicationController
   end
 
   def new
-    @post = current_company.posts.build
+    @company = current_company || Company.find_by(id: params[:company_id])
+    @post = @company.posts.build
     @post.post_industries.build
     @post.post_job_categories.build
     @post.post_skills.build
   end
 
   def create
-    @post = current_company.posts.build(post_params)
+    @company = current_company || Company.find_by(id: params[:post][:company_id])
+    @post = @company.posts.build(post_params)
     if @post.save
       redirect_to post_path(@post), notice: 'Created post successfully.'
     else
@@ -28,7 +32,7 @@ class PostsController < ApplicationController
   end
 
   def edit
-    redirect_to root_path, notice: "No Access Right." unless @post.company == current_company
+    @company = @post.company
   end
 
   def update
@@ -43,12 +47,11 @@ class PostsController < ApplicationController
   end
 
   def manage
-    redirect_to root_path, notice: "No Access Right." unless @post.company == current_company
   end
 
   def destroy
     @post.destroy
-    redirect_to dashboard_company_path(@post.company.id), notice: "削除しました。"
+    redirect_to dashboard_company_path(@post.company.id), notice: "Deleted a post successfully."
   end
 
   private
@@ -66,6 +69,10 @@ class PostsController < ApplicationController
       post_job_categories_attributes: [:id, :post_id, :job_category_id],
       post_skills_attributes: [:id, :post_id, :company_skill_id],
     )
+  end
+
+  def ensure_correct_user
+    redirect_to root_path, notice: "No Access Right." unless @post.company == current_company || admin_user?
   end
 
   def set_post

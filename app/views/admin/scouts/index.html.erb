@@ -1,0 +1,31 @@
+<div class="container">
+  <table class="table table-bordered table-hover">
+    <%= paginate @scouts %>
+    <h5>スカウト一覧</h5>
+    <thead class="thead-dark">
+        <th>ID</th>
+        <th>Company</th>
+        <th>User Name</th>
+        <th>Gender</th>
+        <th>Age</th>
+        <th>Message</th>
+        <th>Action</th>
+    </thead>
+    <tbody>
+    <% @scouts.each do |scout| %>
+      <% user = scout.user %>
+      <tr>
+        <td><%= scout.id %></td>
+        <td><%= link_to scout.company.name || "No Name", company_path(scout.company.id) %></td>
+        <td><%= link_to user.first_name || "No Name", user_path(user.id) %></td>
+        <td><%= user.gender %></td>
+        <td><%= user.age %></td>
+        <td class="text-center">
+          <%= link_to "Message", admin_scout_scout_messages_path(scout.id) %>
+        </td>
+        <td><%= link_to "Delete", admin_scout_path(scout.id), method: :delete, data:{confirm: "Are you sure?"} %></td>
+      </tr>
+    <% end %>
+    </tbody>
+  </table>
+</div>

@@ -6,6 +6,7 @@ Rails.application.routes.draw do
       }
 
   devise_for :users, controllers: {
+        registrations: 'users/registrations',
         sessions: 'users/sessions'
       }
 
@@ -28,7 +29,14 @@ Rails.application.routes.draw do
         get :dashboard
       end
     end
+
     resources :companies
+
+    resources :posts, only:[:index, :destroy]
+
+    resources :scouts, only:[:index, :create, :destroy] do
+      resources :scout_messages, only:[:index, :destroy]
+    end
   end
 
   resources :companies, only:[:show,:index,:edit,:update] do
@@ -44,11 +52,11 @@ Rails.application.routes.draw do
   end
 
   resources :scouts, only:[:index, :create, :destroy] do
-    resources :scout_messages
+    resources :scout_messages, only:[:index, :create]
   end
 
   resources :applies, only:[:index, :create, :destroy] do
-    resources :apply_messages
+    resources :apply_messages, only:[:index, :create]
   end
 
   resources :follows, only:[:index,:create,:destroy]

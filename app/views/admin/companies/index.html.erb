@@ -8,21 +8,22 @@
       <th>No.of Employees</th>
       <th>Email</th>
       <th>Phone</th>
-      <th colspan="2">Action</th>
+      <th colspan="4">Action</th>
     </thead>
     <tbody>
 
     <% @companies.each do |company| %>
     <tr>
-
-    <td><%= company.id %></td>
-    <td><%= link_to company.name, company_path(company.id) %></td>
-    <td><%= company.member_status %></td>
-    <td><%= company.number_of_employees %></td>
-    <td><%= company.email %></td>
-    <td><%= company.phone_number %></td>
-    <td><%= link_to "Edit", edit_company_path(company.id) %></td>
-    <td><%= link_to "Delete", "#" %> </td>
+      <td><%= company.id %></td>
+      <td><%= link_to company.name, company_path(company.id) %></td>
+      <td><%= company.member_status %></td>
+      <td><%= company.number_of_employees %></td>
+      <td><%= company.email %></td>
+      <td><%= company.phone_number %></td>
+      <td><%= link_to "Create New Post", new_post_path(company_id: company.id), class: "btn btn-sm btn-primary" %></td>
+      <td><%= link_to "Edit Account", edit_admin_company_path(company.id), class: "btn btn-sm btn-primary" %></td>
+      <td><%= link_to "Edit Profile", edit_company_path(company.id), class: "btn btn-sm btn-primary" %></td>
+      <td><%= link_to "Delete", admin_company_path(company.id), method: :delete, data:{ confirm: "Are you sure?"}, class: "btn btn-sm btn-primary" %> </td>
     </tr>
     <% end %>
   </tbody>

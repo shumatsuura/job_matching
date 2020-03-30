@@ -7,8 +7,9 @@
           User Profile
         </div>
         <div class="col text-right">
-          <%= link_to 'Show', user_path %>
-          <%= link_to 'Edit', edit_user_path %>
+          <%= link_to 'Show', user_path, class: "btn btn-success btn-sm" %>
+          <%= link_to 'Edit Account', edit_user_registration_path, class: "btn btn-success btn-sm" %>
+          <%= link_to 'Edit Profile', edit_user_path, class: "btn btn-success btn-sm" %>
         </div>
       </div>
     </div>
@@ -29,7 +30,6 @@
           <p><%= @user.address %></p>
           <p><%= @user.race %></p>
           <p><%= @user.religion %></p>
-          <%= link_to 'Edit Account', edit_user_registration_path %>
           <small class="text-muted">Last updated 3 mins ago</small>
         </div>
       </div>

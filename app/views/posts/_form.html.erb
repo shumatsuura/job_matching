@@ -64,8 +64,9 @@
       <%= link_to_add_fields "追加", f, :post_job_categories %>
     </div>
 
+    <%= f.hidden_field :company_id, :value => @company.id %>
     <div class="form-group">
-      <%= f.submit class: "btn btn-primary"%>
+      <%= f.submit class: "btn btn-primary" %>
     </div>
   <% end %>
 

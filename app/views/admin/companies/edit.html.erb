@@ -1,0 +1,39 @@
+<div class="container mt-2">
+  <div id="error_explanation">
+    <% if @company.errors.any? %>
+    <h2><%= pluralize(@company.errors.count, "error") %>prohibited this @company from being saved:</h2>
+    <ul>
+      <% @company.errors.full_messages.each do |message| %>
+      <li><%= message %></li>
+      <% end %>
+    </ul>
+    <% end %>
+  </div>
+
+  <h2>Edit Account Info</h2>
+  <div class="card p-2 mb-4">
+
+  <%= form_with(model: @company, url: admin_company_path(@company), local: true) do |f| %>
+    <div class="field form-group">
+      <%= f.label :email %>
+      <%= f.email_field :email, autofocus: true, autocomplete: "email", class: "form-control" %>
+    </div>
+
+    <div class="form-group">
+      <div class="field">
+        <%= f.label :password %>
+        <%= f.password_field :password, autocomplete: "new-password", class: "form-control" %>
+      </div>
+
+      <div class="field">
+        <%= f.label :password_confirmation %>
+        <%= f.password_field :password_confirmation, autocomplete: "new-password", class: "form-control" %>
+      </div>
+    </div>
+
+    <div class="actions">
+      <%= f.submit "Update", class: "btn btn-primary" %>
+    </div>
+  <% end %>
+  </div>
+</div>

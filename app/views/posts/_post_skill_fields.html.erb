@@ -1,7 +1,7 @@
 <fieldset>
   <h3>Skills<span class="users_child_index"><%= f.index + 1 %><span></h3>
   <%= f.label :company_skill %>
-  <%= f.select :company_skill_id, CompanySkill.where(company_id: current_company.id).select(:id, :name).map{ |n| [n.name.to_sym,n.id]}.to_h, include_blank: true %>
+  <%= f.select :company_skill_id, CompanySkill.where(company_id: @company.id).select(:id, :name).map{ |n| [n.name.to_sym,n.id]}.to_h, include_blank: true %>
 
   <%= f.hidden_field :company_id, :value => params[:id] %>
 

@@ -1,9 +1,7 @@
 class UsersController < ApplicationController
   before_action :set_user, only:[:show, :dashboard, :edit, :update, :destroy]
-
   before_action :authenticate_user!, only:[:dashboard, :edit, :update]
   before_action :ensure_correct_user, only:[:dashboard, :edit, :update]
-
   before_action :authenticate_company_without_admin_user, only:[:index]
 
   PER = 10

@@ -1,7 +1,11 @@
 <div class="container-fluid">
+
       <%= paginate @users %>
     <table class="table table-bordered">
-      <h5>Users</h5>
+      <div class="d-flex justify-content-between">
+          <h5>Users</h5>
+          <%= link_to "Create New User", new_admin_user_path, class: "btn btn-primary btn-sm mb-1" %>
+      </div>
       <thead class="thead-dark">
         <th>ID</th>
         <th>First Name</th>
@@ -13,14 +17,14 @@
         <th>Phone</th>
         <th>Last Update</th>
         <th>Created At</th>
-        <th colspan="2">Action</th>
+        <th colspan="3">Action</th>
       </thead>
       <tbody>
-        <% @users.each do |user| %>
+        <% @users.order(created_at: "DESC").each do |user| %>
         <tr>
           <td><%= user.id %></td>
-          <td><%= link_to user.first_name, user_path(user.id) %></td>
-          <td><%= link_to user.last_name, user_path(user.id) %></td>
+          <td><%= link_to user.first_name || "No Name", user_path(user.id) %></td>
+          <td><%= link_to user.last_name || "No Name", user_path(user.id) %></td>
           <td><%= user.age %></td>
           <td><%= user.gender %></td>
           <td><%= user.status %></td>
@@ -28,7 +32,8 @@
           <td><%= user.phone_number %></td>
           <td><%= user.updated_at %></td>
           <td><%= user.created_at %></td>
-          <td><%= link_to "Edit", edit_user_path(user.id) %></td>
+          <td><%= link_to "Edit Account", edit_admin_user_path(user.id) %></td>
+          <td><%= link_to "Edit Profile", edit_user_path(user.id) %></td>
           <td><%= link_to "Delete", admin_user_path(user.id), method: :delete, data:{ confirm: "Are you sure?"} %> </td>
         </tr>
         <% end %>

@@ -1,9 +1,16 @@
 class Admin::UsersController < ApplicationController
-  before_action :set_user, only:[:destroy]
-  before_action :authenticate_user!, only:[:new, :create, :index, :destroy]
-  before_action :ensure_admin_user, only:[:new, :create, :index, :destroy]
+  before_action :set_user, only:[:edit, :update, :destroy]
+  before_action :authenticate_user!
+  before_action :ensure_admin_user
 
   PER = 10
+
+  def index
+    @industries = Industry.all
+    @job_categories = JobCategory.all
+    @q = User.ransack(params[:q])
+    @users = @q.result(distinct: true).page(params[:page]).per(PER)
+  end
 
   def new
     @user = User.new
@@ -14,11 +21,18 @@ class Admin::UsersController < ApplicationController
     redirect_to admin_users_path, notice: 'Created new user successfully.'
   end
 
-  def index
-    @industries = Industry.all
-    @job_categories = JobCategory.all
-    @q = User.ransack(params[:q])
-    @users = @q.result(distinct: true).page(params[:page]).per(PER)
+  def show
+  end
+
+  def edit
+  end
+
+  def update
+    if @user.update(user_params)
+      redirect_to dashboard_user_path(@user.id), notice: 'Updated user account successfully.'
+    else
+      render 'edit'
+    end
   end
 
   def destroy
@@ -36,6 +50,7 @@ class Admin::UsersController < ApplicationController
     params.require(:user).permit(
       :email,
       :password,
+      :password_confirmation,
       :first_name,
       :last_name,
       :date_of_birth,

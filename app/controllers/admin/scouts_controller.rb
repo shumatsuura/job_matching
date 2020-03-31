@@ -6,11 +6,6 @@ class Admin::ScoutsController < ApplicationController
     @scouts = Scout.all.page(params[:page]).per(PER)
   end
 
-  def create
-    # scout = current_company.scouts.create(scout_params)
-    # redirect_to user_path(scout.user_id), notice: "#{scout.user.first_name}さんをスカウトしました"
-  end
-
   def destroy
     Scout.find_by(id: params[:id]).destroy
     redirect_to admin_scouts_path, notice: "Deleted scout data successfully."

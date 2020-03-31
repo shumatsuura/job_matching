@@ -34,11 +34,21 @@ Rails.application.routes.draw do
 
     resources :posts, only:[:index, :destroy]
 
-    resources :scouts, only:[:index, :create, :destroy] do
+    resources :scouts, only:[:index, :destroy] do
       resources :scout_messages, only:[:index, :destroy]
     end
 
     resources :scout_messages, only:[] do
+      collection do
+        get :index_all
+      end
+    end
+
+    resources :applies, only:[:index, :destroy] do
+      resources :apply_messages, only:[:index, :destroy]
+    end
+
+    resources :apply_messages, only:[] do
       collection do
         get :index_all
       end

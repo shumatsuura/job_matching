@@ -1,0 +1,33 @@
+
+<div class="container">
+  <table class="table table-bordered">
+    <%= paginate @messages %>
+    <h5>Application Messages</h5>
+    <thead class = "thead-dark">
+      <th>ID</th>
+      <th>Sender</th>
+      <th>Recipient</th>
+      <th>Body</th>
+      <th>Time</th>
+      <th>Read/Unread</th>
+      <th>Action</th>
+    </thead>
+    <tbody>
+      <% @messages.each do |message| %>
+        <tr>
+          <td><%= message.id %></td>
+          <td>
+            <%= message.user_id.present? ? message.apply.user.first_name : message.post.company.name %>
+          </td>
+          <td>
+            <%= message.user_id.present? ? message.post.company.name : message.apply.user.first_name %>
+          </td>
+          <td><%= message.body %></td>
+          <td><%= message.message_time %></td>
+          <td><%= message.read ? '既読' : '未読' %></td>
+          <th><%= link_to "Delete", admin_apply_apply_message_path(message.apply_id,message.id), method: :delete, data:{confirm:"Are you sure?"} %></th>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+</div>

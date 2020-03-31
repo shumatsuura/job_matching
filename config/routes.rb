@@ -37,6 +37,13 @@ Rails.application.routes.draw do
     resources :scouts, only:[:index, :create, :destroy] do
       resources :scout_messages, only:[:index, :destroy]
     end
+
+    resources :scout_messages, only:[] do
+      collection do
+        get :index_all
+      end
+    end
+
   end
 
   resources :companies, only:[:show,:index,:edit,:update] do

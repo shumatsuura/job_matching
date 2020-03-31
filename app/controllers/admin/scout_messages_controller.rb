@@ -1,9 +1,14 @@
 class Admin::ScoutMessagesController < ApplicationController
   before_action :ensure_admin_user
+  PER = 20
 
   def index
     @scout = Scout.find_by(id: params[:scout_id])
-    @messages = @scout.scout_messages.order(:created_at)
+    @messages = @scout.scout_messages.order(:created_at).page(params[:page]).per(PER)
+  end
+
+  def index_all
+    @messages = ScoutMessage.all.order(:created_at).page(params[:page]).per(PER)
   end
 
   def destroy

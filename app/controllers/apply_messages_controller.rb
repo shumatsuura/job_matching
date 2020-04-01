@@ -33,6 +33,19 @@ class ApplyMessagesController < ApplicationController
   def create
     @message = @apply.apply_messages.build(apply_message_params)
     if @message.save!
+      if @message.company_id
+        Notification.create(
+          target_model: "user",
+          target_model_id: @apply.user_id,
+          action_model: "apply_message",
+          action_model_id: @message.id)
+      elsif @message.user_id
+        Notification.create(
+          target_model: "company",
+          target_model_id: @apply.post.company_id,
+          action_model: "apply_message",
+          action_model_id: @message.id)
+      end
       redirect_to apply_apply_messages_path(@apply)
     else
       render 'index'

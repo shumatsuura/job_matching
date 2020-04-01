@@ -14,7 +14,7 @@ module ApplicationHelper
     link_to(name, '#', class: "add_fields btn btn-primary btn-sm", data: {id: id, fields: fields.gsub("\n", "")})
   end
 
-  #deviseで用いてモーダルでサインアップ
+  #deviseを用いてモーダルでサインアップ
   def resource_name
     :user
   end

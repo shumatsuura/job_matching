@@ -7,6 +7,11 @@ class FollowsController < ApplicationController
 
   def create
     follow = current_user.follows.create(follow_params)
+    Notification.create(
+      target_model: "company",
+      target_model_id: follow.company_id,
+      action_model: "follow",
+      action_model_id: follow.id)
     redirect_to company_path(follow.company_id)
   end
 

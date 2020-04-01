@@ -94,6 +94,22 @@
                 <div class="dropdown-divider"></div>
                 <a class="dropdown-item" href="#">Something else here</a>
               </div>
+              </li>
+
+              <li class="nav-item dropdown">
+              <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                <% @notifications = Notification.where(target_model: "user", target_model_id: current_user.id).order(created_at: "DESC") if user_signed_in? %>
+                <% @notifications = Notification.where(target_model: "company", target_model_id: current_company.id).order(created_at: "DESC") if company_signed_in? %>
+                Notification <%= @notifications.where(read: false).count if @notifications.present? %>
+              </a>
+              <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
+                <% if @notifications.present? %>
+                  <% @notifications.limit(3).each do |notification| %>
+                  <%= link_to "#{notification.message} #{notification.created_at}" , notification.url, class: "dropdown-item" %>
+                  <div class="dropdown-divider"></div>
+                  <% end %>
+                <% end %>
+              </div>
             </li>
             <% end %>
           </ul>

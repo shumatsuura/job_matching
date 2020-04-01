@@ -11,6 +11,11 @@ class ScoutsController < ApplicationController
 
   def create
     scout = current_company.scouts.create(scout_params)
+    Notification.create(
+      target_model: "user",
+      target_model_id: scout.user_id,
+      action_model: "scout",
+      action_model_id: scout.id)
     redirect_to user_path(scout.user_id), notice: "#{scout.user.first_name}さんをスカウトしました"
   end
 

@@ -34,6 +34,7 @@ https://drive.google.com/file/d/1G7u8JFmEXLEoeMgZgSuf27d9ssJ4VopJ/view?usp=shari
 
 #### 使用予定Gem
 
+* ransack
 * kaminari
 * enum_help
 * bcrypt

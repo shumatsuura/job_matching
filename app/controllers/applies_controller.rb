@@ -7,7 +7,12 @@ class AppliesController < ApplicationController
 
   def create
     apply = current_user.applies.create(apply_params)
-    redirect_to post_path(apply.post_id)
+    Notification.create(
+      target_model: "company",
+      target_model_id: apply.post.company_id,
+      action_model: "apply",
+      action_model_id: apply.id)
+    redirect_to post_path(apply.post_id), notice: "Applied successfully."
   end
 
   def destroy

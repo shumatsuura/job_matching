@@ -32,6 +32,19 @@ class ScoutMessagesController < ApplicationController
   def create
     @message = @scout.scout_messages.build(scout_message_params)
     if @message.save!
+      if @message.company_id
+        Notification.create(
+          target_model: "user",
+          target_model_id: @scout.user_id,
+          action_model: "scout_message",
+          action_model_id: @message.id)
+      elsif @message.user_id
+        Notification.create(
+          target_model: "company",
+          target_model_id: @scout.company_id,
+          action_model: "scout_message",
+          action_model_id: @message.id)
+      end
       redirect_to scout_scout_messages_path(@scout)
     else
       render 'index'

@@ -42,4 +42,8 @@ class Notification < ApplicationRecord
       "Your post is liked by #{LikePost.find_by(id: action_model_id).user.first_name}"
     end
   end
+
+  def time
+    created_at.strftime("%m/%d/%y at %l:%M %p")
+  end
 end

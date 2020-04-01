@@ -18,7 +18,7 @@ class UsersController < ApplicationController
   end
 
   def dashboard
-    
+
   end
 
   def edit
@@ -52,6 +52,7 @@ class UsersController < ApplicationController
   end
 
   def update
+
     if @user.update(user_params)
       redirect_to dashboard_user_path, notice: 'Updated successfully.'
     else
@@ -85,8 +86,8 @@ class UsersController < ApplicationController
       languages_attributes: [:id,:name,:level,:_destroy],
       desired_industries_attributes: [:id,:user_id,:industry_id,:_destroy],
       work_experiences_attributes: [:id,:user_id,:company,:position,:salary,:description,:period_start,:period_end,:currently_employed,:_destroy],
-      user_skills_attributes: [:id,:user_id,:name],
-      qualifications_attributes: [:id,:name,:date_of_acquisition,:user_id],
+      user_skills_attributes: [:id,:user_id,:name,:_destroy],
+      qualifications_attributes: [:id,:name,:date_of_acquisition,:user_id,:_destroy],
       desired_job_categories_attributes: [:id,:user_id,:job_category_id,:_destroy],
     )
   end

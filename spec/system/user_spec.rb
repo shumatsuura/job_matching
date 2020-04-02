@@ -262,6 +262,5 @@ RSpec.describe 'ユーザー機能', type: :system, js: true do
       y = User.all.count
       expect(x-y).to eq 1
     end
-
   end
 end

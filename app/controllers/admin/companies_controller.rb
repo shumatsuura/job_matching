@@ -4,23 +4,31 @@ class Admin::CompaniesController < ApplicationController
 
   PER = 10
 
+  def new
+    @company = Company.new
+  end
+
+  def create
+    @company = Company.create(company_params)
+    redirect_to admin_companies_path, notice: 'Created new company successfully.'
+  end
+
   def show
   end
 
   def edit
-    @company.industry_relations.build if @company.industry_relations == []
   end
 
   def update
     if @company.update(company_params)
-      redirect_to dashboard_company_path(@company.id)
+      redirect_to admin_companies_path, notice: "Company's account has been updated successfully."
     else
       render 'edit'
     end
   end
 
   def index
-    @companies = Company.all.page(params[:page]).per(PER)
+    @companies = Company.all.order(updated_at: "DESC").page(params[:page]).per(PER)
   end
 
   def dashboard

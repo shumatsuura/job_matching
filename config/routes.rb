@@ -31,9 +31,7 @@ Rails.application.routes.draw do
     end
 
     resources :companies
-
     resources :posts, only:[:index, :destroy]
-
     resources :scouts, only:[:index, :destroy] do
       resources :scout_messages, only:[:index, :destroy]
     end
@@ -53,7 +51,6 @@ Rails.application.routes.draw do
         get :index_all
       end
     end
-
   end
 
   resources :companies, only:[:show,:index,:edit,:update] do

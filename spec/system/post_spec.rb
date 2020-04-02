@@ -8,6 +8,7 @@ RSpec.describe 'Post Test', type: :system, js: true do
     @post = FactoryBot.create(:post, company_id: @company.id)
     @company1 = Company.create(email: 'company1@sample.com', password: "password", password_confirmation: "password")
     @post1 = FactoryBot.create(:post, company_id: @company1.id)
+    @company1.company_skills.create(name: "test_skill")
     JobCategory.create(name: "test_category")
     Industry.create(name: "test_industry")
   end
@@ -150,4 +151,74 @@ RSpec.describe 'Post Test', type: :system, js: true do
       expect(page).to have_current_path new_company_session_path
     end
   end
+
+  describe 'アドミンユーザーの権限' do
+    before do
+      @admin_user = User.create(email: 'admin_user@sample.com', password: "password", password_confirmation: "password", admin: true)
+      login_as(@admin_user, :scope => :user)
+    end
+
+    it '特定のカンパニーに紐づいたポストを作成できる' do
+      visit admin_companies_path
+      click_on 'Create New Post', match: :first
+
+      fill_in 'Title', with:'admin_post'
+      fill_in 'Salary', with:'222'
+      fill_in 'Number of recruits', with:'2'
+      fill_in 'Position', with:'Head'
+      fill_in 'Description', with:'aaa aaa iii'
+      fill_in 'Location', with:'Tokyo'
+
+      select 'test_skill', from: "post_post_skills_attributes_0_company_skill_id"
+      select 'test_category', from: "post_post_job_categories_attributes_0_job_category_id"
+      select 'test_industry', from: "post_post_industries_attributes_0_industry_id"
+
+      click_on 'Create Post'
+
+      expect(page).to have_content "admin_post"
+      expect(page).to have_content "Tokyo"
+      expect(page).to have_content "successfully"
+
+    end
+
+    it 'ポスト詳細ページにアクセスできる' do
+      visit post_path(@post.id)
+      expect(page).to have_current_path post_path(@post.id)
+
+      visit post_path(@post1.id)
+      expect(page).to have_current_path post_path(@post1.id)
+    end
+
+    it 'ポストマネージページにアクセスできる' do
+      visit manage_post_path(@post.id)
+      expect(page).to have_current_path manage_post_path(@post.id)
+
+      visit manage_post_path(@post1.id)
+      expect(page).to have_current_path manage_post_path(@post1.id)
+    end
+
+    it '特定のカンパニーに紐づいたポストを編集できる' do
+      visit admin_posts_path
+      click_on 'Edit', match: :first
+
+      fill_in 'Title', with:'weiwei'
+      click_on 'Update Post'
+
+      expect(page).to have_content "weiwei"
+      expect(page).to have_content "successfully"
+    end
+
+    it '特定のカンパニーに紐づいたポストを削除できる' do
+      x = Post.all.count
+      visit admin_posts_path
+
+      accept_alert do
+        click_link 'Delete', match: :first
+      end
+      sleep 1
+      y = Post.all.count
+      expect(x-y).to eq 1
+    end
+  end
+
 end

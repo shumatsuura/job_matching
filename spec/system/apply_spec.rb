@@ -6,7 +6,13 @@ RSpec.describe 'Apply Test', type: :system, js: true do
     @user_other = User.create(email: 'user1@sample.com', password: "password", password_confirmation: "password")
     @company = Company.create!(name: "sample_company", :email => 'test@example.com', :password => 'f4k3p455w0rd')
     @post = FactoryBot.create(:post, title: "post_test", company_id: @company.id)
+
     @apply = @user.applies.create(post_id: @post.id)
+    @apply.apply_messages.create(user_id: @apply.user_id, body: "test1")
+    @apply.apply_messages.create(user_id: @apply.user_id, body: "test2")
+    @apply.apply_messages.create(company_id: @apply.post.company_id, body: "test1")
+    @apply.apply_messages.create(company_id: @apply.post.company_id, body: "test2")
+
     @company_other = Company.create(email: 'company1@sample.com', password: "password", password_confirmation: "password")
     @post_other = FactoryBot.create(:post, title: "post_test_other", company_id: @company_other.id)
     @apply_other = @user_other.applies.create(post_id: @post_other.id)
@@ -47,8 +53,6 @@ RSpec.describe 'Apply Test', type: :system, js: true do
     end
 
     it 'マネージページに未読メッセージ数が表示され、アクセスすると未読メッセージ数が0になる' do
-      @apply.apply_messages.create(user_id: @apply.user_id, body: "test1")
-      @apply.apply_messages.create(user_id: @apply.user_id, body: "test2")
       visit manage_post_path(@post.id)
 
       expect(page).to have_content 2
@@ -97,8 +101,6 @@ RSpec.describe 'Apply Test', type: :system, js: true do
     end
 
     it 'アプライインデックスに未読メッセージ数が表示され、アクセスすると未読メッセージ数が0になる' do
-      @apply.apply_messages.create(company_id: @apply.post.company_id, body: "test1")
-      @apply.apply_messages.create(company_id: @apply.post.company_id, body: "test2")
       visit applies_path
       expect(page).to have_content 2
       visit apply_apply_messages_path(@apply.id)
@@ -106,8 +108,6 @@ RSpec.describe 'Apply Test', type: :system, js: true do
     end
 
     it 'ダッシュボードに未読メッセージ数が表示され、アクセスすると未読メッセージ数が0になる' do
-      @apply.apply_messages.create(company_id: @apply.post.company_id, body: "test1")
-      @apply.apply_messages.create(company_id: @apply.post.company_id, body: "test2")
       visit dashboard_user_path(@user.id)
       expect(page).to have_content 2
       visit apply_apply_messages_path(@apply.id)
@@ -129,6 +129,58 @@ RSpec.describe 'Apply Test', type: :system, js: true do
       visit applies_path
       expect(page).to have_current_path root_path
       expect(page).to have_content 'You need to sign in or sign up before continuing.'
+    end
+  end
+
+  describe 'アドミンユーザーの権限' do
+    before do
+      @admin_user = User.create(email: 'admin_user@sample.com', password: "password", password_confirmation: "password", admin: true)
+      login_as(@admin_user, :scope => :user)
+    end
+
+    it '各ユーザー、カンパニーのアプライメッセージページにアクセスできない' do
+      visit apply_apply_messages_path(@apply.id)
+
+      expect(page).to have_current_path root_path
+      expect(page).to have_content "No Access Right."
+
+      visit apply_apply_messages_path(@apply_other.id)
+
+      expect(page).to have_content "No Access Right."
+      expect(page).to have_current_path root_path
+    end
+
+    it 'アドミンユーザー用アプライメッセージページにアクセスできる' do
+      visit admin_apply_apply_messages_path(@apply.id)
+      expect(page).to have_current_path admin_apply_apply_messages_path(@apply.id)
+
+      visit admin_apply_apply_messages_path(@apply_other.id)
+      expect(page).to have_current_path admin_apply_apply_messages_path(@apply_other.id)
+    end
+
+    it 'アドミン用アプライ管理画面からアプライを削除できる' do
+      x = Apply.all.count
+      visit admin_applies_path
+
+      accept_alert do
+        click_link 'Delete', match: :first
+      end
+
+      sleep 1
+      y = Apply.all.count
+      expect(x-y).to eq 1
+    end
+
+    it 'アドミンユーザー用スカウトメッセージページからメッセージを削除できる' do
+      x = ApplyMessage.all.count
+      visit admin_apply_apply_messages_path(@apply.id)
+      accept_alert do
+        click_link 'Delete', match: :first
+      end
+
+      sleep 1
+      y = ApplyMessage.all.count
+      expect(x-y).to eq 1
     end
   end
 end

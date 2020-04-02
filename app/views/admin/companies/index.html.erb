@@ -1,6 +1,10 @@
 <div class="container">
+  <%= paginate @companies %>
   <table class="table table-bordered">
-    <h5>Companies</h5>
+    <div class="d-flex justify-content-between">
+      <h5>Companies</h5>
+      <%= link_to "Create New Company", new_admin_company_path, class: "btn btn-primary btn-sm mb-1" %>
+    </div>
     <thead class="thead-dark">
       <th>ID</th>
       <th>Company</th>

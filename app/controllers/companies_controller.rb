@@ -14,7 +14,7 @@ class CompaniesController < ApplicationController
 
   def update
     if @company.update(company_params)
-      redirect_to dashboard_company_path(@company.id)
+      redirect_to dashboard_company_path(@company.id), notice: "Updated company information successfully."
     else
       render 'edit'
     end
@@ -34,7 +34,7 @@ class CompaniesController < ApplicationController
   end
 
   def ensure_correct_company_without_admin_user
-    redirect_to root_path, notice: "No Access Right." unless (@company == current_company) || current_user.admin
+    redirect_to root_path, notice: "No Access Right." unless (@company == current_company) || (user_signed_in? && current_user.admin)
   end
 
   def company_params

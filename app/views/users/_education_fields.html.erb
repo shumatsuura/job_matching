@@ -15,6 +15,7 @@
       <div class="form-row">
         <div class="form-group col-auto">
           <%= f.label :period_start %>
+          <span class="badge badge-sm badge-info">Required</span>
           <div class="form-inline">
             <%= f.datetime_select :period_start,
             {
@@ -24,7 +25,8 @@
               end_year: 2020,
               discard_day: true,
               discard_hour: true },
-              class: "form-control" %>
+              class: "form-control",
+              required: true %>
           </div>
         </div>
         <div class="form-group col-auto">

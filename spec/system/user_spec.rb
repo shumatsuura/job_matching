@@ -13,6 +13,7 @@ RSpec.describe 'ユーザー機能', type: :system, js: true do
         visit root_path
 
         click_on 'Sign Up'
+        sleep 1
 
         fill_in 'Email', with: 'shunsukE@sample.com'
         fill_in 'Password', with: "password"
@@ -156,17 +157,16 @@ RSpec.describe 'ユーザー機能', type: :system, js: true do
         # select '1999', from: 'user_educations_attributes_0_period_start_1i'
         # select 'April', from: 'user_educations_attributes_0_period_start_2i'
 
-      it '自分のアカウント編集ページにアクセスできること' do
+      it '自分のアカウントを編集できること' do
         visit edit_user_registration_path(@user.id)
         expect(page).to have_current_path edit_user_registration_path(@user.id)
 
         fill_in 'Email', with: 'user1-b@sample.com'
         fill_in 'Password', with: "passwordo"
         fill_in 'Password confirmation', with: "passwordo"
+        fill_in 'Current password', with: "f4k3p455w0rd"
 
         click_on 'Update'
-
-        expect(page).to have_content 'user1-b@sample.com'
         expect(page).to have_content 'successfully'
       end
 
@@ -195,20 +195,16 @@ RSpec.describe 'ユーザー機能', type: :system, js: true do
     end
 
     it 'ユーザーを作成できる' do
+      x = User.all.count
       visit admin_users_path
       click_on 'Create New User'
-
-      x = User.all.count
 
       fill_in 'Email', with: 'user3@sample.com'
       fill_in 'Password', with: "password"
       fill_in 'Password confirmation', with: "password"
       click_on 'Create User'
 
-      y = User.all.count
-
-      expect(y-x).to eq 1
-
+      expect(page).to have_content "successfully"
     end
 
     it 'ユーザー詳細ページにアクセスできる' do
@@ -238,6 +234,10 @@ RSpec.describe 'ユーザー機能', type: :system, js: true do
       fill_in 'user_educations_attributes_0_school_name', with: "test_school"
       select '1999', from: 'user_educations_attributes_0_period_start_1i'
       select 'April', from: 'user_educations_attributes_0_period_start_2i'
+      fill_in 'user_work_experiences_attributes_0_company', with: "test_company"
+      select '1999', from: 'user_work_experiences_attributes_0_period_start_1i'
+      select 'April', from: 'user_work_experiences_attributes_0_period_start_2i'
+
 
       click_on 'Update User'
 
@@ -246,7 +246,6 @@ RSpec.describe 'ユーザー機能', type: :system, js: true do
 
     it 'ユーザーアカウント情報を編集できる' do
       visit admin_users_path
-
       click_on 'Edit Account',match: :first
 
       fill_in 'Email', with: 'user1-b@sample.com'
@@ -268,7 +267,7 @@ RSpec.describe 'ユーザー機能', type: :system, js: true do
         click_link 'Delete', match: :first
       end
 
-      sleep 1
+      sleep 2
       y = User.all.count
       expect(x-y).to eq 1
     end

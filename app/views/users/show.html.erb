@@ -1,4 +1,3 @@
-<br>
 <div class ="container">
   <h4><%= @user.first_name %>のページ</h4>
     <table class="table table-bordered">
@@ -36,7 +35,7 @@
         </tr>
       </thead>
       <tr>
-        <th class=" align-middle">User Name:</th>
+        <th class="align-middle">User Name:</th>
         <td class="w-25 align-middle"><%= @user.first_name %> <%= @user.last_name %></td>
         <th rowspan="2">Profile Image:</th>
         <td rowspan="2"><%= image_tag(@user.image.url, class: "img-thumbnail img-fluid", width: "100px") if @user.image.present? %></td>
@@ -176,17 +175,17 @@
           <% end %>
         </td>
       </tr>
-      <% @user.qualifications.each do |qualification| %>
       <tr>
         <th>Qualification
           <% if current_user == @user %>
             <button class = "ml-2 btn btn-sm btn-primary" data-toggle="modal" data-target = "#edit_qualification_Modal">Edit</button>
           <% end %>
         </th>
+        <% @user.qualifications.each do |qualification| %>
         <td><%= qualification.name %></td>
         <td><%= qualification.date_of_acquisition.strftime("%b, %Y") if qualification.date_of_acquisition.present? %></td>
+        <% end %>
       </tr>
-      <% end %>
       <tr>
         <th>Language <button class = "ml-2 btn btn-sm btn-primary" data-toggle="modal" data-target = "#edit_language_Modal">Edit</button></th>
         <td>

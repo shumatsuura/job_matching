@@ -10,7 +10,7 @@
     <% end %>
   </div>
 
-  <%= form_with(model: @user, local: true, html: {class: "needs-validation", novalidate: true} ) do |f| %>
+  <%= form_with(model: @user, remote: true, html: {class: "needs-validation", novalidate: true} ) do |f| %>
   <% if controller.action_name == "edit" || edit_target == "upload_image" %>
     <div class="form-group">
       <%= f.label :image %>
@@ -31,9 +31,6 @@
       <%= f.label :first_name %>
       <span class="badge badge-sm badge-info">Required</span>
       <%= f.text_field :first_name, class: "form-control", placeholder: "First Name", required: true %>
-      <div class="valid-feedback">
-      Looks good!
-      </div>
       <div class="invalid-feedback">
       Plese input.
       </div>
@@ -43,9 +40,6 @@
       <%= f.label :last_name %>
       <span class="badge badge-sm badge-info">Required</span>
       <%= f.text_field :last_name, class: "form-control", placeholder: "Last Name", required: true %>
-      <div class="valid-feedback">
-      Looks good!
-      </div>
       <div class="invalid-feedback">
       Plese input.
       </div>

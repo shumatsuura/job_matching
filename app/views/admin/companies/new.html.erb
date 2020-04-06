@@ -1,0 +1,35 @@
+<div class="container">
+  <h1>Create Company</h1>
+  <div id="error_explanation">
+    <% if @company.errors.any? %>
+    <h2><%= pluralize(@company.errors.count, "error") %>prohibited this company from being saved:</h2>
+    <ul>
+      <% @company.errors.full_messages.each do |message| %>
+      <li><%= message %></li>
+      <% end %>
+    </ul>
+    <% end %>
+  </div>
+
+  <%= form_with(model: @company, url: admin_companies_path, local: true) do |f| %>
+
+  <div class="form-group">
+    <%= f.label :email %><br />
+    <%= f.email_field :email, autofocus: true, autocomplete: "email", class: "form-control" %>
+  </div>
+
+  <div class="form-group">
+    <%= f.label :password %>
+    <%= f.password_field :password, autocomplete: "new-password", class: "form-control" %>
+  </div>
+
+  <div class="form-group">
+    <%= f.label :password_confirmation %><br />
+    <%= f.password_field :password_confirmation, autocomplete: "new-password", class: "form-control" %>
+  </div>
+
+  <div class="form-group">
+    <%= f.submit class: "btn btn-primary"%>
+  </div>
+  <% end %>
+</div>

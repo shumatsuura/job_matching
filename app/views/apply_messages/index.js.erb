@@ -1,0 +1,7 @@
+// $(document).on('turbolinks:load', function(){
+//   $('#new_message').on('submit', function(e){
+//     e.preventDefault();
+    $("#messages_area").html("<%= j(render 'messages',{ messages: @message.apply.apply_messages.order(created_at: "ASC"), apply: @message.apply }) %>");
+    $("textarea").val('');
+//   })
+// });

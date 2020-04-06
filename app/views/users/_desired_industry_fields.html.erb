@@ -2,14 +2,16 @@
   <div class="border rounded bg-light p-2 form-group">
   <h5>Desired Industries<span class="users_child_index"><%= f.index + 1 %><span></h5>
     <div class="form-group row">
-      <%= f.label :industry, class: "col-sm-3 col-form-label" %>
+      <div class="col-sm-3 col-form-label">
+        <%= f.label :industry %><span class="badge badge-sm badge-info ml-2">Required</span>
+      </div>
       <div class="col-sm-7 d-flex align-items-center">
-        <%= f.select :industry_id, Industry.select(:id, :name).map{ |n| [n.name.to_sym,n.id]}.to_h, include_blank: true %>
+        <%= f.select :industry_id, Industry.select(:id, :name).map{ |n| [n.name.to_sym,n.id]}.to_h, {include_blank: true}, class: "form-control industries", required: true %>
       </div>
 
       <%= f.hidden_field :user_id, :value => params[:id] %>
-      <%= f.hidden_field :_destroy %>
       <div class="col-sm-2 text-right">
+        <%= f.hidden_field :_destroy %>
         <%= link_to "Delete", '#', class: "remove_fields btn btn-danger btn-sm" %>
       </div>
     </div>

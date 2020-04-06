@@ -13,6 +13,7 @@ RSpec.describe 'ユーザー機能', type: :system, js: true do
         visit root_path
 
         click_on 'Sign Up'
+        sleep 1
 
         fill_in 'Email', with: 'shunsukE@sample.com'
         fill_in 'Password', with: "password"
@@ -121,14 +122,52 @@ RSpec.describe 'ユーザー機能', type: :system, js: true do
         expect(page).to have_content "No Access Right."
       end
 
-      it '自分のプロフィール編集ページにアクセスできること' do
-        visit edit_user_path(@user.id)
-        expect(page).to have_current_path edit_user_path(@user.id)
+      it '自分の詳細ページから基本情報を編集できること' do
+        visit user_path(@user.id)
+        click_on 'Edit Basic Profile'
+
+        fill_in 'user_first_name', with:'test'
+        fill_in 'user_last_name', with:'test'
+        select 'Male', from:'user_gender'
+        select '1986', from: 'user_date_of_birth_1i'
+        select 'November', from: 'user_date_of_birth_2i'
+        select '2', from: 'user_date_of_birth_3i'
+        select 'Closed', from:'user_status'
+        click_on 'Update User'
+        expect(page).to have_content 'successfully'
       end
 
-      it '自分のアカウント編集ページにアクセスできること' do
+      it '自分の詳細ページからJob Categoryを編集できること' do
+        JobCategory.create(name: "test_category")
+        Industry.create(name: "test_industry")
+
+        visit user_path(@user.id)
+        click_on 'edit_industry'
+        click_on 'Add Industry Field'
+
+        find('.industries').all('option')[1].select_option
+
+        click_on 'Update User'
+        expect(page).to have_content 'successfully'
+      end
+
+        # select 'test_category', from: "user_desired_job_categories_attributes_0_job_category_id"
+        # select 'test_industry', from: "user_desired_industries_attributes_0_industry_id"
+        # fill_in 'user_educations_attributes_0_school_name', with: "test_school"
+        # select '1999', from: 'user_educations_attributes_0_period_start_1i'
+        # select 'April', from: 'user_educations_attributes_0_period_start_2i'
+
+      it '自分のアカウントを編集できること' do
         visit edit_user_registration_path(@user.id)
         expect(page).to have_current_path edit_user_registration_path(@user.id)
+
+        fill_in 'Email', with: 'user1-b@sample.com'
+        fill_in 'Password', with: "passwordo"
+        fill_in 'Password confirmation', with: "passwordo"
+        fill_in 'Current password', with: "f4k3p455w0rd"
+
+        click_on 'Update'
+        expect(page).to have_content 'successfully'
       end
 
       it '他ユーザーのプロフィール編集ページにアクセスできないこと' do
@@ -151,11 +190,21 @@ RSpec.describe 'ユーザー機能', type: :system, js: true do
   describe 'アドミンユーザーのアクセス権限' do
     before do
       @admin_user = User.create(email: 'admin_user@sample.com', password: "password", password_confirmation: "password", admin: true)
+      @user3 = User.create(email: 'user3@sample.com', password: "password", password_confirmation: "password")
       login_as(@admin_user, :scope => :user)
     end
 
     it 'ユーザーを作成できる' do
-      aaaa
+      x = User.all.count
+      visit admin_users_path
+      click_on 'Create New User'
+
+      fill_in 'Email', with: 'user3@sample.com'
+      fill_in 'Password', with: "password"
+      fill_in 'Password confirmation', with: "password"
+      click_on 'Create User'
+
+      expect(page).to have_content "successfully"
     end
 
     it 'ユーザー詳細ページにアクセスできる' do
@@ -168,7 +217,7 @@ RSpec.describe 'ユーザー機能', type: :system, js: true do
       expect(page).to have_current_path dashboard_user_path(@user1.id)
     end
 
-    it 'ユーザー情報を編集できる' do
+    it 'ユーザープロフィール情報を編集できる' do
       JobCategory.create(name: "test_category")
       Industry.create(name: "test_industry")
 
@@ -185,11 +234,29 @@ RSpec.describe 'ユーザー機能', type: :system, js: true do
       fill_in 'user_educations_attributes_0_school_name', with: "test_school"
       select '1999', from: 'user_educations_attributes_0_period_start_1i'
       select 'April', from: 'user_educations_attributes_0_period_start_2i'
+      fill_in 'user_work_experiences_attributes_0_company', with: "test_company"
+      select '1999', from: 'user_work_experiences_attributes_0_period_start_1i'
+      select 'April', from: 'user_work_experiences_attributes_0_period_start_2i'
+
 
       click_on 'Update User'
 
-      sleep 10
       expect(page).to have_content 'successfully'
+    end
+
+    it 'ユーザーアカウント情報を編集できる' do
+      visit admin_users_path
+      click_on 'Edit Account',match: :first
+
+      fill_in 'Email', with: 'user1-b@sample.com'
+      fill_in 'Password', with: "passwordo"
+      fill_in 'Password confirmation', with: "passwordo"
+
+      click_on 'Update'
+
+      expect(page).to have_content 'user1-b@sample.com'
+      expect(page).to have_content 'successfully'
+
     end
 
     it 'ユーザーを削除できる' do
@@ -197,13 +264,12 @@ RSpec.describe 'ユーザー機能', type: :system, js: true do
       x = User.all.count
 
       accept_alert do
-        click_link 'Delete',match: :first
+        click_link 'Delete', match: :first
       end
 
-      sleep 1
+      sleep 2
       y = User.all.count
       expect(x-y).to eq 1
     end
-
   end
 end

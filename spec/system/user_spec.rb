@@ -121,30 +121,40 @@ RSpec.describe 'ユーザー機能', type: :system, js: true do
         expect(page).to have_content "No Access Right."
       end
 
-      it '自分のプロフィール編集ページにアクセスできること' do
-        JobCategory.create(name: "test_category")
-        Industry.create(name: "test_industry")
+      it '自分の詳細ページから基本情報を編集できること' do
+        visit user_path(@user.id)
+        click_on 'Edit Basic Profile'
 
-        visit edit_user_path(@user.id)
-        expect(page).to have_current_path edit_user_path(@user.id)
-
-        fill_in 'user_first_name', with:'admin'
-        fill_in 'user_last_name', with:'admin'
+        fill_in 'user_first_name', with:'test'
+        fill_in 'user_last_name', with:'test'
         select 'Male', from:'user_gender'
-        select 'Closed', from:'user_status'
         select '1986', from: 'user_date_of_birth_1i'
         select 'November', from: 'user_date_of_birth_2i'
         select '2', from: 'user_date_of_birth_3i'
-        select 'test_category', from: "user_desired_job_categories_attributes_0_job_category_id"
-        select 'test_industry', from: "user_desired_industries_attributes_0_industry_id"
-        fill_in 'user_educations_attributes_0_school_name', with: "test_school"
-        select '1999', from: 'user_educations_attributes_0_period_start_1i'
-        select 'April', from: 'user_educations_attributes_0_period_start_2i'
-
+        select 'Closed', from:'user_status'
         click_on 'Update User'
-
         expect(page).to have_content 'successfully'
       end
+
+      it '自分の詳細ページからJob Categoryを編集できること' do
+        JobCategory.create(name: "test_category")
+        Industry.create(name: "test_industry")
+
+        visit user_path(@user.id)
+        click_on 'edit_industry'
+        click_on 'Add Industry Field'
+
+        find('.industries').all('option')[1].select_option
+
+        click_on 'Update User'
+        expect(page).to have_content 'successfully'
+      end
+
+        # select 'test_category', from: "user_desired_job_categories_attributes_0_job_category_id"
+        # select 'test_industry', from: "user_desired_industries_attributes_0_industry_id"
+        # fill_in 'user_educations_attributes_0_school_name', with: "test_school"
+        # select '1999', from: 'user_educations_attributes_0_period_start_1i'
+        # select 'April', from: 'user_educations_attributes_0_period_start_2i'
 
       it '自分のアカウント編集ページにアクセスできること' do
         visit edit_user_registration_path(@user.id)

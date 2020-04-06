@@ -4,7 +4,8 @@
       <div class="form-row">
         <div class="form-group col-md-6">
           <%= f.label :school_name %>
-          <%= f.text_field :school_name, {class: "form-control", placeholder: "School Name"} %>
+          <span class="badge badge-sm badge-info">Required</span>
+          <%= f.text_field :school_name, class: "form-control", placeholder: "School Name",required: true %>
         </div>
         <div class="form-group col-md-6">
           <%= f.label :major %>
@@ -26,7 +27,7 @@
               class: "form-control" %>
           </div>
         </div>
-        <div class="form-group col-md-6">
+        <div class="form-group col-auto">
           <%= f.label :period_end %>
           <div class="form-inline">
             <%= f.datetime_select :period_end,

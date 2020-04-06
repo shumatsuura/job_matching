@@ -10,11 +10,8 @@
                 プロフィール
               </div>
               <div class="mr-3">
-
-
             <% if current_user == @user %>
-              <%= link_to "Edit Account Info", edit_user_registration_path, class:"btn btn-success btn-sm" %>
-              <%= link_to "Edit Profile", edit_user_path, class:"btn btn-success btn-sm" %>
+              <button class = "btn btn-primary btn-sm" data-toggle="modal" data-target = "#edit_basic_profile_Modal">Edit Basic Profile</button>
             <% end %>
             <% if company_signed_in? %>
               <% if current_company.scouts.pluck(:user_id).include?(@user.id) %>
@@ -72,8 +69,32 @@
         <th><%= t('view.description') %>:</th>
         <td colspan="3"><%= simple_format(@user.description) %></td>
       </tr>
+      <tr>
+        <th>Desired Industries:
+          <% if current_user == @user %>
+          <button id = "edit_industry" class = "ml-2 btn btn-sm btn-primary" data-toggle="modal" data-target = "#edit_industry_Modal">Edit</button>
+          <% end %>
+        </th>
+        <td>
+          <% @user.industries.each do |industry|%>
+            <%= industry.name %>
+          <% end %>
+        </td>
+        <th>Desired Job Category:
+          <% if current_user == @user %>
+          <button class = "ml-2 btn btn-sm btn-primary" data-toggle="modal" data-target = "#edit_job_category_Modal">Edit</button>
+          <% end %>
+        </th>
+        <td><% @user.job_categories.each do |job_category| %>
+          <%= job_category.name %>
+          <% end %>
+        </td>
+      </tr>
     </table>
 
+  <% if current_user == @user %>
+    <button class = "btn btn-primary btn-sm" data-toggle="modal" data-target = "#edit_work_experience_Modal">Edit Work Experience</button>
+  <% end %>
   <% @user.work_experiences.each_with_index do |work_experience,i| %>
     <table class="table table-bordered mt-3 mb-3">
       <thead class="thead-dark">
@@ -93,6 +114,8 @@
         <%= work_experience.period_end.strftime("%b, %Y") if work_experience.period_end.present? %></td>
       </tr>
       <tr>
+        <th><strong>Position:</strong></th>
+        <td><%= work_experience.position %></td>
         <th><strong>Salary:</strong></th>
         <td><%= work_experience.salary %></td>
       </tr>
@@ -101,11 +124,13 @@
         <th>Description</th>
         <td colspan="3"><%= simple_format(work_experience.description) %></td>
       </tr>
-
       </tbody>
     </table>
   <% end %>
 
+  <% if current_user == @user %>
+    <button class = "btn btn-primary btn-sm" data-toggle="modal" data-target = "#edit_education_Modal">Edit Education</button>
+  <% end %>
   <table class="table table-bordered mt-3 mb-3">
     <thead class="thead-dark">
       <tr>
@@ -124,7 +149,7 @@
         <th>Period</th>
         <td><%= education.period_start.strftime("%b, %Y") if education.period_start.present? %>
         ~
-        <%= education.period_end.strftime("%b, %Y") if education.period_start.present? %></td>
+        <%= education.period_end.strftime("%b, %Y") if education.period_end.present? %></td>
       </tr>
       <% end %>
     </tbody>
@@ -140,22 +165,30 @@
     </thead>
     <tbody>
       <tr>
-        <th>Skill</th>
-        <td>
+        <th>Skill
+          <% if current_user == @user %>
+          <button class = "ml-2 btn btn-sm btn-primary" data-toggle="modal" data-target = "#edit_skill_Modal">Edit</button>
+          <% end %>
+        </th>
+        <td colspan="2">
           <% @user.user_skills.each do |skill| %>
-          <span class="badge badge-primary"><%= skill.name %></span>
+          <button class="badge badge-primary"><%= skill.name %></button>
           <% end %>
         </td>
       </tr>
       <% @user.qualifications.each do |qualification| %>
       <tr>
-        <th>Qualification</th>
+        <th>Qualification
+          <% if current_user == @user %>
+            <button class = "ml-2 btn btn-sm btn-primary" data-toggle="modal" data-target = "#edit_qualification_Modal">Edit</button>
+          <% end %>
+        </th>
         <td><%= qualification.name %></td>
         <td><%= qualification.date_of_acquisition.strftime("%b, %Y") if qualification.date_of_acquisition.present? %></td>
       </tr>
       <% end %>
       <tr>
-        <th>language</th>
+        <th>Language <button class = "ml-2 btn btn-sm btn-primary" data-toggle="modal" data-target = "#edit_language_Modal">Edit</button></th>
         <td>
           <% @user.languages.each do |language| %>
           <%= language.name %>
@@ -163,7 +196,198 @@
           <% end %>
         </td>
       </tr>
-
     </tbody>
   </table>
+</div>
+
+<!-- modal edit basic profile -->
+<div class="container-fluid">
+  <div class="modal" id="edit_basic_profile_Modal" tabindex="-1">
+    <div class="modal-dialog modal-lg">
+      <div class="modal-content">
+        <div class="modal-header">
+          <div class="modal-title" id="edit_basic_profile_Modal">
+            Edit Basic Profile
+          </div>
+          <button type="button" class ="close" data-dismiss="modal" aria-label="Close" name="button">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <%= render 'form', edit_target: "basic_profile" %>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- modal industry -->
+<div class="container-fluid">
+  <div class="modal" id="edit_industry_Modal" tabindex="-1">
+    <div class="modal-dialog modal-lg">
+      <div class="modal-content">
+        <div class="modal-header">
+          <div class="modal-title" id="edit_industry_Modal">
+            Edit Basic Profile
+          </div>
+          <button type="button" class ="close" data-dismiss="modal" aria-label="Close" name="button">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <%= render 'form', edit_target: "industry" %>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- modal job category -->
+<div class="container-fluid">
+  <div class="modal" id="edit_job_category_Modal" tabindex="-1">
+    <div class="modal-dialog modal-lg">
+      <div class="modal-content">
+        <div class="modal-header">
+          <div class="modal-title" id="edit_job_category_Modal">
+            Edit Job Category
+          </div>
+          <button type="button" class ="close" data-dismiss="modal" aria-label="Close" name="button">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <%= render 'form', edit_target: "job_category" %>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- modal edit work experience -->
+<div class="container-fluid">
+  <div class="modal" id="edit_work_experience_Modal" tabindex="-1">
+    <div class="modal-dialog modal-lg">
+      <div class="modal-content">
+        <div class="modal-header">
+          <div class="modal-title" id="edit_work_experience_Modal">
+            Edit Work Experience
+          </div>
+          <button type="button" class ="close" data-dismiss="modal" aria-label="Close" name="button">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <%= render 'form', edit_target: "work_experience" %>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- modal edit job education -->
+<div class="container-fluid">
+  <div class="modal" id="edit_education_Modal" tabindex="-1">
+    <div class="modal-dialog modal-lg">
+      <div class="modal-content">
+        <div class="modal-header">
+          <div class="modal-title" id="edit_education_Modal">
+            Edit Work Experience
+          </div>
+          <button type="button" class ="close" data-dismiss="modal" aria-label="Close" name="button">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <%= render 'form', edit_target: "education" %>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- modal edit skill -->
+<div class="container-fluid">
+  <div class="modal" id="edit_skill_Modal" tabindex="-1">
+    <div class="modal-dialog modal-lg">
+      <div class="modal-content">
+        <div class="modal-header">
+          <div class="modal-title" id="edit_skill_Modal">
+            Edit Language
+          </div>
+          <button type="button" class ="close" data-dismiss="modal" aria-label="Close" name="button">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <%= render 'form', edit_target: "skill" %>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- modal edit qualification -->
+<div class="container-fluid">
+  <div class="modal" id="edit_qualification_Modal" tabindex="-1">
+    <div class="modal-dialog modal-lg">
+      <div class="modal-content">
+        <div class="modal-header">
+          <div class="modal-title" id="edit_qualification_Modal">
+            Edit Language
+          </div>
+          <button type="button" class ="close" data-dismiss="modal" aria-label="Close" name="button">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <%= render 'form', edit_target: "qualification" %>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- modal edit language -->
+<div class="container-fluid">
+  <div class="modal" id="edit_language_Modal" tabindex="-1">
+    <div class="modal-dialog modal-lg">
+      <div class="modal-content">
+        <div class="modal-header">
+          <div class="modal-title" id="edit_language_Modal">
+            Edit Language
+          </div>
+          <button type="button" class ="close" data-dismiss="modal" aria-label="Close" name="button">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <%= render 'form', edit_target: "language" %>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        </div>
+      </div>
+    </div>
+  </div>
 </div>

@@ -1,5 +1,6 @@
 class UsersController < ApplicationController
   before_action :set_user, only:[:show, :dashboard, :edit, :update, :destroy]
+
   before_action :authenticate_user!, only:[:dashboard, :edit, :update]
   before_action :ensure_correct_user, only:[:dashboard, :edit, :update]
   before_action :authenticate_company_without_admin_user, only:[:index]
@@ -52,9 +53,8 @@ class UsersController < ApplicationController
   end
 
   def update
-
     if @user.update(user_params)
-      redirect_to dashboard_user_path, notice: 'Updated successfully.'
+      redirect_to user_path(@user), notice: 'Updated successfully.'
     else
       render 'edit'
     end
@@ -82,6 +82,7 @@ class UsersController < ApplicationController
       :image,
       :image_cache,
       :cv,
+      :edit_target,
       educations_attributes: [:id,:school_name,:major,:period_start,:period_end,:_destroy],
       languages_attributes: [:id,:name,:level,:_destroy],
       desired_industries_attributes: [:id,:user_id,:industry_id,:_destroy],

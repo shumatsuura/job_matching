@@ -1,6 +1,7 @@
 class User < ApplicationRecord
   # validates :first_name, presence: true, length: { maximum:30}, on: :update
-  # validates :last_name, presence: true, length: { maximum:30}, on: :update
+  validates :last_name, presence: true, length: { minimum:30}, on: :update
+  validates :address, presence: true, on: :update
   # validates :gender, presence: true, on: :update
   # validates :date_of_birth, presence: true, on: :update
   # validates :status, presence: true, on: :update

@@ -8,8 +8,9 @@ class User < ApplicationRecord
 
   # Include default devise modules. Others available are:
   # :confirmable, :lockable, :timeoutable, :trackable and :omniauthable
+
   devise :database_authenticatable, :registerable,
-         :recoverable, :rememberable, :validatable
+         :recoverable, :rememberable, :validatable, :omniauthable
 
   has_many :educations, dependent: :destroy
   accepts_nested_attributes_for :educations, allow_destroy: true
@@ -42,6 +43,24 @@ class User < ApplicationRecord
 
   mount_uploader :image, ImageUploader
   mount_uploader :cv, CvUploader
+
+  def self.create_unique_string
+    SecureRandom.uuid
+  end
+  
+  def self.find_for_oauth(auth)
+    user = User.find_by(email: auth.info.email)
+
+    unless user
+      user = User.create(
+        uid:      auth.uid,
+        provider: auth.provider,
+        email:    auth.info.email,
+        password: Devise.friendly_token[0, 20]
+      )
+    end
+    user
+  end
 
   def age
     (DateTime.now.strftime("%Y%m%d").to_i - date_of_birth.strftime("%Y%m%d").to_i) / 10000 if date_of_birth

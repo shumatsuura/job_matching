@@ -1,4 +1,5 @@
 Rails.application.routes.draw do
+  mount LetterOpenerWeb::Engine, at: "/letter_opener" if Rails.env.development?
   root 'statics#landing'
 
   devise_for :companies, controllers: {
@@ -80,5 +81,7 @@ Rails.application.routes.draw do
   resources :follows, only:[:index,:create,:destroy]
   resources :like_posts, only:[:index,:create,:destroy]
   resources :like_users, only:[:index,:create,:destroy]
+
+  resources :contacts, only:[:new,:create]
 
 end

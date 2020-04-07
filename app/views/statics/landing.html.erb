@@ -1,13 +1,126 @@
-<div class="container-fluid">
-  <div class="no-gutters">
-    <%= image_tag"landing.jpg", width:"100%" %>
+
+  <div class="jumbotron jumbotron-fluid">
+    <div class="row">
+      <div class="col-md-6 text-center">
+        <h2 class="display-4">
+          Welcome to FOR JOBER!
+        </h2>
+        <p class="lead">登録簡単！すぐに使い始められる！</p>
+        <p class="lead">Jober Netで希望の職業を掴み取ろう！</p>
+        <button type="button" class = "btn btn-primary" data-toggle="modal" data-target = "#signupModal">Sign Up</button>
+        <button type="button" class = "btn btn-primary" data-toggle="modal" data-target = "#loginModal">Log In</button>
+      </div>
+      <div class="col-md-6 text-center">
+          <%= image_tag "landing.jpg", width:"90%",class: "m-3 rounded" %>
+      </div>
+    </div>
   </div>
-  <div class="jumbotron">
-    <h1 class="display-3">
-      Welcome to Get Job!
-    </h1>
-    <p class="lead">リード文</p>
-    <button type="button" class = "btn btn-primary" data-toggle="modal" data-target = "#signupModal">Sign Up</button>
-    <button type="button" class = "btn btn-primary" data-toggle="modal" data-target = "#loginModal">Log In</button>
+  <div class="container">
+    <h2 class="text-center">
+      サービス、利用手順ご説明
+    </h2>
+    <p class="lead text-center">
+      For Joberは優良企業への就職を目指す優秀な皆様のためのぐ転職サイトです。
+    </p>
   </div>
-</div>
+  <br>
+  <div class="step row justify-content-around mb-4">
+    <div class="card col-lg-4 mb-2" style="max-width: 25rem">
+      <div class="card-body">
+        <h3 class="cart-title">
+          Step 1 & 2
+        </h3>
+        <h5 class="cart-subtitle">
+          簡単登録、簡単プロフィール作成
+        </h5>
+        <p class="card-text">
+          <i>Step 1</i><br>
+          Facebookアカウントで簡単に利用開始！
+          Emailでのサインアップでも一部機能を除きすぐに利用を開始できます。
+        </p>
+        <p class="card-text">
+          <i>Step 2</i><br>
+          希望職種、希望業界、学歴、職歴などを充実させよう。
+          あなたにオススメの求人情報が簡単に見つかります。
+        </p>
+      </div>
+    </div>
+    <div class="card col-lg-4 mb-2" style="max-width: 25rem">
+      <div class="card-body">
+        <h3 class="cart-title">
+          Step 3
+        </h3>
+        <h5 class="cart-subtitle">
+          応募しよう！スカウトを待とう！
+        </h5>
+        <p class="card-text">
+          <i>応募</i><br>
+          豊富な検索機能により希望の求人を見つけよう！
+          <br>
+          希望の求人を見つけたら応募をしよう！
+        </p>
+        <p class="card-text">
+        <i>スカウト</i><br>
+          あなたに興味のある企業からスカウトが届く！
+        </p>
+      </div>
+    </div>
+    <div class="card col-lg-4 mb-2" style="max-width: 25rem">
+      <div class="card-body">
+        <h3 class="cart-title">
+          Step 4
+        </h3>
+        <h5 class="cart-subtitle">
+          簡単登録、簡単プロフィール作成
+        </h5>
+        <p class="card-text">
+          ⑤直接企業とコンタクトして面接採用へ
+        </p>
+      </div>
+    </div>
+
+  </div>
+  <div class="container-fluid text-muted text-center">
+    <h2>
+      FOR JOBERの特徴
+    </h2>
+    <p class="lead">
+      For Joberは採用ごとの仲介手数料モデルじゃないので採用に繋がりやすい！
+    </p>
+    <p>
+      豊富な検索機能、
+      ロケーション、給料、ロケーション、会社規模（従業員数、資本金額）
+    </p>
+    <p>
+      ぴったりの会社が見つかる！
+      応募に制限無し！
+    </p>
+    <p>
+      スカウト、応募後は企業と直接コンタクトし、面接、採用へのプロセスへ。
+    </p>
+    <p>
+      企業と直接メッセージ交換が可能。
+    </p>
+
+  </div>
+
+
+  <footer class="py-4 bg-dark text-light">
+    <div class="container text-center">
+      <ul class="nav justify-content-center mb-3">
+        <li class="nav-item">
+          <%= link_to "About Company", "#", {class: "nav-link text-white"} %>
+        </li>
+        <li class="nav-item">
+          <%= link_to "Contact", "#", {class: "nav-link text-white"} %>
+        </li>
+        <li class="nav-item">
+          <%= link_to "About", "#", {class: "nav-link"} %>
+        </li>
+        <li class="nav-item">
+          <%= link_to "About", "#", {class: "nav-link"} %>
+        </li>
+      </ul>
+      <p><small>Copyright</small></p>
+    </div>
+  </footer>

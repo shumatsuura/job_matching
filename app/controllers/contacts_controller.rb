@@ -5,10 +5,12 @@ class ContactsController < ApplicationController
   end
 
   def create
-    if @contact.create(contact_params)
-      redirect_to root_path
+    @contact = Contact.new(contact_params)
+    if @contact.save
+      ContactMailer.contact_mail(@contact).deliver  ##追記
+      redirect_to root_path, notice: 'Contact was successfully created.'
     else
-      render 'new'
+      render :new
     end
   end
 

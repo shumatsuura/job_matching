@@ -1,6 +1,6 @@
 <div class="container">
   <h1>Contact Form</h1>
-  <div id="error_explanation">
+  <div id="error_explanation" class="alert alert-danger">
     <% if @contact.errors.any? %>
       <h2><%= pluralize(@contact.errors.count, "error") %>prohibited this @contact from being saved:</h2>
       <ul>

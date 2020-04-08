@@ -67,7 +67,7 @@
         <th><%= i+1 %></th>
         <td><%= post.title %></td>
         <td><%= post.position %></td>
-        <td><%= post.job_categories.first.name %></td>
+        <td><%= post.job_categories.first.name if post.job_categories.present? %></td>
         <td><%= post.salary %></td>
         <td><%= link_to "Detail", post_path(post.id) %></td>
       </tr>

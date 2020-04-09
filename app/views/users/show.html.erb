@@ -11,6 +11,8 @@
               <div class="mr-3">
             <% if current_user == @user %>
               <button class = "btn btn-primary btn-sm" data-toggle="modal" data-target = "#edit_basic_profile_Modal">Edit Basic Profile</button>
+              <button class = "btn btn-primary btn-sm" data-toggle="modal" data-target = "#upload_cv_Modal">Upload CV</button>
+              <button class = "btn btn-primary btn-sm" data-toggle="modal" data-target = "#upload_profile_image_Modal">Upload Profile Image</button>
             <% end %>
             <% if company_signed_in? %>
               <% if current_company.scouts.pluck(:user_id).include?(@user.id) %>
@@ -197,6 +199,55 @@
       </tr>
     </tbody>
   </table>
+</div>
+
+
+<!-- modal upload profile image -->
+<div class="container-fluid">
+  <div class="modal" id="upload_profile_image_Modal" tabindex="-1">
+    <div class="modal-dialog modal-lg">
+      <div class="modal-content">
+        <div class="modal-header">
+          <div class="modal-title" id="upload_profile_image_Modal">
+            Upload Profile Image
+          </div>
+          <button type="button" class ="close" data-dismiss="modal" aria-label="Close" name="button">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <%= render 'form', edit_target: "upload_image" %>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- modal upload cv -->
+<div class="container-fluid">
+  <div class="modal" id="upload_cv_Modal" tabindex="-1">
+    <div class="modal-dialog modal-lg">
+      <div class="modal-content">
+        <div class="modal-header">
+          <div class="modal-title" id="upload_cv_Modal">
+            Upload Profile Image
+          </div>
+          <button type="button" class ="close" data-dismiss="modal" aria-label="Close" name="button">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <%= render 'form', edit_target: "upload_cv" %>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        </div>
+      </div>
+    </div>
+  </div>
 </div>
 
 <!-- modal edit basic profile -->

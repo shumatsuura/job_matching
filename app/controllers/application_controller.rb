@@ -1,5 +1,5 @@
 class ApplicationController < ActionController::Base
-  
+  before_action :basic, if: :production?
 
   private
 
@@ -24,6 +24,16 @@ class ApplicationController < ActionController::Base
   def authenticate_company_without_admin_user
     if not admin_user?
       authenticate_company!
+    end
+  end
+
+  def production?
+    Rails.env.production?
+  end
+  
+  def basic
+    authenticate_or_request_with_http_basic('BA') do |name, password|
+      name == ENV['BASIC_AUTH_NAME'] && password == ENV['BASIC_AUTH_PASSWORD']
     end
   end
 end

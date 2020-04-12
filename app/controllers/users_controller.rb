@@ -9,6 +9,8 @@ class UsersController < ApplicationController
 
   def show
     redirect_to root_path,notice: "No Access Right." unless @user == current_user || admin_user? || company_signed_in?
+    @scout = Scout.new
+    @scout.scout_messages.build
   end
 
   def index

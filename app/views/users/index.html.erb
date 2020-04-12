@@ -148,10 +148,9 @@
                 <h6 class="card-title"><%= user.first_name + " " + user.last_name if user.first_name && user.last_name %></h6>
                 <div><small><%= user.status %></small></div>
                 <div><small><%= user.age %> years old</small></div>
-                <div><small><%= user.email %></small></div>
                 <div><small><%= user.phone_number %></small></div>
-                <div><small><%= link_to "detail", user_path(user.id) %></small></div>
-                <small class="text-muted">Last updated 3 mins ago</small>
+                <div><small><%= link_to "Detail", user_path(user.id) %></small></div>
+                <small class="text-muted">Updated at <%= user.updated_at.strftime("%Y%b%d") %></small>
               </div>
             </div>
             <div class="col-md-10">
@@ -161,7 +160,7 @@
                   <div class="col-md-6">
                     <!-- Left Side Card 1 -->
                     <div class="card mb-2">
-                      <div class="card-header p-2 bg-dark text-white">
+                      <div class="card-header pt-1 pb-1 pl-2 bg-dark text-white">
                         <strong>Preference</strong>
                       </div>
                       <div class="card-body p-2">
@@ -185,7 +184,7 @@
                     </div>
                     <!-- Left Side Card 2 -->
                     <div class="card mb-2">
-                      <div class="card-header p-2 bg-dark text-white">
+                      <div class="card-header pt-1 pb-1 pl-2 bg-dark text-white">
                         <strong>Skill</strong>
                       </div>
                       <div class="card-body p-2">
@@ -220,7 +219,7 @@
                     <div class="accordion" id = "accordion">
                     <div class="card mb-2">
                       <ul class="list-group list-group-flush">
-                        <li class="list-group-item p-2 bg-dark text-white">
+                        <li class="list-group-item pt-1 pb-1 pl-2 bg-dark text-white">
                           <strong>Education</strong>
                         </li>
                         <% user.educations.each_with_index do |education,i| %>
@@ -260,7 +259,7 @@
                     <div class="accordion" id = "accordion_2">
                     <div class="card">
                       <ul class="list-group list-group-flush">
-                        <li class="list-group-item p-2 bg-dark text-white">
+                        <li class="list-group-item pt-1 pb-1 pl-2 bg-dark text-white">
                           <strong>Work Experience</strong>
                         </li>
                         <% user.work_experiences.each_with_index do |work_experience,i| %>

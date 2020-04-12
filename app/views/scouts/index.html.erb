@@ -4,10 +4,12 @@
     <h5>スカウト一覧</h5>
     <thead class="thead-dark">
       <% if user_signed_in? %>
+        <th>Title</th>
         <th>Company</th>
         <th>Industry</th>
         <th>No. of Employee</th>
       <% elsif company_signed_in? %>
+        <th>Title</th>
         <th>Name</th>
         <th>Gender</th>
         <th>Age</th>
@@ -23,11 +25,13 @@
     <% @scouts.each do |scout| %>
       <tr>
       <% if user_signed_in? %>
+        <td><%= scout.title %></td>
         <td><%= scout.company.name %></td>
         <td><%= scout.company.industries.present? ? scout.company.industries.first.name : "" %></td>
         <td><%= scout.company.number_of_employees %></td>
       <% elsif %>
         <% user = scout.user %>
+        <td><%= scout.title %></td>
         <td><%= link_to user.first_name || "No Name", user_path(user.id) %></td>
         <td><%= user.gender %></td>
         <td><%= user.age %></td>

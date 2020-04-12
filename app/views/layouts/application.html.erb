@@ -95,6 +95,7 @@
                 <%= link_to "#{notification.message} #{notification.time}" , notification.url, class: "dropdown-item" %>
                 <div class="dropdown-divider"></div>
               <% end %>
+              <%= link_to "more", notifications_path, class: "dropdown-item text-right" %>
             <% end %>
           </div>
         </li>

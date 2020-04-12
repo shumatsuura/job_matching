@@ -139,41 +139,38 @@
     </nav>
     <!-- Sidebar until here  -->
     <div class="col-md-10">
+      <h3>Posts List</h3>
       <%= paginate @posts %>
       <% @posts.each do |post| %>
         <div class="card mb-3">
           <div class="row no-gutters">
             <div class="card-body">
               <h4 class="card-title"><%= link_to post.title, post_path(post.id), class: "card-link text-primary" %></h4>
-              Position: <span class="badge badge-primary"><%= post.position %></span>
-              Location: <span class="badge badge-primary"><%= post.location %></span>
-              Job Category:
+              <strong>Location: </strong><span><%= post.location %>,</span>
+              <strong>Job Category: </strong>
               <% post.job_categories.each do |n| %>
-              <span class="badge badge-primary">
-                <%= n.name %>
-              </span>
+                <%= n.name %>,
               <% end %>
 
-              Industry:
+              <strong>Industry: </strong>
               <% post.industries.each do |n| %>
-              <span class="badge badge-primary">
-                <%= n.name %>
-              </span>
+                <%= n.name %>,
               <% end %>
+              <br>
+              <strong>Position: </strong><span><%= post.position %>,</span>
+              <strong>Salary:</strong>
+              <span><%= post.salary.to_s(:delimited) + " USD" if post.salary.present? %>,</span>
 
-              Salary
-              <span class="badge badge-primary">
-                <%= post.salary %>
-              </span>
-
-              Skill:
+              <% if post.skills.present? %>
+              <strong>Skill:</strong>
+              <% end %>
               <% post.skills.each do |n| %>
               <span class="badge badge-primary">
                 <%= n.name %>
               </span>
               <% end %>
-
-              <p class="card-subtitle"><%= post.description %></p>
+              
+              <p class="card-subtitle mt-2 text-muted"><%= post.description %></p>
             </div>
           </div>
           <div class="card-footer row no-gutters d-flex align-items-center pt-1 pb-1">
@@ -183,6 +180,8 @@
               <span class="card-text"><%= link_to post.company.name, company_path(post.company_id), class: 'text-info' if post.company.name %></span>
             </div>
             <div class="col text-right">
+              <span class="card-text">Status: <%= post.status %>,</span>
+              <span class="card-text text-muted small">Updated: <%= post.updated_at.strftime("%Y%b%d") %>,</span>
               <span class="card-text text-muted small">Posted: <%= post.created_at.strftime("%Y%b%d") %></span>
             </div>
           </div>

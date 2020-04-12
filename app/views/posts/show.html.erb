@@ -1,77 +1,71 @@
-<div class="container-fluid">
-  <div class="row">
-    <%= image_tag(@post.company.header_image.url, class: "img-fluid") if @post.company.header_image.present? %>
-    <%= image_tag("default_header_image.jpeg", class: "img-fluid") unless @post.company.header_image.present? %>
-  </div>
-</div>
 <div class="container">
   <div class="card">
+    <%= image_tag(@post.company.header_image.url, class: "card-img-top img-fluid") if @post.company.header_image.present? %>
+    <%= image_tag("default_header_image.jpeg", class: "card-img-top img-fluid") unless @post.company.header_image.present? %>
     <div class="card-body">
-      <div class="row d-flex justify-content-between">
-          <h2><%= @post.title %></h2>
-          <div class="">
+      <div class="row">
+        <div class="col-md-6">
+          <h3 class="card-title"><%= @post.title %></h3>
+        </div>
+          <div class="col-md-6 text-right">
             <% if user_signed_in? %>
-            <% if current_user.like_posts.pluck(:post_id).include?(@post.id) %>
-            <%= link_to "Unlike", like_post_path(post_id: @post.id), method: :delete, class: "btn btn-primary" %>
-            <% else %>
-            <%= link_to "Like", like_posts_path(like_post:{user_id: current_user.id, post_id: @post.id}), method: :post, class: "btn btn-primary" %>
+              <% if current_user.like_posts.pluck(:post_id).include?(@post.id) %>
+                <%= link_to "Unlike", like_post_path(post_id: @post.id), method: :delete, class: "btn btn-primary" %>
+              <% else %>
+                <%= link_to "Like", like_posts_path(like_post:{user_id: current_user.id, post_id: @post.id}), method: :post, class: "btn btn-primary" %>
+              <% end %>
             <% end %>
-            <% end %>
+
             <% if user_signed_in? %>
-            <% if current_user.applies.pluck(:post_id).include?(@post.id) %>
-            "Already Applied"
-
-              <%= link_to "Delete Application", apply_path(post_id: @post.id), method: :delete, class: "btn btn-primary" %>
-
-            <% else %>
-
-            <%= link_to "Apply Now", applies_path(apply:{user_id: current_user.id, post_id: @post.id}), method: :post, class: "btn btn-primary" %>
-
-            <% end %>
+              <% if current_user.applies.pluck(:post_id).include?(@post.id) %>
+                <%= link_to "Delete Application", apply_path(post_id: @post.id), method: :delete, class: "btn btn-primary" %>
+              <% else %>
+                <%= link_to "Apply Now", applies_path(apply:{user_id: current_user.id, post_id: @post.id}), method: :post, class: "btn btn-primary" %>
+              <% end %>
             <% end %>
           </div>
       </div>
+      <%= link_to(company_path(@post.company_id)) do %>
       <%= image_tag @post.company.logo.url, class: 'img-thumbnail', width: "50px" if @post.company.logo.present? %>
       <%= image_tag "default_image.jpeg", class: 'img-thumbnail', width: "50px" unless @post.company.logo.present? %>
-      <p><%= @post.company.name %></p>
+      <% end %>
+      <p><%= link_to @post.company.name, company_path(@post.company_id) %></p>
       <div class="">
-        Position: <span class="badge badge-primary"><%= @post.position %></span>
-        Location: <span class="badge badge-primary"><%= @post.location %></span>
-        Job Category:
+        <strong>Position: </strong><span><%= @post.position %>,</span>
+        <strong>Location: </strong><span><%= @post.location %>,</span>
+        <strong>Job Category: </strong>
         <% @post.job_categories.each do |n| %>
-        <span class="badge badge-primary">
-          <%= n.name %>
+        <span>
+          <%= n.name %>,
         </span>
         <% end %>
 
-        Industry:
+        <strong>Industry:</strong>
         <% @post.industries.each do |n| %>
-        <span class="badge badge-primary">
-          <%= n.name %>
+        <span>
+          <%= n.name %>,
         </span>
         <% end %>
 
-        Salary
-        <span class="badge badge-primary">
+        <strong>Salary</strong>
+        <span>
           <%= @post.salary %>
         </span>
 
-        Skill:
+        <% if @post.skills.present? %>
+        <strong>Skill:</strong>
+        <% end %>
         <% @post.skills.each do |n| %>
         <span class="badge badge-primary">
           <%= n.name %>
         </span>
         <% end %>
+        <strong>No. of Recruits: </strong><%= @post.number_of_recruits %>
       </div>
-
-      <div class="">
-        <p>number_of_recruits: <%= @post.number_of_recruits %></p>
-        <p>description: <%= @post.description %></p>
-        <p>location: <%= @post.location %></p>
-        <p>Skill:</p>
-        <% @post.skills.each do |n| %>
-        <p><%= n.name %></p>
-        <% end %>
+      <div class="mt-3">
+        <p>
+          <%= simple_format(h(@post.description)) %>
+        </p>
       </div>
     </div>
   </div>

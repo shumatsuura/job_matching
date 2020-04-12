@@ -1,75 +1,146 @@
-<div class = "container">
-  <%= paginate @companies %>
-  <% @companies.each do |company| %>
-  <div class="card mb-3">
-    <div class="row no-gutters">
-      <div class="col-md-2">
+<div class="container">
+  <div class="row">
+    <!-- Sidebar -->
+    <nav class="col-md-2 d-none d-md-block bg-white" id="sidebar">
+      <div>
+        <h5 class="d-flex justify-content-between align-items-center mt-4 mb-1 text-muted">
+          <span>Search & Filter</span>
+        </h5>
+        <%= search_form_for @q do |f| %>
+        <ul class="nav">
+          <li><%= f.label :name_or_description_cont, "Key Word" %></li>
+          <li><%= f.search_field :name_or_description_cont, class: "form-control" %></li>
+        </ul>
 
-        <div class="">
-          <%= image_tag company.logo.url, class: 'img-thumbnail d-block mx-auto m-4' if company.logo.present? %>
-          <%= image_tag("default_image.jpeg", class: 'img-thumbnail d-block mx-auto m-4') unless company.logo.present? %>
-        </div>
-        <div class="pl-3">
-          <h6 class="card-title"><%= company.name %></h6>
-          <p>
-            <%= link_to "detail", company_path(company.id) %>
-          </p>
-          <p>
-            <%= company.email %>
-          </p>
-        </div>
-      </div>
-      <div class="col-md-10">
-        <div class="card-body">
+        <a href="#industrySubmenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">
+          Industry
+        </a>
+        <ul class="collapse list-unstyled" id="industrySubmenu">
+          <% @industries.each do |industry| %>
+          <li>
+            <%= f.check_box :industries_id_in, {multiple: true, include_hidden: false}, industry.id %>
+            <%= f.label :industries_id_in, industry.name %>
+          </li>
+          <% end %>
+        </ul>
+
+        <a href="#locationSubmenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">
+          Location
+        </a>
+        <ul class="collapse list-unstyled" id="locationSubmenu">
+          <li>
+            <%= f.label :location_cont, "Location" %>
+            <%= f.search_field :location_cont, class: "form-control" %>
+          </li>
+        </ul>
+
+        <a href="#employeeSubmenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">
+          No of Employee
+        </a>
+        <div class="collapse list-unstyled" id="employeeSubmenu">
           <div class="row">
-            <div class="col-md-6">
-              <div class="card">
-                <div class="card-body">
-                  <h6 class="card-title">Incorporation</h6>
-                  <p class="card-text"><%= company.date_of_incorporation.strftime("%d %b, %Y") if company.date_of_incorporation %></p>
-                </div>
-              </div>
-
-              <p><%= company.phone_number %></p>
-              <div class="card">
-                <div class="card-body">
-                  <h6 class="card-title">Job Category</h6>
-                  <p class="card-text  badge badge-light">
-                    <% company.industries.each do |industry| %>
-                    <%= industry.name %>
-                    <% end %>
-                  </p>
-                </div>
-              </div>
-              <br>
+            <div class="col-2">
+              Min
             </div>
-            <div class="col-md-6">
+            <div class="col-10">
+              <%= f.number_field :number_of_employees_gteq, class: "form-control" %>
+            </div>
+          </div>
+          <div class="row pt-1">
+            <div class="col-2">
+              Max
+            </div>
+            <div class="col-10">
+              <%= f.number_field :number_of_employees_lt, class: "form-control" %>
+            </div>
+          </div>
+        </div>
 
-              <div class="card">
-                <div class="card-body">
-                  <h6 class="card-title">Skill</h6>
-                  <p class="card-text">
-                    <% company.company_skills.each do |company_skill| %>
-                    <span class="badge badge-light"><%= company_skill.name %></span>
-                    <% end %>
-                  </p>
-                </div>
+        <a href="#paidupcapitalSubmenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">
+          Paid Up Capital
+        </a>
+        <div class="collapse list-unstyled" id="paidupcapitalSubmenu">
+          <div class="row">
+            <div class="col-2">
+              Min
+            </div>
+            <div class="col-10">
+              <%= f.number_field :paid_up_capital_gteq, class: "form-control" %>
+            </div>
+          </div>
+          <div class="row pt-1">
+            <div class="col-2">
+              Max
+            </div>
+            <div class="col-10">
+              <%= f.number_field :paid_up_capital_lt, class: "form-control" %>
+            </div>
+          </div>
+        </div>
+        <div class="actions mt-1"><%= f.submit "Search", class: "btn btn-success" %></div>
+        <% end %>
+      </div>
+    </nav>
+    <!-- Sidebar until here  -->
+    <div class = "col-md-10">
+      <%= paginate @companies %>
+      <h3>Company List</h3>
+      <% @companies.each do |company| %>
+      <div class="card mb-3">
+        <div class="row no-gutters">
+          <div class="col-md-2 d-none d-md-block">
+            <div class="card-body">
+              <div>
+                <%= image_tag company.logo.url, class: 'img-fluid rounded mx-auto d-block', width: "150" if company.logo.present? %>
+                <%= image_tag("default_image.jpeg", class: 'img-fluid', width: "150") unless company.logo.present? %>
               </div>
+              <div class="text-left">
+                <h6 class="mt-1"><%= link_to company.name, company_path(company.id) %></h6>
+              </div>
+            </div>
+          </div>
+          <div class="d-block d-md-none">
+            <div class="card-body row pb-0">
+              <div class="col-auto">
+                <%= image_tag company.logo.url, class: 'img-fluid rounded mx-auto d-block', width: "50" if company.logo.present? %>
+                <%= image_tag("default_image.jpeg", class: 'img-fluid', width: "50") unless company.logo.present? %>
+              </div>
+              <div class="col-auto">
+                <h6 class="mt-1"><%= link_to company.name, company_path(company.id) %></h6>
+              </div>
+            </div>
+          </div>
+          <div class="col-sm-10">
+            <div class="card-body">
+              <strong>Head Office</strong>
+              <span><%= company.location %></span>
 
-              <div class="card">
-                <div class="card-body">
-                  <h6 class="card-title">Employees</h6>
-                  <p class="card-text">
-                    <%= company.number_of_employees %>
-                  </p>
-                </div>
+              <strong>Incorporation: </strong>
+              <span class="card-text"><%= company.date_of_incorporation.strftime("%d %b, %Y") if company.date_of_incorporation %></span>
+
+              <strong>Industry: </strong>
+              <% company.industries.each do |industry| %>
+              <span class="card-text  badge badge-primary">
+                <%= industry.name %>
+              </span>
+              <% end %>
+
+              <strong>#Employees</strong>
+              <span><%= company.number_of_employees.to_s(:delimited) if company.number_of_employees.present? %></span>
+
+              <strong>Paid up capital</strong>
+              <span><%= company.paid_up_capital.to_s(:delimited) if company.paid_up_capital.present? %></span>
+              <div class="mt-2">
+                <p>
+                  <%= strip_tags(company.description.gsub(/(\s)/,"")).truncate(160) if company.description.present? %>
+                </p>
               </div>
             </div>
           </div>
         </div>
       </div>
+      <% end %>
+      <%= paginate @companies %>
     </div>
   </div>
-  <% end %>
-  <%= paginate @companies %>
 </div>

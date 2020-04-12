@@ -84,10 +84,10 @@
         <% end %>
         <% if user_signed_in? || company_signed_in? %>
         <li class="nav-item dropdown">
-          <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+          <a class="nav-link" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
             <% @notifications = Notification.where(target_model: "user", target_model_id: current_user.id).order(created_at: "DESC") if user_signed_in? %>
             <% @notifications = Notification.where(target_model: "company", target_model_id: current_company.id).order(created_at: "DESC") if company_signed_in? %>
-            Notification <%= @notifications.where(read: false).count if @notifications.present? %>
+            <i class="fas fa-bell"></i> <%= @notifications.where(read: false).count if @notifications.present? %>
           </a>
           <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
             <% if @notifications.present? %>
@@ -99,16 +99,14 @@
           </div>
         </li>
         <li class="nav-item dropdown">
-          <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-            Dropdown
+          <a class="nav-link" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            <i class="fas fa-bars"></i>
           </a>
           <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
-            <a class="dropdown-item" href="#">Action</a>
-            <%= link_to "#{current_user.first_name}", user_path(current_user.id), {class: "dropdown-item"} if current_user %>
+            <%= link_to "Logged in as #{current_user.first_name}", user_path(current_user.id), {class: "dropdown-item"} if current_user %>
             <%= link_to "Dashboard #{current_company.name}", company_path(current_company.id), {class: "dropdown-item"} if current_company %>
             <%= link_to 'Log-out', destroy_user_session_path, {method: :delete, class: "dropdown-item"} if user_signed_in? %>
             <%= link_to 'C Log-out', destroy_company_session_path, {method: :delete, class: "dropdown-item"} if company_signed_in? %>
-            <a class="dropdown-item" href="#">Another action</a>
             <div class="dropdown-divider"></div>
             <a class="dropdown-item" href="#">Something else here</a>
           </div>

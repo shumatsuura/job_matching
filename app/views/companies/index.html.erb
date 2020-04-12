@@ -112,21 +112,17 @@
           </div>
           <div class="col-sm-10">
             <div class="card-body">
-              <strong>Head Office</strong>
-              <span><%= company.location %></span>
-
-              <strong>Incorporation: </strong>
-              <span class="card-text"><%= company.date_of_incorporation.strftime("%d %b, %Y") if company.date_of_incorporation %></span>
-
-              <strong>Industry: </strong>
+              <span class="mr-2"><i class="fas fa-map-marker-alt mr-2"></i><%= company.location %></span>
+              <i class="fas fa-flag"></i>
+              <span class="card-text mr-2"><strong>Incorporation: </strong><%= company.date_of_incorporation.strftime("%d %b, %Y") if company.date_of_incorporation %></span>
+              <strong><i class="fas fa-industry"></i> Industry: </strong>
               <% company.industries.each do |industry| %>
               <span class="card-text  badge badge-primary">
                 <%= industry.name %>
               </span>
               <% end %>
 
-              <strong>#Employees</strong>
-              <span><%= company.number_of_employees.to_s(:delimited) if company.number_of_employees.present? %></span>
+              <span><i class="fas fa-users mr-1"></i><strong>Employees:</strong><%= company.number_of_employees.to_s(:delimited) if company.number_of_employees.present? %></span>
 
               <strong>Paid up capital</strong>
               <span><%= company.paid_up_capital.to_s(:delimited) if company.paid_up_capital.present? %></span>

@@ -33,6 +33,7 @@ class PostsController < ApplicationController
 
   def edit
     @company = @post.company
+    @skills = @company.company_skills
   end
 
   def update
@@ -66,6 +67,7 @@ class PostsController < ApplicationController
       :location,
       :company_id,
       :status,
+      skill_ids: [],
       post_industries_attributes: [:id, :post_id, :industry_id],
       post_job_categories_attributes: [:id, :post_id, :job_category_id],
       post_skills_attributes: [:id, :post_id, :company_skill_id],

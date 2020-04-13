@@ -64,6 +64,8 @@ Rails.application.routes.draw do
     end
   end
 
+  resources :company_skills
+
   resources :posts do
     member do
       get :manage

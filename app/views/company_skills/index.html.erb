@@ -1,0 +1,29 @@
+<div class="container">
+  <table class="table table-bordered">
+    <div class="row">
+      <div class="col">
+        <h3>Skill List</h3>
+
+      </div>
+      <div class="col text-right">
+
+        <%= link_to "New Skill", new_company_skill_path, class: "btn btn-primary" %>
+      </div>
+
+    </div>
+    <thead class="thead thead-dark">
+      <th>Name</th>
+      <th colspan="2">Action</th>
+
+    </thead>
+    <tbody>
+      <% @company_skills.each do |company_skill| %>
+        <tr>
+          <td><%= company_skill.name %></td>
+          <td><%= link_to "Edit", edit_company_skill_path(company_skill.id) %></td>
+          <td><%= link_to "Delete", company_skill_path(company_skill.id), method: :delete %></td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+</div>

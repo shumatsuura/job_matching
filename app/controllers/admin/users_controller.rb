@@ -27,6 +27,11 @@ class Admin::UsersController < ApplicationController
   end
 
   def update
+
+    if params[:user][:password].blank?
+      params[:user].delete("password")
+    end
+
     if @user.update(user_params)
       redirect_to dashboard_user_path(@user.id), notice: 'Updated user account successfully.'
     else
@@ -64,6 +69,7 @@ class Admin::UsersController < ApplicationController
       :image,
       :image_cache,
       :cv,
+      :admin,
       educations_attributes: [:id,:school_name,:major,:period_start,:period_end,:_destroy],
       languages_attributes: [:id,:name,:level,:_destroy],
       desired_industries_attributes: [:id,:user_id,:industry_id,:_destroy],

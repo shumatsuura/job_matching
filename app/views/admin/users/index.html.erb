@@ -16,6 +16,8 @@
       <th>Phone</th>
       <th>Last Update</th>
       <th>Created At</th>
+      <th>Admin</th>
+      <th>Provider</th>
       <th colspan="3">Action</th>
     </thead>
     <tbody>
@@ -31,6 +33,8 @@
         <td><%= user.phone_number %></td>
         <td><%= user.updated_at %></td>
         <td><%= user.created_at %></td>
+        <td><%= user.admin %></td>
+        <th><%= user.provider %></th>
         <td><%= link_to "Edit Account", edit_admin_user_path(user.id) %></td>
         <td><%= link_to "Edit Profile", edit_user_path(user.id) %></td>
         <td><%= link_to "Delete", admin_user_path(user.id), method: :delete, data:{ confirm: "Are you sure?"} %> </td>

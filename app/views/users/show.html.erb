@@ -470,10 +470,10 @@
                 <%= message_f.label :body %>
                 <%= message_f.text_area :body, class: "form-control" %>
               </div>
-              <%= message_f.text_field :company_id, value: current_company.id, type: "hidden" %>
+              <%= message_f.text_field :company_id, value: current_company.id, type: "hidden" if company_signed_in? %>
             <% end %>
 
-            <%= f.text_field :company_id, value: current_company.id, type: "hidden" %>
+            <%= f.text_field :company_id, value: current_company.id, type: "hidden" if company_signed_in? %>
             <%= f.text_field :user_id, value: params[:id], type: "hidden" %>
           <div class="form-group">
             <%= f.submit "Submit", class: "btn btn-primary" %>

@@ -43,6 +43,11 @@
       <%= f.text_area :location, class: "form-control" %>
     </div>
 
+    <div class="form-group">
+      <%= f.label :status %>
+      <%= f.select :status, Post.statuses.keys,{}, class: "form-control" %>
+    </div>
+
     <div class="form-group post_skills">
       <%= f.fields_for :post_skills do |builder| %>
         <%= render 'posts/post_skill_fields', f: builder %>

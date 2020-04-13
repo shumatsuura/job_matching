@@ -20,6 +20,9 @@ class Admin::CompaniesController < ApplicationController
   end
 
   def update
+    if params[:company][:password].blank?
+      params[:company].delete("password")
+    end
     if @company.update(company_params)
       redirect_to admin_companies_path, notice: "Company's account has been updated successfully."
     else

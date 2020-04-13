@@ -3,7 +3,7 @@
     <div class="select_job_category">
 
   <%= f.label :job_category %>
-  <%= f.select :job_category_id, JobCategory.select(:id, :name).map{ |n| [n.name.to_sym,n.id]}.to_h, include_blank: true %>
+  <%= f.select :job_category_id, JobCategory.select(:id, :name).map{ |n| [n.name.to_sym,n.id]}.to_h, {include_blank: true},class: "form-control" %>
 </div>
 
   <%= f.hidden_field :company_id, :value => params[:id] %>

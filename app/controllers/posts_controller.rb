@@ -65,6 +65,7 @@ class PostsController < ApplicationController
       :description,
       :location,
       :company_id,
+      :status,
       post_industries_attributes: [:id, :post_id, :industry_id],
       post_job_categories_attributes: [:id, :post_id, :job_category_id],
       post_skills_attributes: [:id, :post_id, :company_skill_id],

@@ -1,0 +1,302 @@
+<nav class="col-md-3 d-none d-md-block bg-white" id="sidebar">
+  <div>
+    <h5 class="align-items-center mt-1 mb-1 text-muted">
+      Search & Filter
+    </h5>
+      <%= search_form_for @q do |f| %>
+      <ul class="nav">
+        <li><%= f.label :company_name_or_title_or_position_or_description_cont, "Key Word" %></li>
+        <li><%= f.search_field :company_name_or_title_or_position_or_description_cont, class: "form-control" %></li>
+      </ul>
+      <li class="list-unstyled">
+        <a href="#industrySubmenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">
+          Industry
+        </a>
+      </li>
+      <ul class="collapse list-unstyled" id="industrySubmenu">
+        <% @industries.each do |industry| %>
+          <li>
+            <div class="form-inline mb-1">
+              <%= f.label :industries_id_in do %>
+              <%= f.check_box :industries_id_in, {multiple: true, include_hidden: false, class:"mr-2 align-self-start mt-1"}, industry.id %>
+              <small><%= industry.name %></small>
+              <% end %>
+            </div>
+          </li>
+        <% end %>
+      </ul>
+      <li class="list-unstyled">
+        <a href="#jobcategorySubmenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">
+          Job Category
+        </a>
+      </li>
+      <ul class="collapse list-unstyled" id="jobcategorySubmenu">
+        <% @job_categories.each do |job_category| %>
+        <li>
+          <div class="form-inline mb-1">
+            <%= f.label :job_categories_id_in do %>
+            <%= f.check_box :job_categories_id_in, {multiple: true, include_hidden: false, class:"mr-2 align-self-start mt-1"}, job_category.id %>
+            <small><%= job_category.name %></small>
+            <% end %>
+          </div>
+        </li>
+        <% end %>
+      </ul>
+      <li class="list-unstyled">
+        <a href="#salarySubmenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">
+          Salary
+        </a>
+      </li>
+      <div class="collapse list-unstyled" id="salarySubmenu">
+        <div class="row">
+          <div class="col-2">
+            Min
+          </div>
+          <div class="col-10">
+            <%= f.number_field :salary_gteq, class: "form-control" %>
+          </div>
+        </div>
+        <div class="row pt-1">
+          <div class="col-2">
+            Max
+          </div>
+          <div class="col-10">
+            <%= f.number_field :salary_lt, class: "form-control" %>
+          </div>
+        </div>
+      </div>
+      <li class="list-unstyled">
+        <a href="#recruitsSubmenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">
+          No of Recruits
+        </a>
+      </li>
+      <div class="collapse list-unstyled" id="recruitsSubmenu">
+        <div class="row">
+          <div class="col-2">
+            Min
+          </div>
+          <div class="col-10">
+            <%= f.number_field :number_of_recruits_gteq, class: "form-control" %>
+          </div>
+        </div>
+        <div class="row pt-1">
+          <div class="col-2">
+            Max
+          </div>
+          <div class="col-10">
+            <%= f.number_field :number_of_recruits_lt, class: "form-control" %>
+          </div>
+        </div>
+      </div>
+
+      <a href="#locationSubmenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">
+        Location
+      </a>
+      <ul class="collapse list-unstyled" id="locationSubmenu">
+        <li>
+          <%= f.search_field :location_cont, class: "form-control" %>
+        </li>
+      </ul>
+
+      <li class="list-unstyled">
+        <a href="#employeeSubmenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">
+          No of Employee
+        </a>
+      </li>
+      <div class="collapse list-unstyled" id="employeeSubmenu">
+        <div class="row">
+          <div class="col-2">
+            Min
+          </div>
+          <div class="col-10">
+            <%= f.number_field :company_number_of_employees_gteq, class: "form-control" %>
+          </div>
+        </div>
+        <div class="row pt-1">
+          <div class="col-2">
+            Max
+          </div>
+          <div class="col-10">
+            <%= f.number_field :company_number_of_employees_lt, class: "form-control" %>
+          </div>
+        </div>
+      </div>
+
+      <a href="#paidupcapitalSubmenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">
+        Paid Up Capital
+      </a>
+      <div class="collapse list-unstyled" id="paidupcapitalSubmenu">
+        <div class="row">
+          <div class="col-2">
+            Min
+          </div>
+          <div class="col-10">
+            <%= f.number_field :company_paid_up_capital_gteq, class: "form-control" %>
+          </div>
+        </div>
+        <div class="row pt-1">
+          <div class="col-2">
+            Max
+          </div>
+          <div class="col-10">
+            <%= f.number_field :company_paid_up_capital_lt, class: "form-control" %>
+          </div>
+        </div>
+      </div>
+        <div class="actions mt-1"><%= f.submit "Search", class: "btn btn-success" %></div>
+      <% end %>
+  </div>
+</nav>
+<!-- MD以下の表示 -->
+<div class="d-md-none p-3 col">
+  <h5 class="text-muted">Search & Filter</h5>
+  <%= search_form_for @q do |f| %>
+  <div class="form-group">
+    <%= f.label :company_name_or_title_or_position_or_description_cont, "Key Word" %>
+    <%= f.search_field :company_name_or_title_or_position_or_description_cont, class: "form-control" %>
+  </div>
+  <div class="row">
+    <div class="col-6">
+      <li class="list-unstyled">
+        <a href="#industrySubmenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">
+          Industry
+        </a>
+      </li>
+      <ul class="collapse list-unstyled" id="industrySubmenu">
+        <% @industries.each do |industry| %>
+        <li>
+          <div class="form-inline mb-1">
+            <%= f.label :industries_id_in do %>
+            <%= f.check_box :industries_id_in, {multiple: true, include_hidden: false, class:"mr-2 align-self-start mt-1"}, industry.id %>
+            <small><%= industry.name %></small>
+            <% end %>
+          </div>
+        </li>
+        <% end %>
+      </ul>
+      <li class="list-unstyled">
+        <a href="#jobcategorySubmenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">
+          Job Category
+        </a>
+      </li>
+      <ul class="collapse list-unstyled" id="jobcategorySubmenu">
+        <% @job_categories.each do |job_category| %>
+        <li>
+          <div class="form-inline mb-1">
+            <%= f.label :job_categories_id_in do %>
+            <%= f.check_box :job_categories_id_in, {multiple: true, include_hidden: false, class:"mr-2 align-self-start mt-1"}, job_category.id %>
+            <small><%= job_category.name %></small>
+            <% end %>
+          </div>
+        </li>
+        <% end %>
+      </ul>
+      <li class="list-unstyled">
+        <a href="#salarySubmenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">
+          Salary
+        </a>
+      </li>
+      <div class="collapse list-unstyled" id="salarySubmenu">
+        <div class="row">
+          <div class="col-2">
+            Min
+          </div>
+          <div class="col-10">
+            <%= f.number_field :salary_gteq, class: "form-control" %>
+          </div>
+        </div>
+        <div class="row pt-1">
+          <div class="col-2">
+            Max
+          </div>
+          <div class="col-10">
+            <%= f.number_field :salary_lt, class: "form-control" %>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="col-6">
+      <li class="list-unstyled">
+        <a href="#recruitsSubmenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">
+          No of Recruits
+        </a>
+      </li>
+      <div class="collapse list-unstyled" id="recruitsSubmenu">
+        <div class="row">
+          <div class="col-2">
+            Min
+          </div>
+          <div class="col-10">
+            <%= f.number_field :number_of_recruits_gteq, class: "form-control" %>
+          </div>
+        </div>
+        <div class="row pt-1">
+          <div class="col-2">
+            Max
+          </div>
+          <div class="col-10">
+            <%= f.number_field :number_of_recruits_lt, class: "form-control" %>
+          </div>
+        </div>
+      </div>
+
+      <a href="#locationSubmenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">
+        Location
+      </a>
+      <ul class="collapse list-unstyled" id="locationSubmenu">
+        <li>
+          <%= f.search_field :location_cont, class: "form-control" %>
+        </li>
+      </ul>
+
+      <li class="list-unstyled">
+        <a href="#employeeSubmenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">
+          No of Employee
+        </a>
+      </li>
+      <div class="collapse list-unstyled" id="employeeSubmenu">
+        <div class="row">
+          <div class="col-2">
+            Min
+          </div>
+          <div class="col-10">
+            <%= f.number_field :company_number_of_employees_gteq, class: "form-control" %>
+          </div>
+        </div>
+        <div class="row pt-1">
+          <div class="col-2">
+            Max
+          </div>
+          <div class="col-10">
+            <%= f.number_field :company_number_of_employees_lt, class: "form-control" %>
+          </div>
+        </div>
+      </div>
+
+      <a href="#paidupcapitalSubmenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">
+        Paid Up Capital
+      </a>
+      <div class="collapse list-unstyled" id="paidupcapitalSubmenu">
+        <div class="row">
+          <div class="col-2">
+            Min
+          </div>
+          <div class="col-10">
+            <%= f.number_field :company_paid_up_capital_gteq, class: "form-control" %>
+          </div>
+        </div>
+        <div class="row pt-1">
+          <div class="col-2">
+            Max
+          </div>
+          <div class="col-10">
+            <%= f.number_field :company_paid_up_capital_lt, class: "form-control" %>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+    <div class="actions mt-1 text-right"><%= f.submit "Search", class: "btn btn-success" %></div>
+  <% end %>
+</div>

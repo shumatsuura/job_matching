@@ -1,9 +1,9 @@
 <div class="container">
   <div class="row">
     <!-- Sidebar -->
-    <nav class="col-md-2 d-none d-md-block bg-white" id="sidebar">
+    <nav class="col-md-3 d-none d-md-block bg-white" id="sidebar">
       <div>
-        <h5 class="d-flex justify-content-between align-items-center mt-4 mb-1 text-muted">
+        <h5 class="align-items-center mt-1 mb-1 text-muted">
           <span>Search & Filter</span>
         </h5>
         <%= search_form_for @q do |f| %>
@@ -12,24 +12,31 @@
           <li><%= f.search_field :name_or_description_cont, class: "form-control" %></li>
         </ul>
 
-        <a href="#industrySubmenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">
-          Industry
-        </a>
+        <li class="list-unstyled">
+          <a href="#industrySubmenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">
+            Industry
+          </a>
+        </li>
         <ul class="collapse list-unstyled" id="industrySubmenu">
           <% @industries.each do |industry| %>
           <li>
-            <%= f.check_box :industries_id_in, {multiple: true, include_hidden: false}, industry.id %>
-            <%= f.label :industries_id_in, industry.name %>
+            <div class="form-inline mb-1">
+              <%= f.label :industries_id_in do %>
+              <%= f.check_box :industries_id_in, {multiple: true, include_hidden: false, class:"mr-2 align-self-start mt-1"}, industry.id %>
+              <small><%= industry.name %></small>
+              <% end %>
+            </div>
           </li>
           <% end %>
         </ul>
 
-        <a href="#locationSubmenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">
-          Location
-        </a>
+        <li class="list-unstyled">
+          <a href="#locationSubmenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">
+            Location
+          </a>
+        </li>
         <ul class="collapse list-unstyled" id="locationSubmenu">
           <li>
-            <%= f.label :location_cont, "Location" %>
             <%= f.search_field :location_cont, class: "form-control" %>
           </li>
         </ul>
@@ -82,9 +89,9 @@
       </div>
     </nav>
     <!-- Sidebar until here  -->
-    <div class = "col-md-10">
-      <%= paginate @companies %>
+    <div class = "col-md-9">
       <h3>Company List</h3>
+      <%= paginate @companies %>
       <% @companies.each do |company| %>
       <div class="card mb-3">
         <div class="row no-gutters">

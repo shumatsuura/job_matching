@@ -1,10 +1,10 @@
-<div class ="container">
+<div class="container">
   <div class="row">
     <!-- Side Bar -->
-    <nav class="col-md-2 d-none d-md-block bg-white mr-2">
+    <nav class="col-md-3 d-none d-md-block bg-white">
       <div>
-        <h5 class="d-flex justify-content-between align-items-center mt-4 mb-1 text-muted">
-          <span>Search & Filter</span>
+        <h5 class="align-items-center mt-4 mb-1 text-muted">
+          Search & Filter
         </h5>
           <%= search_form_for @q do |f| %>
           <ul class="nav">
@@ -14,10 +14,11 @@
               {class: "form-control nav-item", placeholder: "Search"} %>
             </li>
           </ul>
-
-          <a href="#industrySubmenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">
-            Industry
-          </a>
+          <li class="list-unstyled">
+            <a href="#industrySubmenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">
+              Industry
+            </a>
+          </li>
           <ul class="collapse list-unstyled" id="industrySubmenu">
             <% @industries.each do |industry| %>
             <li>
@@ -27,9 +28,11 @@
             <% end %>
           </ul>
 
-          <a href="#jobcategorySubmenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">
-            Job Category
-          </a>
+          <li class="list-unstyled">
+            <a href="#jobcategorySubmenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">
+              Job Category
+            </a>
+          </li>
           <ul class="collapse list-unstyled" id="jobcategorySubmenu">
             <% @job_categories.each do |job_category| %>
             <li>
@@ -39,9 +42,11 @@
             <% end %>
           </ul>
 
-          <a href="#salarySubmenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">
-            Expected Salary
-          </a>
+          <li class="list-unstyled">
+            <a href="#salarySubmenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">
+              Expected Salary
+            </a>
+          </li>
           <div class="collapse list-unstyled" id="salarySubmenu">
             <div class="row">
               <div class="col-2">
@@ -62,7 +67,7 @@
           </div>
 
           <a href="#genderSubmenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">
-            <%= f.label :gender %>
+            Gender
           </a>
           <ul class="collapse list-unstyled" id="genderSubmenu">
             <li>
@@ -78,7 +83,7 @@
 
           <li class="nav">
             <a href="#ageSubmenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">
-              <%= f.label :age %>
+              Age
             </a>
           </li>
           <div class="collapse list-unstyled" id="ageSubmenu">
@@ -102,12 +107,12 @@
 
           <li class="nav">
           <a href="#statusSubmenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">
-            <%= f.label :status %>
+            Status
           </a>
           </li>
           <ul class="collapse list-unstyled" id="statusSubmenu">
             <li>
-              <%= f.select :status_eq ,["Actively Looking","Closed","Open for Opportunity"],include_blank: true, class: "form-control" %>
+              <%= f.select :status_eq ,["Actively Looking","Closed","Open for Opportunity"],{include_blank: true}, class: "form-control" %>
             </li>
           </ul>
 
@@ -118,10 +123,10 @@
           </li>
           <ul class="collapse list-unstyled" id="languageSubmenu">
             <li>
-              <%= f.search_field :languages_name_cont, class: "form-control" %>
+              <%= f.search_field :languages_name_cont,placeholder:"Language Name", class: "form-control" %>
             </li>
             <li>
-              <%= f.select :languages_level_eq, Language.levels, include_blank: true, class: "form-control" %>
+              <%= f.select :languages_level_eq, Language.levels, {include_blank: true}, class: "form-control" %>
             </li>
           </ul>
 
@@ -132,8 +137,7 @@
       </div>
     </nav>
     <!-- Side Bar Until Here  -->
-    <div class="col">
-      <div class="container">
+    <div class="col-md-9">
         <% n = 1 %>
         <%= paginate @users %>
         <% @users.each do |user| %>
@@ -145,11 +149,9 @@
                 <%= image_tag("default_image.jpeg", class: 'img-thumbnail',width: "150") unless user.image.present? %>
               </div>
               <div class="pl-3">
-                <h6 class="card-title"><%= user.first_name + " " + user.last_name if user.first_name && user.last_name %></h6>
+                <h6 class="card-title"><%= link_to "#{user.first_name + " " + user.last_name if user.first_name && user.last_name}",user_path(user.id) %></h6>
                 <div><small><%= user.status %></small></div>
                 <div><small><%= user.age %> years old</small></div>
-                <div><small><%= user.phone_number %></small></div>
-                <div><small><%= link_to "Detail", user_path(user.id) %></small></div>
                 <small class="text-muted">Updated at <%= user.updated_at.strftime("%Y%b%d") %></small>
               </div>
             </div>
@@ -196,7 +198,6 @@
                           <% end %>
                         </div>
                         <div class="mb-2">
-
                           <strong>Skill:</strong>
                           <% user.user_skills.each do |user_skill| %>
                           <span class="badge badge-light"><%= user_skill.name %></span>
@@ -303,7 +304,6 @@
         </div>
         <% n += 1 %>
         <% end %>
-      </div>
     </div>
   </div>
 </div>

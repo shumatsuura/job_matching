@@ -1,44 +1,55 @@
-<div class = "container">
+<div class="container">
   <div class="row">
     <!-- Sidebar -->
-    <nav class="col-md-2 d-none d-md-block bg-white" id="sidebar">
+    <nav class="col-md-3 d-none d-md-block bg-white" id="sidebar">
       <div>
-        <h5 class="d-flex justify-content-between align-items-center mt-4 mb-1 text-muted">
-          <span>Search & Filter</span>
+        <h5 class="align-items-center mt-1 mb-1 text-muted">
+          Search & Filter
         </h5>
           <%= search_form_for @q do |f| %>
           <ul class="nav">
             <li><%= f.label :company_name_or_title_or_position_or_description_cont, "Key Word" %></li>
             <li><%= f.search_field :company_name_or_title_or_position_or_description_cont, class: "form-control" %></li>
           </ul>
-
-          <a href="#industrySubmenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">
-            Industry
-          </a>
+          <li class="list-unstyled">
+            <a href="#industrySubmenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">
+              Industry
+            </a>
+          </li>
           <ul class="collapse list-unstyled" id="industrySubmenu">
             <% @industries.each do |industry| %>
-            <li>
-              <%= f.check_box :industries_id_in, {multiple: true, include_hidden: false}, industry.id %>
-              <%= f.label :industries_id_in, industry.name %>
-            </li>
+              <li>
+                <div class="form-inline mb-1">
+                  <%= f.label :industries_id_in do %>
+                  <%= f.check_box :industries_id_in, {multiple: true, include_hidden: false, class:"mr-2 align-self-start mt-1"}, industry.id %>
+                  <small><%= industry.name %></small>
+                  <% end %>
+                </div>
+              </li>
             <% end %>
           </ul>
-
-          <a href="#jobcategorySubmenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">
-            Job Category
-          </a>
+          <li class="list-unstyled">
+            <a href="#jobcategorySubmenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">
+              Job Category
+            </a>
+          </li>
           <ul class="collapse list-unstyled" id="jobcategorySubmenu">
             <% @job_categories.each do |job_category| %>
             <li>
-              <%= f.check_box :job_categories_id_in, {multiple: true, include_hidden: false}, job_category.id %>
-              <%= job_category.name %>
+              <div class="form-inline mb-1">
+                <%= f.label :job_categories_id_in do %>
+                <%= f.check_box :job_categories_id_in, {multiple: true, include_hidden: false, class:"mr-2 align-self-start mt-1"}, job_category.id %>
+                <small><%= job_category.name %></small>
+                <% end %>
+              </div>
             </li>
             <% end %>
           </ul>
-
-          <a href="#salarySubmenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">
-            Salary
-          </a>
+          <li class="list-unstyled">
+            <a href="#salarySubmenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">
+              Salary
+            </a>
+          </li>
           <div class="collapse list-unstyled" id="salarySubmenu">
             <div class="row">
               <div class="col-2">
@@ -57,10 +68,11 @@
               </div>
             </div>
           </div>
-
-          <a href="#recruitsSubmenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">
-            No of Recruits
-          </a>
+          <li class="list-unstyled">
+            <a href="#recruitsSubmenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">
+              No of Recruits
+            </a>
+          </li>
           <div class="collapse list-unstyled" id="recruitsSubmenu">
             <div class="row">
               <div class="col-2">
@@ -85,14 +97,15 @@
           </a>
           <ul class="collapse list-unstyled" id="locationSubmenu">
             <li>
-              <%= f.label :location_cont, "Location" %>
               <%= f.search_field :location_cont, class: "form-control" %>
             </li>
           </ul>
 
-          <a href="#employeeSubmenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">
-            No of Employee
-          </a>
+          <li class="list-unstyled">
+            <a href="#employeeSubmenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">
+              No of Employee
+            </a>
+          </li>
           <div class="collapse list-unstyled" id="employeeSubmenu">
             <div class="row">
               <div class="col-2">
@@ -138,7 +151,7 @@
       </div>
     </nav>
     <!-- Sidebar until here  -->
-    <div class="col-md-10">
+    <div class="col-md-9">
       <h3>Posts List</h3>
       <%= paginate @posts %>
       <% @posts.each do |post| %>

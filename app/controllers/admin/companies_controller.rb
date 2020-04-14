@@ -31,7 +31,11 @@ class Admin::CompaniesController < ApplicationController
   end
 
   def index
-    @companies = Company.all.order(updated_at: "DESC").page(params[:page]).per(PER)
+    @industries = Industry.all
+    @job_categories = JobCategory.all
+
+    @q = Company.ransack(params[:q])
+    @companies = @q.result(distinct: true).order(updated_at: "DESC").page(params[:page]).per(PER)
   end
 
   def dashboard

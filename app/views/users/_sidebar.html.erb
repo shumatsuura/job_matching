@@ -1,14 +1,16 @@
-<div class="container-fluid">
-  <%= paginate @users %>
+<nav class="col-md-3 d-none d-md-block bg-white">
   <div>
-    <h5 class="text-muted">Search & Filter</h5>
-      <%= search_form_for(@q, url: admin_users_path) do |f| %>
-
-        <%= f.label :work_experiences_company_cont, "Key Word", class: "nav-item" %>
-        <%= f.search_field :work_experiences_company_or_educations_school_name_or_educations_major_or_user_skills_name_cont,
+    <h5 class="align-items-center mt-4 mb-1 text-muted">
+      Search & Filter
+    </h5>
+      <%= search_form_for @q do |f| %>
+      <ul class="nav">
+        <li><%= f.label :work_experiences_company_cont, "Key Word", class: "nav-item" %></li>
+        <li>
+          <%= f.search_field :work_experiences_company_or_educations_school_name_or_educations_major_or_user_skills_name_cont,
           {class: "form-control nav-item", placeholder: "Search"} %>
-
-
+        </li>
+      </ul>
       <li class="list-unstyled">
         <a href="#industrySubmenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">
           Industry
@@ -130,59 +132,4 @@
       <% end %>
 
   </div>
-  <table class="table table-bordered">
-    <div class="d-flex justify-content-between">
-      <h5>Users</h5>
-      <%= link_to "Create New User", new_admin_user_path, class: "btn btn-primary btn-sm mb-1" %>
-    </div>
-    <thead class="thead-dark">
-      <th>ID</th>
-      <th>First Name</th>
-      <th>Last Name</th>
-      <th>Age</th>
-      <th>Gender</th>
-      <th>Status</th>
-      <th>Email</th>
-      <th>Phone</th>
-      <th>Last Update</th>
-      <th>Created At</th>
-      <th>Admin</th>
-      <th>Provider</th>
-      <th>Action</th>
-    </thead>
-    <tbody>
-      <% @users.order(created_at: "DESC").each do |user| %>
-      <tr>
-        <td><%= user.id %></td>
-        <td><%= link_to user.first_name || "No Name", user_path(user.id) %></td>
-        <td><%= link_to user.last_name || "No Name", user_path(user.id) %></td>
-        <td><%= user.age %></td>
-        <td><%= user.gender %></td>
-        <td><%= user.status %></td>
-        <td><%= user.email %></td>
-        <td><%= user.phone_number %></td>
-        <td><%= user.updated_at %></td>
-        <td><%= user.created_at %></td>
-        <td><%= user.admin %></td>
-        <th><%= user.provider %></th>
-        <td>
-          <div class="dropdown">
-            <!-- 切替ボタン-->
-            <button type="button" class="btn btn-secondary dropdown-toggle" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-              Edit
-            </button>
-            <!-- ドロップメニュー-->
-            <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenuButton">
-              <%= link_to "Edit Account", edit_admin_user_path(user.id), class: "dropdown-item" %>
-              <%= link_to "Edit Profile", edit_user_path(user.id), class: "dropdown-item" %>
-              <div class="dropdown-divider"></div>
-              <%= link_to "Delete", admin_user_path(user.id), method: :delete, data:{ confirm: "Are you sure?"}, class: "dropdown-item" %>
-            </div><!-- /.dropdown-menu -->
-          </div><!-- /.dropdown -->
-        </td>
-      </tr>
-      <% end %>
-    </tbody>
-  </table>
-
-</div>
+</nav>

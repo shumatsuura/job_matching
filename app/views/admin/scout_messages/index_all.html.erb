@@ -24,8 +24,8 @@
           </td>
           <td><%= message.body %></td>
           <td><%= message.message_time %></td>
-          <td><%= message.read ? '既読' : '未読' %></td>
-          <th><%= link_to "Delete", admin_scout_scout_message_path(message.scout_id,message.id), method: :delete, data:{confirm:"Are you sure?"} %></th>
+          <td class="text-center align-middle"><%= message.read ? '既読' : '未読' %></td>
+          <td class="text-center"><%= link_to "Delete", admin_scout_scout_message_path(message.scout_id,message.id), method: :delete, data:{confirm:"Are you sure?"}, class:"btn btn-danger" %></td>
         </tr>
       <% end %>
     </tbody>

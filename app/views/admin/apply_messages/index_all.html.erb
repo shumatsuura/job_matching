@@ -25,7 +25,7 @@
           <td><%= message.body %></td>
           <td><%= message.message_time %></td>
           <td><%= message.read ? 'Read' : 'Unread' %></td>
-          <th><%= link_to "Delete", admin_apply_apply_message_path(message.apply_id,message.id), method: :delete, data:{confirm:"Are you sure?"} %></th>
+          <td class="text-center align-middle"><%= link_to "Delete", admin_apply_apply_message_path(message.apply_id,message.id), method: :delete, data:{confirm:"Are you sure?"}, class: "btn btn-danger" %></td>
         </tr>
       <% end %>
     </tbody>

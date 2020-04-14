@@ -15,17 +15,17 @@
     <tbody>
     <% @applies.each do |apply| %>
       <% user = apply.user %>
-      <tr>
+      <tr class="align-middle">
         <td><%= apply.id %></td>
         <td><%= link_to apply.post.company.name || "No Name", company_path(apply.post.company_id) %></td>
         <td><%= link_to apply.post.title, post_path(apply.post_id) %></td>
         <td><%= link_to user.first_name || "No Name", user_path(user.id) %></td>
         <td><%= user.gender %></td>
         <td><%= user.age %></td>
-        <td class="text-center">
+        <td class="align-center align-middle">
           <%= link_to "Message", admin_apply_apply_messages_path(apply.id) %>
         </td>
-        <td><%= link_to "Delete", admin_apply_path(apply.id), method: :delete, data:{confirm: "Are you sure?"} %></td>
+        <td align="center"><%= link_to "Delete", admin_apply_path(apply.id), method: :delete, data:{confirm: "Are you sure?"},class:"btn btn-danger" %></td>
       </tr>
     <% end %>
     </tbody>

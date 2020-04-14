@@ -23,7 +23,7 @@
         <td class="text-center">
           <%= link_to "Message", admin_scout_scout_messages_path(scout.id) %>
         </td>
-        <td><%= link_to "Delete", admin_scout_path(scout.id), method: :delete, data:{confirm: "Are you sure?"} %></td>
+        <td align="center"><%= link_to "Delete", admin_scout_path(scout.id), method: :delete, data:{confirm: "Are you sure?"}, class:"btn btn-danger" %></td>
       </tr>
     <% end %>
     </tbody>

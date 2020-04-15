@@ -3,7 +3,8 @@ class Admin::ScoutsController < ApplicationController
   PER = 20
 
   def index
-    @scouts = Scout.all.page(params[:page]).per(PER)
+    @q = Scout.ransack(params[:q])
+    @scouts = @q.result(distinct: true).page(params[:page]).per(PER)
   end
 
   def destroy

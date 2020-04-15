@@ -18,7 +18,6 @@
               <% if current_company.scouts.pluck(:user_id).include?(@user.id) %>
               <%= link_to "スカウト解除", scout_path(user_id: @user.id), method: :delete, class:"btn btn-danger" %>
               <% else %>
-              <%= link_to "スカウトする", scouts_path(scout:{user_id: @user.id, company_id: current_company.id}), method: :post, class:"btn btn-primary" %>
               <button class = "btn btn-primary btn-sm" data-toggle="modal" data-target = "#new_scout_Modal">スカウトする</button>
               <% end %>
             <% end %>

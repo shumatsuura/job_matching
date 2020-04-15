@@ -1,5 +1,36 @@
-
 <div class="container">
+  <h5 class="text-muted">Search & Filter</h5>
+  <div class="search bg-light p-2 rounded mb-2">
+    <%= search_form_for(@q, url: admin_scout_scout_messages_path) do |f| %>
+    <div class="form-row">
+      <div class="form-inline form-group col-auto">
+        <%= f.label :id_eq, "ID:", class:"mr-1" %>
+        <%= f.search_field :id_eq, class:"form-control" %>
+      </div>
+      <div class="form-inline form-group col-auto">
+        <%= f.label :body_cont, "Body:", class:"mr-1" %>
+        <%= f.search_field :body_cont, class:"form-control" %>
+      </div>
+      <div class="form-inline form-group col-auto">
+        <span class="mr-2">Sender:</span>
+        <%= f.check_box :user_id_in, {include_hidden: false},@scout.user.id %>
+        <%= f.label :user_id_in, "User", class:"mr-1" %>
+        <%= f.check_box :company_id_in, {include_hidden: false},@scout.company.id %>
+        <%= f.label :company_id_in, "Company", class:"mr-1" %>
+      </div>
+      <div class="form-inline form-group col-auto">
+        Time /
+        <%= f.label :created_at_gteq, "From:", class:"mr-1" %>
+        <%= f.datetime_select :created_at_gteq,{include_blank: true}, class:"form-control mr-2" %>
+        <%= f.label :created_at_gteq, "To:", class:"mr-1" %>
+        <%= f.datetime_select :created_at_lteq,{}, class:"form-control" %>
+      </div>
+    </div>
+    <div class="text-right">
+      <%= f.submit "Search", class: "btn btn-success my-2 my-sm-0" %>
+    </div>
+    <% end %>
+  </div>
   <table class="table table-bordered">
     <%= paginate @messages %>
     <h5>Scout Messages</h5>

@@ -1,153 +1,103 @@
-<div class="container-fluid">
-  <%= paginate @users %>
-  <div>
-    <h5 class="text-muted">Search & Filter</h5>
-      <%= search_form_for(@q, url: admin_users_path) do |f| %>
-
-        <%= f.label :work_experiences_company_cont, "Key Word", class: "nav-item" %>
+<div class="container">
+  <h5 class="text-muted">Search & Filter</h5>
+  <div class="search bg-light p-2 rounded">
+    <%= search_form_for(@q, url: admin_users_path) do |f| %>
+    <div class="form-row">
+      <div class="form-inline form-group col-auto">
+        <%= f.label :work_experiences_company_cont, "Key Word:", class: "mr-1" %>
         <%= f.search_field :work_experiences_company_or_educations_school_name_or_educations_major_or_user_skills_name_cont,
-          {class: "form-control nav-item", placeholder: "Search"} %>
-
-
-      <li class="list-unstyled">
-        <a href="#industrySubmenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">
-          Industry
-        </a>
-      </li>
-      <ul class="collapse list-unstyled" id="industrySubmenu">
+        {class: "form-control", placeholder: "Search"} %>
+      </div>
+      <div class="form-inline form-group col-auto">
+        <%= f.label :id_eq, "ID:", class:"mr-1" %>
+        <%= f.search_field :id_eq, class:"form-control" %>
+      </div>
+      <div class="form-inline form-group col-auto">
+        <%= f.label :expected_salary_gteq, "Expected Salary:", class:"mr-1" %>
+        <%= f.number_field :expected_salary_gteq, {class: "form-control", placeholder: "Min"} %>
+        ~
+        <%= f.number_field :expected_salary_lt, {class: "form-control", placeholder: "Max"} %>
+      </div>
+      <div class="form-inline form-group col-auto">
+        <span class="mr-1">Gender:</span>
+        <%= f.radio_button :gender_eq, '', {:checked => true, class:"mr-1"} %>
+        <%= f.label :gender_eq,"指定なし", {value: "", class:"mr-1"} %>
+        <%= f.radio_button :gender_eq, "Male", class:"mr-1" %>
+        <%= f.label :gender_eq,"Male", {value: "Male", class:"mr-1"} %>
+        <%= f.radio_button :gender_eq, "Female",class:"mr-1" %>
+        <%= f.label :gender_eq,"Female", {value: "Female", class:"mr-1"} %>
+      </div>
+      <div class="form-inline form-group col-auto">
+        <span class="mr-1">Age:</span>
+        <%= f.number_field :date_of_birth_to_age_gteq, {class: "form-control", placeholder:"Min"} %>
+        ~
+        <%= f.number_field :date_of_birth_to_age_lteq, {class: "form-control", placeholder:"Max"} %>
+      </div>
+      <div class="form-inline form-group col-auto">
+        <%= f.label :status_eq, "Status:", class:"mr-1" %>
+        <%= f.select :status_eq, ["Actively Looking","Closed","Open for Opportunity"], {include_blank: true}, class: "form-control" %>
+      </div>
+      <div class="form-inline form-group col-auto">
+        <%= f.label :languages_name_cont, "Language:", class: "mr-1" %>
+        <%= f.search_field :languages_name_cont, placeholder:"Language Name", class: "form-control" %>
+        <%= f.select :languages_level_eq, Language.levels, {include_blank: true}, class: "form-control" %>
+      </div>
+    </div>
+    <div>
+      <a href="#industrySubmenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">
+        Industry
+      </a>
+    </div>
+    <div class="collapse" id="industrySubmenu">
+      <div class="form-row ml-1">
         <% @industries.each do |industry| %>
-        <li>
+        <div class="form-group p-0 mb-0 mr-3">
           <%= f.check_box :industries_id_in, {multiple: true, include_hidden: false}, industry.id %>
-          <%= f.label :industries_id_in, industry.name %>
-        </li>
+          <%= f.label :industries_id_in, industry.name, {value: industry.id, class:""} %>
+        </div>
         <% end %>
-      </ul>
+      </div>
+    </div>
 
-      <li class="list-unstyled">
-        <a href="#jobcategorySubmenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">
-          Job Category
-        </a>
-      </li>
-      <ul class="collapse list-unstyled" id="jobcategorySubmenu">
+    <div>
+      <a href="#jobcategorySubmenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">
+        Job Category
+      </a>
+    </div>
+    <div class="collapse" id="jobcategorySubmenu">
+      <div class="form-row ml-1">
         <% @job_categories.each do |job_category| %>
-        <li>
+        <div class="form-group p-0 mb-0 mr-3">
           <%= f.check_box :job_categories_id_in, {multiple: true, include_hidden: false}, job_category.id %>
-          <%= job_category.name %>
-        </li>
+          <%= f.label :job_categories_id_in, job_category.name, {value: job_category.id, class:""}  %>
+        </div>
         <% end %>
-      </ul>
-
-      <li class="list-unstyled">
-        <a href="#salarySubmenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">
-          Expected Salary
-        </a>
-      </li>
-      <div class="collapse list-unstyled" id="salarySubmenu">
-        <div class="row">
-          <div class="col-2">
-            Min
-          </div>
-          <div class="col-10">
-            <%= f.number_field :expected_salary_gteq, {class: "form-control"} %>
-          </div>
-        </div>
-        <div class="row pt-1">
-          <div class="col-2">
-            Max
-          </div>
-          <div class="col-10">
-            <%= f.number_field :expected_salary_lt, {class: "form-control"} %>
-          </div>
-        </div>
       </div>
-
-      <a href="#genderSubmenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">
-        Gender
-      </a>
-      <ul class="collapse list-unstyled" id="genderSubmenu">
-        <li>
-          <%= f.radio_button :gender_eq, '', {:checked => true} %>指定なし
-        </li>
-        <li>
-          <%= f.radio_button :gender_eq, "Male" %>Male
-        </li>
-        <li>
-          <%= f.radio_button :gender_eq, "Female" %>Female
-        </li>
-      </ul>
-
-      <li class="nav">
-        <a href="#ageSubmenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">
-          Age
-        </a>
-      </li>
-      <div class="collapse list-unstyled" id="ageSubmenu">
-        <div class="row">
-          <div class="col-2">
-            Min
-          </div>
-          <div class="col-10">
-            <%= f.number_field :date_of_birth_to_age_gteq, {class: "form-control"} %>
-          </div>
-        </div>
-        <div class="row pt-1">
-          <div class="col-2">
-            Max
-          </div>
-          <div class="col-10">
-            <%= f.number_field :date_of_birth_to_age_lteq, {class: "form-control"} %>才以上
-          </div>
-        </div>
-      </div>
-
-      <li class="nav">
-      <a href="#statusSubmenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">
-        Status
-      </a>
-      </li>
-      <ul class="collapse list-unstyled" id="statusSubmenu">
-        <li>
-          <%= f.select :status_eq ,["Actively Looking","Closed","Open for Opportunity"],{include_blank: true}, class: "form-control" %>
-        </li>
-      </ul>
-
-      <li class="nav">
-        <a href="#languageSubmenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">
-          <%= f.label :language %>
-        </a>
-      </li>
-      <ul class="collapse list-unstyled" id="languageSubmenu">
-        <li>
-          <%= f.search_field :languages_name_cont, placeholder:"Language Name", class: "form-control" %>
-        </li>
-        <li>
-          <%= f.select :languages_level_eq, Language.levels, {include_blank: true}, class: "form-control" %>
-        </li>
-      </ul>
-
+    </div>
+    <div class="text-right">
       <%= f.submit "Search", class: "btn btn-success my-2 my-sm-0" %>
-
-      <% end %>
-
+    </div>
+    <% end %>
+  </div>
+  <%= paginate @users %>
+  <div class="d-flex justify-content-between">
+    <h5>Users</h5>
+    <%= link_to "Create New User", new_admin_user_path, class: "btn btn-primary btn-sm mb-1" %>
   </div>
   <table class="table table-bordered">
-    <div class="d-flex justify-content-between">
-      <h5>Users</h5>
-      <%= link_to "Create New User", new_admin_user_path, class: "btn btn-primary btn-sm mb-1" %>
-    </div>
     <thead class="thead-dark">
-      <th>ID</th>
+      <th><%= sort_link(@q, :id,{}, class:"text-light")%></th>
       <th>First Name</th>
       <th>Last Name</th>
-      <th>Age</th>
+      <th><%= sort_link(@q, :date_of_birth,"Age",{}, class:"text-light") %></th>
       <th>Gender</th>
       <th>Status</th>
       <th>Email</th>
       <th>Phone</th>
-      <th>Last Update</th>
-      <th>Created At</th>
-      <th>Admin</th>
-      <th>Provider</th>
+      <th><%= sort_link(@q, :updated_at,{}, class:"text-light") %></th>
+      <th><%= sort_link(@q, :created_at,{}, class:"text-light") %></th>
+      <th><%= sort_link(@q, :admin,{}, class:"text-light") %></th>
+      <th><%= sort_link(@q, :provider,{}, class:"text-light") %></th>
       <th>Action</th>
     </thead>
     <tbody>
@@ -184,5 +134,4 @@
       <% end %>
     </tbody>
   </table>
-
 </div>

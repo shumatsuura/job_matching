@@ -1,65 +1,66 @@
 <div class="container">
   <h5 class="text-muted">Search & Filter</h5>
-  <div class="search">
+  <div class="search bg-light p-2 rounded">
     <%= search_form_for(@q, url: admin_companies_path) do |f| %>
-    <div class="row">
-      <div class="form-inline col-auto">
-        <%= f.label :name_or_description_or_location_cont, "Key Word: " %>
+    <div class="form-row">
+      <div class="form-inline form-group col-auto">
+        <%= f.label :name_or_description_or_location_cont, "Key Word:", class:"mr-1" %>
         <%= f.search_field :name_or_description_or_location_cont, class: "form-control" %>
       </div>
-      <div class="form-inline col-auto">
-        <%= f.label :id_eq, "ID:" %>
+      <div class="form-inline form-group col-auto">
+        <%= f.label :id_eq, "ID:", class:"mr-1" %>
         <%= f.search_field :id_eq, class:"form-control" %>
       </div>
 
-      <div class="form-inline col-auto">
-        <%= f.label :member_status_eq, "Member Status:" %>
+      <div class="form-inline form-group col-auto">
+        <%= f.label :member_status_eq, "Member Status:", class:"mr-1" %>
         <%= f.select :member_status_eq, Company.member_statuses, {include_blank: true}, class: "form-control" %>
       </div>
-      <div class="form-inline col-auto">
-        <%= f.label :location_cont, "Location:" %>
+      <div class="form-inline form-group col-auto">
+        <%= f.label :location_cont, "Location:" , class:"mr-1" %>
         <%= f.search_field :location_cont, class: "form-control" %>
       </div>
-      <div class="form-inline col-auto">
-        <%= f.label :number_of_employees_gteq, "No. of Employee:" %>
+
+      <div class="form-inline form-group col-auto">
+        <%= f.label :number_of_employees_gteq, "No. of Employee:", class:"mr-1"%>
         <%= f.number_field :number_of_employees_gteq, class: "form-control" %>
         ~
         <%= f.number_field :number_of_employees_lt, class: "form-control" %>
       </div>
-      <div class="form-inline col-auto">
-        <%= f.label :paid_up_capital_gteq, "Paid up capital:" %>
+      <div class="form-inline form-group col-auto">
+        <%= f.label :paid_up_capital_gteq, "Paid up capital:", class:"mr-1" %>
         <%= f.number_field :paid_up_capital_gteq, class: "form-control" %>
         ~
         <%= f.number_field :paid_up_capital_lt, class: "form-control" %>
       </div>
     </div>
-    <li class="list-unstyled">
+    <div class="list-unstyled">
       <a href="#industrySubmenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">
         Industry
       </a>
-    </li>
-    <ul class="collapse list-unstyled" id="industrySubmenu">
+    </div>
+    <div class="collapse list-unstyled" id="industrySubmenu">
+      <div class="form-row ml-1">
       <% @industries.each do |industry| %>
-      <li>
-        <div class="form-inline mb-1">
-          <%= f.label :industries_id_in do %>
-          <%= f.check_box :industries_id_in, {multiple: true, include_hidden: false, class:"mr-2 align-self-start mt-1"}, industry.id %>
-          <small><%= industry.name %></small>
-          <% end %>
+        <div class="form-group p-0 mb-0 mr-3">
+          <%= f.check_box :industries_id_in, {multiple: true, include_hidden: false, class:""}, industry.id %>
+          <%= f.label :industries_id_in, industry.name, {value: industry.id, class:""}  %>
         </div>
-      </li>
       <% end %>
-    </ul>
+      </div>
+    </div>
     <div class="actions mt-1 text-right">
       <%= f.submit "Search", class: "btn btn-success" %>
-      <%= link_to "Create New Company", new_admin_company_path, class: "btn btn-primary btn-sm mb-1" %>
     </div>
     <% end %>
   </div>
 
   <%= paginate @companies %>
-  <table class="table table-bordered">
+  <div class="d-flex justify-content-between">
     <h5>Companies</h5>
+    <%= link_to "Create New Company", new_admin_company_path, class: "btn btn-primary btn-sm mb-1" %>
+  </div>
+  <table class="table table-bordered">
     <thead class="thead-dark">
       <th><%= sort_link(@q, :id,{}, class:"text-light") %></th>
       <th>Company</th>

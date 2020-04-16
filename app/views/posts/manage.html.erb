@@ -47,13 +47,12 @@
     </div>
   </div>
 
-  <table class= "table table-bordered table-hover">
+  <table class= "table table-bordered">
     <span>
       <h4>List of Candidate
         <small>(<%= @post.applies.count %> People)</small>
       </h4>
     </span>
-
     <thead class="thead-dark">
       <tr>
         <th>No.</th>
@@ -81,11 +80,11 @@
         <td><%= user.expected_salary %></td>
         <td><%= user.educations.last.school_name if user.educations.present? %></td>
         <td><%= user.educations.last.major if user.educations.present? %></td>
-        <td><button type="button" class = "btn" data-toggle="modal" data-target = "#statusModal"><%= apply.status %></button></td>
+        <td><a href="#" data-toggle="modal" data-target = "#statusModal"><%= apply.status %></a></td>
         <td><%= link_to(apply_apply_messages_path(apply.id)) do %>
           <button type="button" class = "btn btn-primary">
             <span>
-            <span class="small">Message</span><span class="badge badge-light"><%= apply.apply_messages.where(read: false, user_id: user.id).count %></span>
+            <i class="far fa-envelope"><span class="badge badge-light ml-1"><%= apply.apply_messages.where(read: false, user_id: user.id).count %></span></i>
             </span>
           </button>
           <% end %>

@@ -65,6 +65,7 @@
         <th>Expected Salary</th>
         <th>Education School</th>
         <th>Education Major</th>
+        <th>Status</th>
         <th></th>
       </tr>
     </thead>
@@ -80,6 +81,7 @@
         <td><%= user.expected_salary %></td>
         <td><%= user.educations.last.school_name if user.educations.present? %></td>
         <td><%= user.educations.last.major if user.educations.present? %></td>
+        <td><button type="button" class = "btn" data-toggle="modal" data-target = "#statusModal"><%= apply.status %></button></td>
         <td><%= link_to(apply_apply_messages_path(apply.id)) do %>
           <button type="button" class = "btn btn-primary">
             <span>
@@ -89,6 +91,23 @@
           <% end %>
         </td>
       </tr>
+      <div class="modal" id="statusModal" tabindex="-1" role="dialog" aria-labelledby="signupModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+          <div class="modal-content">
+            <div class="modal-header">
+              <button type="button" class ="close" data-dismiss="modal" aria-label="Close" name="button">
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+            <div class="modal-body">
+              <%= render partial: './applies/edit', locals: { apply: apply } %>
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-secondary" data-dismiss="modal">閉じる</button>
+            </div>
+          </div>
+        </div>
+      </div>
     <% end %>
 
   </table>

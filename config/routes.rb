@@ -76,7 +76,7 @@ Rails.application.routes.draw do
     resources :scout_messages, only:[:index, :create]
   end
 
-  resources :applies, only:[:index, :create, :destroy] do
+  resources :applies, only:[:index, :create,:edit,:update, :destroy] do
     resources :apply_messages, only:[:index, :create]
   end
 

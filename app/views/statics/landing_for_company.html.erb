@@ -1,1 +1,54 @@
-Hi Company!
+<div class="jumbotron jumbotron-fluid bg-white">
+  <h2 class="display-5 text-center">
+    <span class="deep-green">FOR JOBER</span>はサブスクリプション型の総合人材紹介プラットフォームです。
+    <br>
+    今までの高額な仲介フィーを削減しつつ、欲しい人材を獲得しましょう！
+  </h2>
+  <div class="text-center m-3">
+    <%= image_tag 'bag.jpeg' ,width: "600px", class:"rounded"%>
+  </div>
+  <div class="text-center mt-3">
+    <%= link_to "Log-In", new_company_session_path, class:"btn btn-primary" %>
+    <%= link_to "Sign-Up", new_company_registration_path, class:"btn btn-primary" %>
+  </div>
+</div>
+<div class="container-fluid">
+  <h2 class="green text-center">FOR JOBERで出来る事</h2>
+  <div class="row mb-3 justify-content-around">
+    <div class="card col-lg-4 mb-2" style="max-width: 25rem">
+      <div class="card-body">
+        <h3 class="card-title">
+          人材を検索、スカウト
+        </h3>
+        <p class="card-text">
+          DBから条件を指定して人材を検索し、直接スカウトすることができます。
+          スカウトした人材とは直接メッセージのやり取りが可能になります。
+        </p>
+      </div>
+    </div>
+
+    <div class="card col-lg-4 mb-2" style="max-width: 25rem">
+      <div class="card-body">
+        <h3 class="card-title">
+          求人情報のポスト
+        </h3>
+        <p class="card-text">
+          具体的な求人情報をポストして候補者からの応募を募ることができます。
+          応募を受けた候補者とは直接メッセージのやり取りが可能になります。
+        </p>
+      </div>
+    </div>
+
+    <div class="card col-lg-4 mb-2" style="max-width: 25rem">
+      <div class="card-body">
+        <h3 class="card-title">
+          企業ページの作成
+        </h3>
+        <p class="card-text">
+          エディターを用いて簡単に画像付きの企業紹介ページを作成することができます。
+          将来の仲間に向けて会社の魅力を訴求しましょう！
+        </p>
+      </div>
+    </div>
+  </div>
+</div>

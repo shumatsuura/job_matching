@@ -13,7 +13,7 @@
             <div class="card-body">
               <div>
                 <%= image_tag company.logo.url, class: 'img-fluid rounded mx-auto d-block', width: "150" if company.logo.present? %>
-                <%= image_tag("default_image.jpeg", class: 'img-fluid', width: "150") unless company.logo.present? %>
+                <%= image_tag("default_image.jpeg", class: 'img-fluid rounded', width: "150") unless company.logo.present? %>
               </div>
               <div class="text-left">
                 <h6 class="mt-1"><%= link_to company.name, company_path(company.id) %></h6>
@@ -24,7 +24,7 @@
             <div class="card-body row pb-0">
               <div class="col-auto">
                 <%= image_tag company.logo.url, class: 'img-fluid rounded mx-auto d-block', width: "50" if company.logo.present? %>
-                <%= image_tag("default_image.jpeg", class: 'img-fluid', width: "50") unless company.logo.present? %>
+                <%= image_tag("default_image.jpeg", class: 'img-fluid rounded', width: "50") unless company.logo.present? %>
               </div>
               <div class="col-auto">
                 <h6 class="mt-1"><%= link_to company.name, company_path(company.id) %></h6>

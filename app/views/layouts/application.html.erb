@@ -10,7 +10,7 @@
 
 </head>
 
-<body>
+<body class="d-flex flex-column" style="min-height: 100vh">
   <header>
     <nav class="navbar navbar-expand-lg navbar-light bg-white">
       <!-- <a class="navbar-brand" href="#">Navbar</a> -->
@@ -54,13 +54,14 @@
         </ul>
 
       <ul class="navbar-nav">
-        <% if controller.action_name != "landing_for_company" %>
+
+        <% if (controller.action_name != "landing_for_company") && (controller.controller_path != "companies/sessions") && (controller.controller_path != "devise/registrations") %>
         <% unless user_signed_in? || company_signed_in? %>
         <li class="nav-item">
-          <button type="button" class = "btn nav-link" data-toggle="modal" data-target = "#loginModal">Log-In</button>
+          <button type="button" class = "btn nav-link" data-toggle="modal" data-target = "#user_loginModal">Log-In</button>
         </li>
         <li class="nav-item">
-          <button type="button" class = "btn nav-link" data-toggle="modal" data-target = "#signupModal">Sign-Up</button>
+          <button type="button" class = "btn nav-link" data-toggle="modal" data-target = "#user_signupModal">Sign-Up</button>
         </li>
         <li class="nav-item">
           <%= link_to 'For Employer', landing_for_company_statics_path, class: "nav-link" %>
@@ -68,13 +69,16 @@
         <% end %>
         <% end %>
 
-        <% if controller.action_name == "landing_for_company" %>
+        <% if (controller.action_name == "landing_for_company") || (controller.controller_path == "companies/sessions") || (controller.controller_path == "devise/registrations") %>
+          <% unless company_signed_in? %>
         <li class="nav-item">
-          <%= link_to 'C Log-In', new_company_session_path, {class: "nav-link"} unless company_signed_in? %>
+          <%= link_to "Log-In", new_company_session_path, class:"btn nav-link" %>
+
         </li>
         <li class="nav-item">
-          <%= link_to 'C Sign-Up', new_company_registration_path, {class: "nav-link"} unless company_signed_in? %>
+          <%= link_to "Sign-Up", new_company_registration_path, class:"btn nav-link" %>
         </li>
+        <% end %>
         <% end %>
 
         <% if user_signed_in? && current_user.admin %>
@@ -118,10 +122,9 @@
           <div class="dropdown-menu dropdown-menu-right">
             <%= link_to "Logged in as #{current_user.first_name}", user_path(current_user.id), {class: "dropdown-item"} if current_user %>
             <%= link_to "Dashboard #{current_company.name}", company_path(current_company.id), {class: "dropdown-item"} if current_company %>
-            <%= link_to 'Log-out', destroy_user_session_path, {method: :delete, class: "dropdown-item"} if user_signed_in? %>
-            <%= link_to 'C Log-out', destroy_company_session_path, {method: :delete, class: "dropdown-item"} if company_signed_in? %>
             <div class="dropdown-divider"></div>
-            <a class="dropdown-item" href="#">Something else here</a>
+            <%= link_to 'Log-out', destroy_user_session_path, {method: :delete, class: "dropdown-item"} if user_signed_in? %>
+            <%= link_to 'Log-out', destroy_company_session_path, {method: :delete, class: "dropdown-item"} if company_signed_in? %>
           </div>
         </li>
         <% end %>
@@ -139,12 +142,26 @@
 
 <%= yield %>
 
-<!-- モーダル -->
-<div class="modal" id="signupModal" tabindex="-1" role="dialog" aria-labelledby="signupModalLabel" aria-hidden="true">
+<footer class="py-1 bg-dark text-light mt-auto">
+  <div class="container text-center">
+    <ul class="nav justify-content-center mb-1">
+      <li class="nav-item">
+        <%= link_to "About Company", "#", {class: "nav-link text-white"} %>
+      </li>
+      <li class="nav-item">
+        <%= link_to "Contact", new_contact_path, {class: "nav-link text-white"} %>
+      </li>
+    </ul>
+    <small>Copyright 2020 Steep Curves Co., Ltd</small>
+  </div>
+</footer>
+
+<!-- user signup modal -->
+<div class="modal" id="user_signupModal">
   <div class="modal-dialog">
     <div class="modal-content">
       <div class="modal-header">
-        <div class="modal-title" id="signupModalLabel">
+        <div class="modal-title">
           Sign Up
         </div>
         <button type="button" class ="close" data-dismiss="modal" aria-label="Close" name="button">
@@ -160,11 +177,12 @@
     </div>
   </div>
 </div>
-<div class="modal" id="loginModal" tabindex="-1" role="dialog" aria-labelledby="loginModalLabel" aria-hidden="true">
+<!-- user login modal -->
+<div class="modal" id="user_loginModal">
   <div class="modal-dialog">
     <div class="modal-content">
       <div class="modal-header">
-        <div class="modal-title" id="loginModalLabel">
+        <div class="modal-title">
           Log In
         </div>
         <button type="button" class ="close" data-dismiss="modal" aria-label="Close" name="button">

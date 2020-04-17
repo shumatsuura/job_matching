@@ -26,31 +26,31 @@ class UsersController < ApplicationController
 
   def edit
     if @user.educations == []
-    @user.educations.build
+      @user.educations.build
     end
 
     if @user.languages == []
-    @user.languages.build
+      @user.languages.build
     end
 
     if @user.desired_industries == []
-    @user.desired_industries.build
+      @user.desired_industries.build
     end
 
     if @user.work_experiences == []
-    @user.work_experiences.build
+      @user.work_experiences.build
     end
 
     if @user.user_skills == []
-    @user.user_skills.build
+      @user.user_skills.build
     end
 
     if @user.qualifications == []
-    @user.qualifications.build
+      @user.qualifications.build
     end
 
     if @user.desired_job_categories == []
-    @user.desired_job_categories.build
+      @user.desired_job_categories.build
     end
   end
 

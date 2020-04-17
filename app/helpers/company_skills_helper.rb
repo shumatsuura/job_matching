@@ -1,0 +1,2 @@
+module CompanySkillsHelper
+end

@@ -47,13 +47,12 @@
     </div>
   </div>
 
-  <table class= "table table-bordered table-hover">
+  <table class= "table table-bordered">
     <span>
       <h4>List of Candidate
         <small>(<%= @post.applies.count %> People)</small>
       </h4>
     </span>
-
     <thead class="thead-dark">
       <tr>
         <th>No.</th>
@@ -65,6 +64,7 @@
         <th>Expected Salary</th>
         <th>Education School</th>
         <th>Education Major</th>
+        <th>Status</th>
         <th></th>
       </tr>
     </thead>
@@ -80,15 +80,33 @@
         <td><%= user.expected_salary %></td>
         <td><%= user.educations.last.school_name if user.educations.present? %></td>
         <td><%= user.educations.last.major if user.educations.present? %></td>
+        <td><a href="#" data-toggle="modal" data-target = "#statusModal"><%= apply.status %></a></td>
         <td><%= link_to(apply_apply_messages_path(apply.id)) do %>
           <button type="button" class = "btn btn-primary">
             <span>
-            <span class="small">Message</span><span class="badge badge-light"><%= apply.apply_messages.where(read: false, user_id: user.id).count %></span>
+            <i class="far fa-envelope"><span class="badge badge-light ml-1"><%= apply.apply_messages.where(read: false, user_id: user.id).count %></span></i>
             </span>
           </button>
           <% end %>
         </td>
       </tr>
+      <div class="modal" id="statusModal" tabindex="-1" role="dialog" aria-labelledby="signupModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+          <div class="modal-content">
+            <div class="modal-header">
+              <button type="button" class ="close" data-dismiss="modal" aria-label="Close" name="button">
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+            <div class="modal-body">
+              <%= render partial: './applies/edit', locals: { apply: apply } %>
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-secondary" data-dismiss="modal">閉じる</button>
+            </div>
+          </div>
+        </div>
+      </div>
     <% end %>
 
   </table>

@@ -1,0 +1,22 @@
+<div class="container">
+  <h3>Notifications</h3>
+  <table class="table table-bordered">
+    <thead class="thead thead-dark">
+      <th class="text-right">
+        <%= link_to "全て既読にする", change_to_read_notifications_path, class: "btn btn-primary btn-sm" %>
+      </th>
+    </thead>
+    <tbody>
+      <% @notifications.each do |notification| %>
+      <tr>
+        <td class="p-1 m-1">
+          <span>
+            <%= link_to "#{notification.message} / #{notification.time} #{notification.read ? '/ 既読' : '/ 未読'} ",
+             notification_path(notification.id), class: "dropdown-item p-0 m-0" %>
+          </span>
+        </td>
+      </tr>
+      <% end %>
+    </tbody>
+  </table>
+</div>

@@ -64,6 +64,8 @@ Rails.application.routes.draw do
     end
   end
 
+  resources :company_skills
+
   resources :posts do
     member do
       get :manage
@@ -74,7 +76,7 @@ Rails.application.routes.draw do
     resources :scout_messages, only:[:index, :create]
   end
 
-  resources :applies, only:[:index, :create, :destroy] do
+  resources :applies, only:[:index, :create,:edit,:update, :destroy] do
     resources :apply_messages, only:[:index, :create]
   end
 
@@ -83,5 +85,10 @@ Rails.application.routes.draw do
   resources :like_users, only:[:index,:create,:destroy]
 
   resources :contacts, only:[:new,:create]
+  resources :notifications, only:[:index,:show] do
+    collection do
+      get :change_to_read
+    end
+  end
 
 end

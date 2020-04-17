@@ -14,7 +14,7 @@
   <div class="card p-2 mb-4">
 
   <%= form_with(model: @user, url: admin_user_path(@user), local: true) do |f| %>
-    <div class="field form-group">
+    <div class="form-group">
       <%= f.label :email %>
       <%= f.email_field :email, autofocus: true, autocomplete: "email", class: "form-control" %>
     </div>
@@ -22,13 +22,14 @@
     <div class="form-group">
       <div class="field">
         <%= f.label :password %>
-        <%= f.password_field :password, autocomplete: "new-password", class: "form-control" %>
+        <%= f.password_field :password, class: "form-control" %>
       </div>
 
-      <div class="field">
-        <%= f.label :password_confirmation %>
-        <%= f.password_field :password_confirmation, autocomplete: "new-password", class: "form-control" %>
+      <div class="form-group">
+        <%= f.label :admin, value: "Admin権限を付与" %>
+        <%= f.check_box :admin, {selected: "true"}, "true", "false" %>
       </div>
+
     </div>
 
     <div class="actions">

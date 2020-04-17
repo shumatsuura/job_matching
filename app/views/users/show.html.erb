@@ -16,18 +16,21 @@
             <% end %>
             <% if company_signed_in? %>
               <% if current_company.scouts.pluck(:user_id).include?(@user.id) %>
-              "スカウト済み"
-              <%= link_to "スカウト解除", scout_path(user_id: @user.id), method: :delete %>
+              <%= link_to "スカウト解除", scout_path(user_id: @user.id), method: :delete, class:"btn btn-danger" %>
               <% else %>
-              <%= link_to "スカウトする", scouts_path(scout:{user_id: @user.id, company_id: current_company.id}), method: :post %>
+              <button class = "btn btn-primary btn-sm" data-toggle="modal" data-target = "#new_scout_Modal">スカウトする</button>
               <% end %>
             <% end %>
 
             <% if company_signed_in? %>
               <% if current_company.like_users.pluck(:user_id).include?(@user.id) %>
-                <%= link_to "Like", like_user_path(user_id: @user.id), method: :delete %>
+                <%= link_to(like_user_path(user_id: @user.id), method: :delete) do %>
+                <i class="far fa-heart"></i>
+                <% end %>
               <% else %>
-                <%= link_to "Unlike", like_users_path(like_user:{user_id: @user.id, company_id: current_company.id}), method: :post %>
+                <%= link_to(like_users_path(like_user:{user_id: @user.id, company_id: current_company.id}), method: :post) do %>
+                <i class="fas fa-heart"></i>
+                <% end %>
               <% end %>
             <% end %>
             </div>
@@ -433,6 +436,48 @@
         </div>
         <div class="modal-body">
           <%= render 'form', edit_target: "language" %>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- modal new scout -->
+<div class="container-fluid">
+  <div class="modal" id="new_scout_Modal" tabindex="-1">
+    <div class="modal-dialog modal-lg">
+      <div class="modal-content">
+        <div class="modal-header">
+          <div class="modal-title" id="new_scout_Modal">
+            Scout
+          </div>
+          <button type="button" class ="close" data-dismiss="modal" aria-label="Close" name="button">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <%= form_with(model: @scout) do |f| %>
+            <div class="form-group">
+              <%= f.label :title %>
+              <%= f.text_field :title, class: "form-control" %>
+            </div>
+            <%= f.fields_for :scout_messages do |message_f| %>
+              <div class="form-group">
+                <%= message_f.label :body %>
+                <%= message_f.text_area :body, class: "form-control" %>
+              </div>
+              <%= message_f.text_field :company_id, value: current_company.id, type: "hidden" if company_signed_in? %>
+            <% end %>
+
+            <%= f.text_field :company_id, value: current_company.id, type: "hidden" if company_signed_in? %>
+            <%= f.text_field :user_id, value: params[:id], type: "hidden" %>
+          <div class="form-group">
+            <%= f.submit "Submit", class: "btn btn-primary" %>
+          </div>
+          <% end %>
         </div>
         <div class="modal-footer">
           <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>

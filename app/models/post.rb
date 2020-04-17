@@ -1,5 +1,5 @@
 class Post < ApplicationRecord
-  enum status:{Open: 0, Close: 1}
+  enum status:{Open: 0, Closed: 1}
   belongs_to :company
 
   has_many :post_industries, dependent: :destroy

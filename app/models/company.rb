@@ -1,4 +1,5 @@
 class Company < ApplicationRecord
+  enum member_status: {Trial: 0, Free: 1, Paid: 2, Premium: 3}
   validates :name, presence: true, on: :update
   # Include default devise modules. Others available are:
   # :confirmable, :lockable, :timeoutable, :trackable and :omniauthable

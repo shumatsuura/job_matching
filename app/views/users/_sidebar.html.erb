@@ -1,0 +1,135 @@
+<nav class="col-md-3 d-none d-md-block bg-white">
+  <div>
+    <h5 class="align-items-center mt-4 mb-1 text-muted">
+      Search & Filter
+    </h5>
+      <%= search_form_for @q do |f| %>
+      <ul class="nav">
+        <li><%= f.label :work_experiences_company_cont, "Key Word", class: "nav-item" %></li>
+        <li>
+          <%= f.search_field :work_experiences_company_or_educations_school_name_or_educations_major_or_user_skills_name_cont,
+          {class: "form-control nav-item", placeholder: "Search"} %>
+        </li>
+      </ul>
+      <li class="list-unstyled">
+        <a href="#industrySubmenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">
+          Industry
+        </a>
+      </li>
+      <ul class="collapse list-unstyled" id="industrySubmenu">
+        <% @industries.each do |industry| %>
+        <li>
+          <%= f.check_box :industries_id_in, {multiple: true, include_hidden: false}, industry.id %>
+          <%= f.label :industries_id_in, industry.name %>
+        </li>
+        <% end %>
+      </ul>
+
+      <li class="list-unstyled">
+        <a href="#jobcategorySubmenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">
+          Job Category
+        </a>
+      </li>
+      <ul class="collapse list-unstyled" id="jobcategorySubmenu">
+        <% @job_categories.each do |job_category| %>
+        <li>
+          <%= f.check_box :job_categories_id_in, {multiple: true, include_hidden: false}, job_category.id %>
+          <%= job_category.name %>
+        </li>
+        <% end %>
+      </ul>
+
+      <li class="list-unstyled">
+        <a href="#salarySubmenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">
+          Expected Salary
+        </a>
+      </li>
+      <div class="collapse list-unstyled" id="salarySubmenu">
+        <div class="row">
+          <div class="col-2">
+            Min
+          </div>
+          <div class="col-10">
+            <%= f.number_field :expected_salary_gteq, {class: "form-control"} %>
+          </div>
+        </div>
+        <div class="row pt-1">
+          <div class="col-2">
+            Max
+          </div>
+          <div class="col-10">
+            <%= f.number_field :expected_salary_lt, {class: "form-control"} %>
+          </div>
+        </div>
+      </div>
+
+      <a href="#genderSubmenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">
+        Gender
+      </a>
+      <ul class="collapse list-unstyled" id="genderSubmenu">
+        <li>
+          <%= f.radio_button :gender_eq, '', {:checked => true} %>指定なし
+        </li>
+        <li>
+          <%= f.radio_button :gender_eq, "Male" %>Male
+        </li>
+        <li>
+          <%= f.radio_button :gender_eq, "Female" %>Female
+        </li>
+      </ul>
+
+      <li class="nav">
+        <a href="#ageSubmenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">
+          Age
+        </a>
+      </li>
+      <div class="collapse list-unstyled" id="ageSubmenu">
+        <div class="row">
+          <div class="col-2">
+            Min
+          </div>
+          <div class="col-10">
+            <%= f.number_field :date_of_birth_to_age_gteq, {class: "form-control"} %>
+          </div>
+        </div>
+        <div class="row pt-1">
+          <div class="col-2">
+            Max
+          </div>
+          <div class="col-10">
+            <%= f.number_field :date_of_birth_to_age_lteq, {class: "form-control"} %>才以上
+          </div>
+        </div>
+      </div>
+
+      <li class="nav">
+      <a href="#statusSubmenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">
+        Status
+      </a>
+      </li>
+      <ul class="collapse list-unstyled" id="statusSubmenu">
+        <li>
+          <%= f.select :status_eq ,["Actively Looking","Closed","Open for Opportunity"],{include_blank: true}, class: "form-control" %>
+        </li>
+      </ul>
+
+      <li class="nav">
+        <a href="#languageSubmenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">
+          <%= f.label :language %>
+        </a>
+      </li>
+      <ul class="collapse list-unstyled" id="languageSubmenu">
+        <li>
+          <%= f.search_field :languages_name_cont, placeholder:"Language Name", class: "form-control" %>
+        </li>
+        <li>
+          <%= f.select :languages_level_eq, Language.levels, {include_blank: true}, class: "form-control" %>
+        </li>
+      </ul>
+
+      <%= f.submit "Search", class: "btn btn-success my-2 my-sm-0" %>
+
+      <% end %>
+
+  </div>
+</nav>

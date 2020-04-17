@@ -47,7 +47,7 @@ class User < ApplicationRecord
   def self.create_unique_string
     SecureRandom.uuid
   end
-  
+
   def self.find_for_oauth(auth)
     user = User.find_by(email: auth.info.email)
 

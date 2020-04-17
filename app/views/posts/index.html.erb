@@ -1,179 +1,41 @@
-<div class = "container">
+<div class="container">
   <div class="row">
     <!-- Sidebar -->
-    <nav class="col-md-2 d-none d-md-block bg-white" id="sidebar">
-      <div>
-        <h5 class="d-flex justify-content-between align-items-center mt-4 mb-1 text-muted">
-          <span>Search & Filter</span>
-        </h5>
-          <%= search_form_for @q do |f| %>
-          <ul class="nav">
-            <li><%= f.label :company_name_or_title_or_position_or_description_cont, "Key Word" %></li>
-            <li><%= f.search_field :company_name_or_title_or_position_or_description_cont, class: "form-control" %></li>
-          </ul>
-
-          <a href="#industrySubmenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">
-            Industry
-          </a>
-          <ul class="collapse list-unstyled" id="industrySubmenu">
-            <% @industries.each do |industry| %>
-            <li>
-              <%= f.check_box :industries_id_in, {multiple: true, include_hidden: false}, industry.id %>
-              <%= f.label :industries_id_in, industry.name %>
-            </li>
-            <% end %>
-          </ul>
-
-          <a href="#jobcategorySubmenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">
-            Job Category
-          </a>
-          <ul class="collapse list-unstyled" id="jobcategorySubmenu">
-            <% @job_categories.each do |job_category| %>
-            <li>
-              <%= f.check_box :job_categories_id_in, {multiple: true, include_hidden: false}, job_category.id %>
-              <%= job_category.name %>
-            </li>
-            <% end %>
-          </ul>
-
-          <a href="#salarySubmenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">
-            Salary
-          </a>
-          <div class="collapse list-unstyled" id="salarySubmenu">
-            <div class="row">
-              <div class="col-2">
-                Min
-              </div>
-              <div class="col-10">
-                <%= f.number_field :salary_gteq, class: "form-control" %>
-              </div>
-            </div>
-            <div class="row pt-1">
-              <div class="col-2">
-                Max
-              </div>
-              <div class="col-10">
-                <%= f.number_field :salary_lt, class: "form-control" %>
-              </div>
-            </div>
-          </div>
-
-          <a href="#recruitsSubmenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">
-            No of Recruits
-          </a>
-          <div class="collapse list-unstyled" id="recruitsSubmenu">
-            <div class="row">
-              <div class="col-2">
-                Min
-              </div>
-              <div class="col-10">
-                <%= f.number_field :number_of_recruits_gteq, class: "form-control" %>
-              </div>
-            </div>
-            <div class="row pt-1">
-              <div class="col-2">
-                Max
-              </div>
-              <div class="col-10">
-                <%= f.number_field :number_of_recruits_lt, class: "form-control" %>
-              </div>
-            </div>
-          </div>
-
-          <a href="#locationSubmenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">
-            Location
-          </a>
-          <ul class="collapse list-unstyled" id="locationSubmenu">
-            <li>
-              <%= f.label :location_cont, "Location" %>
-              <%= f.search_field :location_cont, class: "form-control" %>
-            </li>
-          </ul>
-
-          <a href="#employeeSubmenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">
-            No of Employee
-          </a>
-          <div class="collapse list-unstyled" id="employeeSubmenu">
-            <div class="row">
-              <div class="col-2">
-                Min
-              </div>
-              <div class="col-10">
-                <%= f.number_field :company_number_of_employees_gteq, class: "form-control" %>
-              </div>
-            </div>
-            <div class="row pt-1">
-              <div class="col-2">
-                Max
-              </div>
-              <div class="col-10">
-                <%= f.number_field :company_number_of_employees_lt, class: "form-control" %>
-              </div>
-            </div>
-          </div>
-
-          <a href="#paidupcapitalSubmenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">
-            Paid Up Capital
-          </a>
-          <div class="collapse list-unstyled" id="paidupcapitalSubmenu">
-            <div class="row">
-              <div class="col-2">
-                Min
-              </div>
-              <div class="col-10">
-                <%= f.number_field :company_paid_up_capital_gteq, class: "form-control" %>
-              </div>
-            </div>
-            <div class="row pt-1">
-              <div class="col-2">
-                Max
-              </div>
-              <div class="col-10">
-                <%= f.number_field :company_paid_up_capital_lt, class: "form-control" %>
-              </div>
-            </div>
-          </div>
-            <div class="actions mt-1"><%= f.submit "Search", class: "btn btn-success" %></div>
-          <% end %>
-      </div>
-    </nav>
+    <%= render 'sidebar' %>
     <!-- Sidebar until here  -->
-    <div class="col-md-10">
+    <div class="col-md-9">
+      <h3>Posts List</h3>
       <%= paginate @posts %>
       <% @posts.each do |post| %>
         <div class="card mb-3">
           <div class="row no-gutters">
             <div class="card-body">
               <h4 class="card-title"><%= link_to post.title, post_path(post.id), class: "card-link text-primary" %></h4>
-              Position: <span class="badge badge-primary"><%= post.position %></span>
-              Location: <span class="badge badge-primary"><%= post.location %></span>
-              Job Category:
+              <i class="fas fa-map-marker-alt"></i> <span><%= post.location %>,</span>
+              <strong>Job Category: </strong>
               <% post.job_categories.each do |n| %>
-              <span class="badge badge-primary">
-                <%= n.name %>
-              </span>
+                <%= n.name %>,
               <% end %>
 
-              Industry:
+              <strong>Industry: </strong>
               <% post.industries.each do |n| %>
-              <span class="badge badge-primary">
-                <%= n.name %>
-              </span>
+                <%= n.name %>,
               <% end %>
+              <br>
+              <strong>Position: </strong><span><%= post.position %>,</span>
+              <i class="fas fa-dollar-sign"></i>
+              <span><%= post.salary.to_s(:delimited) + " USD" if post.salary.present? %>,</span>
 
-              Salary
-              <span class="badge badge-primary">
-                <%= post.salary %>
-              </span>
-
-              Skill:
+              <% if post.skills.present? %>
+              <strong>Skill:</strong>
+              <% end %>
               <% post.skills.each do |n| %>
               <span class="badge badge-primary">
                 <%= n.name %>
               </span>
               <% end %>
 
-              <p class="card-subtitle"><%= post.description %></p>
+              <p class="card-subtitle mt-2 text-muted"><%= post.description %></p>
             </div>
           </div>
           <div class="card-footer row no-gutters d-flex align-items-center pt-1 pb-1">
@@ -183,6 +45,8 @@
               <span class="card-text"><%= link_to post.company.name, company_path(post.company_id), class: 'text-info' if post.company.name %></span>
             </div>
             <div class="col text-right">
+              <span class="card-text">Status: <%= post.status %>,</span>
+              <span class="card-text text-muted small">Updated: <%= post.updated_at.strftime("%Y%b%d") %>,</span>
               <span class="card-text text-muted small">Posted: <%= post.created_at.strftime("%Y%b%d") %></span>
             </div>
           </div>

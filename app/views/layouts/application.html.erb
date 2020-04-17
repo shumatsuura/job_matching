@@ -10,7 +10,7 @@
 
 </head>
 
-<body>
+<body class="d-flex flex-column" style="min-height: 100vh">
   <header>
     <nav class="navbar navbar-expand-lg navbar-light bg-white">
       <!-- <a class="navbar-brand" href="#">Navbar</a> -->
@@ -46,27 +46,22 @@
             <% end %>
           </li>
           <li class="nav-item">
-            <%= link_to 'Admin', dashboard_admin_users_path, {class: "nav-link"}  if user_signed_in? && current_user.admin %>
-          </li>
-          <li class="nav-item">
             <%= link_to 'Scouts', scouts_path, {class: "nav-link"}  if user_signed_in? || company_signed_in? %>
           </li>
           <li class="nav-item">
             <%= link_to 'Apply', applies_path, {class: "nav-link"}  if user_signed_in? || company_signed_in? %>
           </li>
         </ul>
-        <!-- <form class="form-inline my-2 my-lg-0">
-        <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
-        <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
-      </form> -->
+
       <ul class="navbar-nav">
-        <% if controller.action_name != "landing_for_company" %>
+
+        <% if (controller.action_name != "landing_for_company") && (controller.controller_path != "companies/sessions") && (controller.controller_path != "devise/registrations") %>
         <% unless user_signed_in? || company_signed_in? %>
         <li class="nav-item">
-          <button type="button" class = "btn nav-link" data-toggle="modal" data-target = "#loginModal">Log-In</button>
+          <button type="button" class = "btn nav-link" data-toggle="modal" data-target = "#user_loginModal">Log-In</button>
         </li>
         <li class="nav-item">
-          <button type="button" class = "btn nav-link" data-toggle="modal" data-target = "#signupModal">Sign-Up</button>
+          <button type="button" class = "btn nav-link" data-toggle="modal" data-target = "#user_signupModal">Sign-Up</button>
         </li>
         <li class="nav-item">
           <%= link_to 'For Employer', landing_for_company_statics_path, class: "nav-link" %>
@@ -74,20 +69,41 @@
         <% end %>
         <% end %>
 
-        <% if controller.action_name == "landing_for_company" %>
+        <% if (controller.action_name == "landing_for_company") || (controller.controller_path == "companies/sessions") || (controller.controller_path == "devise/registrations") %>
+          <% unless company_signed_in? %>
         <li class="nav-item">
-          <%= link_to 'C Log-In', new_company_session_path, {class: "nav-link"} unless company_signed_in? %>
+          <%= link_to "Log-In", new_company_session_path, class:"btn nav-link" %>
+
         </li>
         <li class="nav-item">
-          <%= link_to 'C Sign-Up', new_company_registration_path, {class: "nav-link"} unless company_signed_in? %>
+          <%= link_to "Sign-Up", new_company_registration_path, class:"btn nav-link" %>
         </li>
         <% end %>
+        <% end %>
+
+        <% if user_signed_in? && current_user.admin %>
+          <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+              Admin Menu
+            </a>
+            <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
+              <%= link_to "Control Company", admin_companies_path, class: "dropdown-item" %>
+              <%= link_to "Control User", admin_users_path, class: "dropdown-item" %>
+              <%= link_to "Control Post", admin_posts_path, class: "dropdown-item" %>
+              <%= link_to "Control Scout", admin_scouts_path, class: "dropdown-item" %>
+              <%= link_to "Control Scout Messages", index_all_admin_scout_messages_path, class: "dropdown-item" %>
+              <%= link_to "Control Apply", admin_applies_path, class: "dropdown-item" %>
+              <%= link_to "Control Apply Messages", index_all_admin_apply_messages_path, class: "dropdown-item" %>
+            </div>
+          </li>
+        <% end %>
+
         <% if user_signed_in? || company_signed_in? %>
         <li class="nav-item dropdown">
-          <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+          <a class="nav-link" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
             <% @notifications = Notification.where(target_model: "user", target_model_id: current_user.id).order(created_at: "DESC") if user_signed_in? %>
             <% @notifications = Notification.where(target_model: "company", target_model_id: current_company.id).order(created_at: "DESC") if company_signed_in? %>
-            Notification <%= @notifications.where(read: false).count if @notifications.present? %>
+            <i class="fas fa-bell"></i> <%= @notifications.where(read: false).count if @notifications.present? %>
           </a>
           <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
             <% if @notifications.present? %>
@@ -95,22 +111,20 @@
                 <%= link_to "#{notification.message} #{notification.time}" , notification.url, class: "dropdown-item" %>
                 <div class="dropdown-divider"></div>
               <% end %>
+              <%= link_to "more", notifications_path, class: "dropdown-item text-right" %>
             <% end %>
           </div>
         </li>
         <li class="nav-item dropdown">
-          <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-            Dropdown
+          <a class="nav-link" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            <i class="fas fa-bars"></i>
           </a>
-          <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
-            <a class="dropdown-item" href="#">Action</a>
-            <%= link_to "#{current_user.first_name}", user_path(current_user.id), {class: "dropdown-item"} if current_user %>
+          <div class="dropdown-menu dropdown-menu-right">
+            <%= link_to "Logged in as #{current_user.first_name}", user_path(current_user.id), {class: "dropdown-item"} if current_user %>
             <%= link_to "Dashboard #{current_company.name}", company_path(current_company.id), {class: "dropdown-item"} if current_company %>
-            <%= link_to 'Log-out', destroy_user_session_path, {method: :delete, class: "dropdown-item"} if user_signed_in? %>
-            <%= link_to 'C Log-out', destroy_company_session_path, {method: :delete, class: "dropdown-item"} if company_signed_in? %>
-            <a class="dropdown-item" href="#">Another action</a>
             <div class="dropdown-divider"></div>
-            <a class="dropdown-item" href="#">Something else here</a>
+            <%= link_to 'Log-out', destroy_user_session_path, {method: :delete, class: "dropdown-item"} if user_signed_in? %>
+            <%= link_to 'Log-out', destroy_company_session_path, {method: :delete, class: "dropdown-item"} if company_signed_in? %>
           </div>
         </li>
         <% end %>
@@ -128,12 +142,26 @@
 
 <%= yield %>
 
-<!-- モーダル -->
-<div class="modal" id="signupModal" tabindex="-1" role="dialog" aria-labelledby="signupModalLabel" aria-hidden="true">
+<footer class="py-1 bg-dark text-light mt-auto">
+  <div class="container text-center">
+    <ul class="nav justify-content-center mb-1">
+      <li class="nav-item">
+        <%= link_to "About Company", "#", {class: "nav-link text-white"} %>
+      </li>
+      <li class="nav-item">
+        <%= link_to "Contact", new_contact_path, {class: "nav-link text-white"} %>
+      </li>
+    </ul>
+    <small>Copyright 2020 Steep Curves Co., Ltd</small>
+  </div>
+</footer>
+
+<!-- user signup modal -->
+<div class="modal" id="user_signupModal">
   <div class="modal-dialog">
     <div class="modal-content">
       <div class="modal-header">
-        <div class="modal-title" id="signupModalLabel">
+        <div class="modal-title">
           Sign Up
         </div>
         <button type="button" class ="close" data-dismiss="modal" aria-label="Close" name="button">
@@ -149,11 +177,12 @@
     </div>
   </div>
 </div>
-<div class="modal" id="loginModal" tabindex="-1" role="dialog" aria-labelledby="loginModalLabel" aria-hidden="true">
+<!-- user login modal -->
+<div class="modal" id="user_loginModal">
   <div class="modal-dialog">
     <div class="modal-content">
       <div class="modal-header">
-        <div class="modal-title" id="loginModalLabel">
+        <div class="modal-title">
           Log In
         </div>
         <button type="button" class ="close" data-dismiss="modal" aria-label="Close" name="button">

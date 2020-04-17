@@ -4,11 +4,18 @@ class Admin::ApplyMessagesController < ApplicationController
 
   def index
     @apply = Apply.find_by(id: params[:apply_id])
-    @messages = @apply.apply_messages.order(:created_at).page(params[:page]).per(PER)
+    @q = @apply.apply_messages.ransack(params[:q])
+    @messages = @q.result(distinct: true).order(:created_at).page(params[:page]).per(PER)
   end
 
   def index_all
-    @messages = ApplyMessage.all.order(:created_at).page(params[:page]).per(PER)
+    @q = ApplyMessage.all.ransack(params[:q])
+    @messages = @q.result(distinct: true).order(:created_at).page(params[:page]).per(PER)
+
+    if params[:q]
+      @check_user = params[:q][:user_id_not_in].present?
+      @check_company = params[:q][:company_id_not_in].present?
+    end
   end
 
   def destroy

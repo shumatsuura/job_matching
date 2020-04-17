@@ -3,7 +3,8 @@ class Admin::AppliesController < ApplicationController
   PER = 20
 
   def index
-    @applies = Apply.all.page(params[:page]).per(PER)
+    @q = Apply.ransack(params[:q])
+    @applies = @q.result(distinct: true).page(params[:page]).per(PER)
   end
 
   def destroy

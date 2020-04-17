@@ -33,7 +33,6 @@ gem 'fog-aws'
 
 gem 'unicorn'
 gem 'mini_racer', platforms: :ruby
-gem 'aws-ses'
 
 
 group :development, :test do

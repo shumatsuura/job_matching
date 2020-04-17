@@ -6,8 +6,8 @@
 ActionMailer::Base.smtp_settings = {
   address: 'smtp.sendgrid.net',
   port: 587,
-  domain: 'forjober.com',
-  user_name: ENV['SENDGRID_USERNAME'],
+  domain: 'em9369.forjober.com',
+  user_name: 'apikey',
   password: ENV['SENDGRID_PASSWORD'],
   authentication: :plain,
   enable_starttls_auto: true

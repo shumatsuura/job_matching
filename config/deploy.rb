@@ -20,7 +20,11 @@ set :default_env, {
   BASIC_AUTH_PASSWORD: ENV["BASIC_AUTH_PASSWORD"],
 
   FACEBOOK_ID: ENV["FACEBOOK_ID"],
-  FACEBOOK_SECRET_KEY: ENV["FACEBOOK_SECRET_KEY"]
+  FACEBOOK_SECRET_KEY: ENV["FACEBOOK_SECRET_KEY"],
+
+  SENDGRID_USERNAME: ENV["SENDGRID_USERNAME"],
+  SENDGRID_PASSWORD: ENV["SENDGRID_PASSWORD"]
+
 }
 set :linked_dirs, %w{log tmp/pids tmp/cache tmp/sockets public/uploads}
 # 保持するバージョンの個数(※後述)

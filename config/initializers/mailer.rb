@@ -9,6 +9,6 @@ ActionMailer::Base.smtp_settings = {
   domain: 'em9369.forjober.com',
   user_name: 'apikey',
   password: ENV['SENDGRID_PASSWORD'],
-  authentication: :plain,
+  authentication: "plain",
   enable_starttls_auto: true
 }

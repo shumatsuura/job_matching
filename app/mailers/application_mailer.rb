@@ -1,4 +1,7 @@
 class ApplicationMailer < ActionMailer::Base
-  default from: 'from@forjober.com'
+  # require 'sendgrid-ruby'
+  # include SendGrid
+
+  default from: 'noreply@forjober.com'
   layout 'mailer'
 end

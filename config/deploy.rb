@@ -14,16 +14,16 @@ set :linked_files, %w{.env config/secrets.yml}
 set :default_env, {
   rbenv_root: "/usr/local/rbenv",
   path: "/usr/local/rbenv/shims:/usr/local/rbenv/bin:$PATH",
-  AWS_ACCESS_KEY_ID: ENV["AWS_ACCESS_KEY_ID"],
-  AWS_SECRET_ACCESS_KEY: ENV["AWS_SECRET_ACCESS_KEY"],
-  BASIC_AUTH_NAME: ENV["BASIC_AUTH_NAME"],
-  BASIC_AUTH_PASSWORD: ENV["BASIC_AUTH_PASSWORD"],
-
-  FACEBOOK_ID: ENV["FACEBOOK_ID"],
-  FACEBOOK_SECRET_KEY: ENV["FACEBOOK_SECRET_KEY"],
-
-  SENDGRID_API_KEY: ENV["SENDGRID_API_KEY"],
-  MYDOMAIN: ENV["MYDOMAIN"],
+  # AWS_ACCESS_KEY_ID: ENV["AWS_ACCESS_KEY_ID"],
+  # AWS_SECRET_ACCESS_KEY: ENV["AWS_SECRET_ACCESS_KEY"],
+  # BASIC_AUTH_NAME: ENV["BASIC_AUTH_NAME"],
+  # BASIC_AUTH_PASSWORD: ENV["BASIC_AUTH_PASSWORD"],
+  #
+  # FACEBOOK_ID: ENV["FACEBOOK_ID"],
+  # FACEBOOK_SECRET_KEY: ENV["FACEBOOK_SECRET_KEY"],
+  #
+  # SENDGRID_API_KEY: ENV["SENDGRID_API_KEY"],
+  # MYDOMAIN: ENV["MYDOMAIN"],
 
 }
 set :linked_dirs, %w{log tmp/pids tmp/cache tmp/sockets public/uploads}

@@ -86,7 +86,7 @@ RSpec.describe 'ユーザー機能', type: :system, js: true do
     context 'ログアウト機能' do
       it 'ログアウトできる' do
         visit dashboard_user_path(@user)
-        click_on "Dropdown"
+        all(".fa-bars")[0].click
         click_on "Log-out"
         expect(page).to have_content "Signed out successfully."
         expect(page).to have_current_path root_path
@@ -246,25 +246,22 @@ RSpec.describe 'ユーザー機能', type: :system, js: true do
 
     it 'ユーザーアカウント情報を編集できる' do
       visit admin_users_path
-      click_on 'Edit Account',match: :first
-
+      click_on 'Edit', match: :first
+      click_on 'Edit Account'
       fill_in 'Email', with: 'user1-b@sample.com'
       fill_in 'Password', with: "passwordo"
-      fill_in 'Password confirmation', with: "passwordo"
-
       click_on 'Update'
-
       expect(page).to have_content 'user1-b@sample.com'
       expect(page).to have_content 'successfully'
-
     end
 
     it 'ユーザーを削除できる' do
       visit admin_users_path
       x = User.all.count
 
+      click_on 'Edit', match: :first
       accept_alert do
-        click_link 'Delete', match: :first
+        click_link 'Delete'
       end
 
       sleep 2

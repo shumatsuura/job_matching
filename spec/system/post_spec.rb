@@ -34,10 +34,10 @@ RSpec.describe 'Post Test', type: :system, js: true do
       fill_in 'Description', with:'aaa aaa iii'
       fill_in 'Location', with:'yangon'
 
-      select 'test_skill', from: "post_post_skills_attributes_0_company_skill_id"
       select 'test_category', from: "post_post_job_categories_attributes_0_job_category_id"
       select 'test_industry', from: "post_post_industries_attributes_0_industry_id"
 
+      find('label',:text => 'test_skill').click
       click_on 'Create Post'
 
       expect(page).to have_content "wei"
@@ -160,7 +160,8 @@ RSpec.describe 'Post Test', type: :system, js: true do
 
     it '特定のカンパニーに紐づいたポストを作成できる' do
       visit admin_companies_path
-      click_on 'Create New Post', match: :first
+      click_on 'Edit', match: :first
+      click_on 'Create New Post'
 
       fill_in 'Title', with:'admin_post'
       fill_in 'Salary', with:'222'
@@ -169,7 +170,7 @@ RSpec.describe 'Post Test', type: :system, js: true do
       fill_in 'Description', with:'aaa aaa iii'
       fill_in 'Location', with:'Tokyo'
 
-      select 'test_skill', from: "post_post_skills_attributes_0_company_skill_id"
+      find('label',:text => 'test_skill').click
       select 'test_category', from: "post_post_job_categories_attributes_0_job_category_id"
       select 'test_industry', from: "post_post_industries_attributes_0_industry_id"
 
@@ -200,6 +201,7 @@ RSpec.describe 'Post Test', type: :system, js: true do
     it '特定のカンパニーに紐づいたポストを編集できる' do
       visit admin_posts_path
       click_on 'Edit', match: :first
+      click_on 'Edit Post'
 
       fill_in 'Title', with:'weiwei'
       click_on 'Update Post'
@@ -211,9 +213,9 @@ RSpec.describe 'Post Test', type: :system, js: true do
     it '特定のカンパニーに紐づいたポストを削除できる' do
       x = Post.all.count
       visit admin_posts_path
-
+      click_on 'Edit', match: :first
       accept_alert do
-        click_link 'Delete', match: :first
+        click_link 'Delete'
       end
       sleep 1
       y = Post.all.count

@@ -19,6 +19,8 @@ class PostsController < ApplicationController
     @post.post_industries.build
     @post.post_job_categories.build
     @post.post_skills.build
+
+    @skills = @company.company_skills
   end
 
   def create

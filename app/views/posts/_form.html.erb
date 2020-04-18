@@ -58,7 +58,7 @@
            include_hidden: false },#チェックされなかった値を送るかどうか
            skill[:id]#チェックされた場合の値
            %>
-        <label class="label label-primary"><%= skill.name %></label>
+         <%= f.label :skill_ids, skill.name, {value: skill[:id], class:""}  %>
       <% end %>
     </div>
 

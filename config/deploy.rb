@@ -22,7 +22,8 @@ set :default_env, {
   FACEBOOK_ID: ENV["FACEBOOK_ID"],
   FACEBOOK_SECRET_KEY: ENV["FACEBOOK_SECRET_KEY"],
 
-  SENDGRID_API_KEY: ENV["SENDGRID_API_KEY"]
+  SENDGRID_API_KEY: ENV["SENDGRID_API_KEY"],
+  MYDOMAIN: ENV["MYDOMAIN"]
 
 }
 set :linked_dirs, %w{log tmp/pids tmp/cache tmp/sockets public/uploads}

@@ -33,7 +33,7 @@ gem 'fog-aws'
 
 gem 'unicorn'
 gem 'mini_racer', platforms: :ruby
-
+gem 'sendgrid-ruby'
 
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console

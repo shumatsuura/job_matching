@@ -327,95 +327,152 @@ RSpec.describe 'Admin Function Test', type: :system, js: true do
       login_as(@admin_user, :scope => :user)
     end
 
-    it 'アドミン用ダッシュボードへアクセスできないこと' do
-      visit dashboard_admin_users_path
-      expect(page).to have_current_path root_path
-      expect(page).to have_content "No Access Right."
-    end
-
-    it 'アドミン用カンパニーnewへアクセスできないこと' do
+    it 'アドミン用カンパニーnewへアクセスし、カンパニーを作成できること' do
       visit new_admin_company_path
-      expect(page).to have_current_path root_path
-      expect(page).to have_content "No Access Right."
+      expect(page).to have_current_path new_admin_company_path
+
+      fill_in 'company_email', with:'kaka@test.com'
+      fill_in 'company_password', with:'password'
+      fill_in 'company_password_confirmation', with:'password'
+
+      click_on 'Create Company'
+
+      expect(page).to have_content "successfully"
     end
 
-    it 'アドミン用カンパニーindexへアクセスできないこと' do
+    it 'アドミン用カンパニーindexへアクセスできること' do
       visit admin_companies_path
-      expect(page).to have_current_path root_path
-      expect(page).to have_content "No Access Right."
+      expect(page).to have_current_path admin_companies_path
     end
 
-    it 'アドミン用カンパニーeditへアクセスできないこと' do
+    it 'アドミン用カンパニーeditへアクセスでき、更新できること' do
       visit edit_admin_company_path(@company)
-      expect(page).to have_current_path root_path
-      expect(page).to have_content "No Access Right."
+      expect(page).to have_current_path edit_admin_company_path(@company)
+      fill_in 'company_email', with:'admintest@test.com'
+      click_on 'Update'
+
+      expect(page).to have_content 'successfully'
     end
 
-    it 'アドミン用ユーザーnewへのアクセス' do
+    it 'アドミン用カンパニーindexからカンパニーを削除できること' do
+      visit admin_companies_path
+      click_on 'Edit', match: :first
+      accept_alert do
+        click_link 'Delete'
+      end
+      expect(page).to have_content 'successfully'
+    end
+
+    it 'アドミン用ユーザーnewへのアクセスでき、ユーザーを作成できること' do
       visit new_admin_user_path
-      expect(page).to have_current_path root_path
-      expect(page).to have_content "No Access Right."
+      expect(page).to have_current_path new_admin_user_path
+
+      fill_in 'user_email', with:'kaka@test.com'
+      fill_in 'user_password', with:'password'
+      fill_in 'user_password_confirmation', with:'password'
+
+      click_on 'Create User'
+
+      expect(page).to have_content "successfully"
+
     end
 
-    it 'アドミン用ユーザーindexへアクセスできないこと' do
+    it 'アドミン用ユーザーindexへアクセスできること' do
       visit admin_users_path
-      expect(page).to have_current_path root_path
-      expect(page).to have_content "No Access Right."
+      expect(page).to have_current_path admin_users_path
     end
 
-    it 'アドミン用ユーザーeditへアクセスできないこと' do
+    it 'アドミン用ユーザーeditへアクセスでき、編集できること' do
       visit edit_admin_user_path(@user)
-      expect(page).to have_current_path root_path
-      expect(page).to have_content "No Access Right."
+      expect(page).to have_current_path edit_admin_user_path(@user)
+
+      fill_in 'user_email', with:'testfdsafdsa@dfksaj.com'
+
+      click_on 'Update'
+      expect(page).to have_content 'successfully'
     end
 
-    it 'アドミン用ポストindexへアクセスできないこと' do
+    it 'アドミン用ユーザーindexからユーザーを削除できること' do
+      visit admin_users_path
+      all(".dropdown-toggle")[5].click
+      accept_alert do
+        click_link 'Delete'
+      end
+
+      expect(page).to have_content 'successfully'
+    end
+
+    it 'アドミン用ポストindexへアクセスできること' do
       visit admin_posts_path
 
-      expect(page).to have_current_path root_path
-      expect(page).to have_content "No Access Right."
+      expect(page).to have_current_path admin_posts_path
     end
 
-    it 'アドミン用スカウトindexへアクセスできないこと' do
+    it 'アドミン用ポストindexからポストを削除できること' do
+      visit admin_posts_path
+      click_on 'Edit', match: :first
+      accept_alert do
+        click_link 'Delete'
+      end
+
+      expect(page).to have_content 'successfully'
+    end
+
+    it 'アドミン用スカウトindexへアクセスできること' do
       visit admin_scouts_path
-
-      expect(page).to have_current_path root_path
-      expect(page).to have_content "No Access Right."
+      expect(page).to have_current_path admin_scouts_path
     end
 
-    it 'アドミン用スカウトメッセージindex_allページへアクセスできないこと' do
+    it 'アドミン用スカウトindexからスカウトを削除できること' do
+      visit admin_scouts_path
+      accept_alert do
+        click_link 'Delete', match: :first
+      end
+      expect(page).to have_content 'successfully'
+    end
+
+    it 'アドミン用スカウトメッセージindex_allページへアクセスできること' do
       visit index_all_admin_scout_messages_path
 
-      expect(page).to have_current_path root_path
-      expect(page).to have_content "No Access Right."
+      expect(page).to have_current_path index_all_admin_scout_messages_path
     end
 
-    it 'アドミン用スカウトメッセージページへアクセスできないこと' do
+    it 'アドミン用スカウトメッセージindex_allページからメッセージを削除できること' do
+      visit index_all_admin_scout_messages_path
+      accept_alert do
+        click_link 'Delete', match: :first
+      end
+      expect(page).to have_content 'successfully'
+    end
+
+    it 'アドミン用スカウトメッセージページへアクセスできること' do
+      visit admin_scout_scout_messages_path(@scout)
+      expect(page).to have_current_path admin_scout_scout_messages_path(@scout)
+    end
+
+    it 'アドミン用スカウトメッセージページからメッセージを削除できること' do
       visit admin_scout_scout_messages_path(@scout)
 
-      expect(page).to have_current_path root_path
-      expect(page).to have_content "No Access Right."
+      accept_alert do
+        click_link 'Delete', match: :first
+      end
+
+      expect(page).to have_content 'successfully'
     end
 
-    it 'アドミン用アプライindexへアクセスできないこと' do
+    it 'アドミン用アプライindexへアクセスできること' do
       visit admin_applies_path
-
-      expect(page).to have_current_path root_path
-      expect(page).to have_content "No Access Right."
+      expect(page).to have_current_path admin_applies_path
     end
 
-    it 'アドミン用アプライメッセージindex_allページへアクセスできないこと' do
+    it 'アドミン用アプライメッセージindex_allページへアクセスできること' do
       visit index_all_admin_apply_messages_path
-
-      expect(page).to have_current_path root_path
-      expect(page).to have_content "No Access Right."
+      expect(page).to have_current_path index_all_admin_apply_messages_path
     end
 
-    it 'アドミン用アプライメッセージページへアクセスできないこと' do
+    it 'アドミン用アプライメッセージページへアクセスできること' do
       visit admin_apply_apply_messages_path(@scout)
-
-      expect(page).to have_current_path root_path
-      expect(page).to have_content "No Access Right."
+      expect(page).to have_current_path admin_apply_apply_messages_path(@scout)
     end
   end
 end

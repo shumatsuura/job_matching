@@ -5,6 +5,7 @@ class User < ApplicationRecord
   # validates :gender, presence: true, on: :update
   # validates :date_of_birth, presence: true, on: :update
   # validates :status, presence: true, on: :update
+  validates :expected_salary, numericality: :only_integer
 
   # Include default devise modules. Others available are:
   # :confirmable, :lockable, :timeoutable, :trackable and :omniauthable

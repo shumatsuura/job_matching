@@ -5,37 +5,36 @@
         <tr>
           <th colspan="4">
             <div class="row d-flex justify-content-between align-items-center">
-              <div class="ml-3">
-                プロフィール
+              <div class="col-3">
+                Profile
               </div>
-              <div class="mr-3">
-            <% if current_user == @user %>
-              <button class = "btn btn-primary btn-sm" data-toggle="modal" data-target = "#edit_basic_profile_Modal">Edit Basic Profile</button>
-              <button class = "btn btn-primary btn-sm" data-toggle="modal" data-target = "#upload_cv_Modal">Upload CV</button>
-              <button class = "btn btn-primary btn-sm" data-toggle="modal" data-target = "#upload_profile_image_Modal">Upload Profile Image</button>
-            <% end %>
-            <% if company_signed_in? %>
-              <% if current_company.scouts.pluck(:user_id).include?(@user.id) %>
-              <%= link_to "スカウト解除", scout_path(user_id: @user.id), method: :delete, class:"btn btn-danger" %>
-              <% else %>
-              <button class = "btn btn-primary btn-sm" data-toggle="modal" data-target = "#new_scout_Modal">スカウトする</button>
-              <% end %>
-            <% end %>
+              <div class="col-9 text-right">
+                <% if current_user == @user %>
+                  <button class = "btn btn-primary btn-sm" data-toggle="modal" data-target = "#edit_basic_profile_Modal">Edit Profile</button>
+                  <button class = "btn btn-primary btn-sm" data-toggle="modal" data-target = "#upload_cv_Modal">Upload CV</button>
+                  <button class = "btn btn-primary btn-sm" data-toggle="modal" data-target = "#upload_profile_image_Modal">Upload Image</button>
+                <% end %>
+                <% if company_signed_in? %>
+                  <% if current_company.scouts.pluck(:user_id).include?(@user.id) %>
+                  <%= link_to "スカウト解除", scout_path(user_id: @user.id), method: :delete, class:"btn btn-danger" %>
+                  <% else %>
+                  <button class = "btn btn-primary btn-sm" data-toggle="modal" data-target = "#new_scout_Modal">スカウトする</button>
+                  <% end %>
+                <% end %>
 
-            <% if company_signed_in? %>
-              <% if current_company.like_users.pluck(:user_id).include?(@user.id) %>
-                <%= link_to(like_user_path(user_id: @user.id), method: :delete) do %>
-                <i class="far fa-heart"></i>
+                <% if company_signed_in? %>
+                  <% if current_company.like_users.pluck(:user_id).include?(@user.id) %>
+                    <%= link_to(like_user_path(user_id: @user.id), method: :delete) do %>
+                    <i class="far fa-heart"></i>
+                    <% end %>
+                  <% else %>
+                    <%= link_to(like_users_path(like_user:{user_id: @user.id, company_id: current_company.id}), method: :post) do %>
+                    <i class="fas fa-heart"></i>
+                    <% end %>
+                  <% end %>
                 <% end %>
-              <% else %>
-                <%= link_to(like_users_path(like_user:{user_id: @user.id, company_id: current_company.id}), method: :post) do %>
-                <i class="fas fa-heart"></i>
-                <% end %>
-              <% end %>
-            <% end %>
+              </div>
             </div>
-
-          </div>
           </th>
         </tr>
       </thead>
@@ -62,7 +61,7 @@
         <th><%= t('view.expected_salary') %>:</th>
         <td><%= @user.expected_salary %></td>
         <th>CV</th>
-        <td>
+        <td align="center">
           <%= @user.cv.present? ? link_to("Download", @user.cv.url) : "N/A" %>
         </td>
       </tr>

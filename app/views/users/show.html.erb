@@ -1,5 +1,5 @@
 <div class ="container">
-  <h4><%= @user.first_name %>のページ</h4>
+  <h4><%= @user.first_name || "No Name" %>のページ</h4>
     <table class="table table-bordered">
       <thead class="thead-dark">
         <tr>
@@ -43,7 +43,10 @@
         <th class="align-middle">User Name:</th>
         <td class="w-25 align-middle"><%= @user.first_name %> <%= @user.last_name %></td>
         <th rowspan="2">Profile Image:</th>
-        <td rowspan="2"><%= image_tag(@user.image.url, class: "img-thumbnail img-fluid", width: "100px") if @user.image.present? %></td>
+        <td rowspan="2" align="center">
+          <%= image_tag(@user.image.url, class: "img-thumbnail img-fluid", width: "100px") if @user.image.present? %>
+          <%= image_tag("default_image.jpeg", class: 'img-thumbnail img-fluid', width: "100px") unless @user.image.present? %>
+        </td>
       </tr>
       <tr>
         <th class="align-middle">Age:</th>
@@ -96,65 +99,110 @@
       </tr>
     </table>
 
-  <% if current_user == @user %>
-    <button class = "btn btn-primary btn-sm" data-toggle="modal" data-target = "#edit_work_experience_Modal">Edit Work Experience</button>
-  <% end %>
-  <% @user.work_experiences.each_with_index do |work_experience,i| %>
-    <table class="table table-bordered mt-3 mb-3">
-      <thead class="thead-dark">
+  <!-- Work Experience -->
+  <% if @user.work_experiences.present? %>
+    <% @user.work_experiences.each_with_index do |work_experience,i| %>
+      <table class="table table-bordered mt-3 mb-3">
+        <thead class="thead-dark">
+          <tr>
+            <th colspan="4">
+              <div class="row">
+                <div class="col align-self-center">
+                  Work Experience <%= i + 1 %>
+                </div>
+                <% if current_user == @user %>
+                <div class="col text-right">
+                  <button class = "btn btn-primary btn-sm" data-toggle="modal" data-target = "#edit_work_experience_Modal">Edit Work Experience</button>
+                </div>
+                <% end %>
+              </div>
+            </th>
+          </tr>
+        </thead>
+        <tbody>
         <tr>
-          <th colspan="4">
-            Work Experience <%= i + 1 %>
-          </th>
+          <th class="w-25">Company</th>
+          <td class="w-25"><%= work_experience.company %></td>
+          <th class="w-25">Period</th>
+          <td class="w-25"><%= work_experience.period_start.strftime("%b, %Y") if work_experience.period_start.present? %>
+          ~
+          <%= work_experience.period_end.strftime("%b, %Y") if work_experience.period_end.present? %></td>
         </tr>
-      </thead>
-      <tbody>
-      <tr>
-        <th class="w-25">Company</th>
-        <td class="w-25"><%= work_experience.company %></td>
-        <th class="w-25">Period</th>
-        <td class="w-25"><%= work_experience.period_start.strftime("%b, %Y") if work_experience.period_start.present? %>
-        ~
-        <%= work_experience.period_end.strftime("%b, %Y") if work_experience.period_end.present? %></td>
-      </tr>
-      <tr>
-        <th><strong>Position:</strong></th>
-        <td><%= work_experience.position %></td>
-        <th><strong>Salary:</strong></th>
-        <td><%= work_experience.salary %></td>
-      </tr>
-
-      <tr>
-        <th>Description</th>
-        <td colspan="3"><%= simple_format(work_experience.description) %></td>
-      </tr>
-      </tbody>
-    </table>
-  <% end %>
-
-  <% if current_user == @user %>
-    <button class = "btn btn-primary btn-sm" data-toggle="modal" data-target = "#edit_education_Modal">Edit Education</button>
-  <% end %>
+        <tr>
+          <th><strong>Position:</strong></th>
+          <td><%= work_experience.position %></td>
+          <th><strong>Salary:</strong></th>
+          <td><%= work_experience.salary %></td>
+        </tr>
+        <tr>
+          <th>Description</th>
+          <td colspan="3"><%= simple_format(work_experience.description) %></td>
+        </tr>
+        </tbody>
+      </table>
+    <% end %>
+  <% else %>
   <table class="table table-bordered mt-3 mb-3">
     <thead class="thead-dark">
       <tr>
-        <th colspan="6">
-          Education
+        <th>
+          <div class="row">
+            <div class="col align-self-center">
+              Work Experience
+            </div>
+            <% if current_user == @user %>
+            <div class="col text-right">
+              <button class = "btn btn-primary btn-sm" data-toggle="modal" data-target = "#edit_work_experience_Modal">Edit Work Experience</button>
+            </div>
+            <% end %>
+          </div>
         </th>
       </tr>
     </thead>
     <tbody>
-      <% @user.educations.each_with_index do |education,i| %>
+    <tr>
+      <td>No Information.</td>
+    </tr>
+    </tbody>
+  </table>
+  <% end %>
+
+  <!-- Education -->
+  <table class="table table-bordered mt-3 mb-3">
+    <thead class="thead-dark">
       <tr>
-        <th>School</th>
-        <td><%= education.school_name %></td>
-        <th>Major</th>
-        <td><%= education.major %></td>
-        <th>Period</th>
-        <td><%= education.period_start.strftime("%b, %Y") if education.period_start.present? %>
-        ~
-        <%= education.period_end.strftime("%b, %Y") if education.period_end.present? %></td>
-      </tr>
+        <th colspan="6" valign="middle">
+          <div class="row">
+            <div class="col align-self-center">
+              <span>Education</span>
+            </div>
+            <% if current_user == @user %>
+              <div class="col text-right">
+                <button class = "btn btn-primary btn-sm" data-toggle="modal" data-target = "#edit_education_Modal">Edit Education</button>
+              </div>
+            <% end %>
+          </div>
+        </th>
+        </tr>
+    </thead>
+    <tbody>
+      <% if @user.educations.present? %>
+        <% @user.educations.each_with_index do |education,i| %>
+        <tr>
+          <th>School</th>
+          <td><%= education.school_name %></td>
+          <th>Major</th>
+          <td><%= education.major %></td>
+          <th>Period</th>
+          <td><%= education.period_start.strftime("%b, %Y") if education.period_start.present? %>
+          ~
+          <%= education.period_end.strftime("%b, %Y") if education.period_end.present? %></td>
+        </tr>
+        <% end %>
+      <% else %>
+        <tr>
+          <td colspan="6">No Information.</td>
+        </tr>
       <% end %>
     </tbody>
   </table>
@@ -236,7 +284,7 @@
       <div class="modal-content">
         <div class="modal-header">
           <div class="modal-title" id="upload_cv_Modal">
-            Upload Profile Image
+            Upload CV
           </div>
           <button type="button" class ="close" data-dismiss="modal" aria-label="Close" name="button">
             <span aria-hidden="true">&times;</span>

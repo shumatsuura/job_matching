@@ -15,7 +15,7 @@
                 <%= image_tag("default_image.jpeg", class: 'img-thumbnail',width: "150") unless user.image.present? %>
               </div>
               <div class="pl-3">
-                <h6 class="card-title"><%= link_to "#{user.first_name + " " + user.last_name if user.first_name && user.last_name}",user_path(user.id) %></h6>
+                <h6 class="card-title"><%= link_to "#{user.first_name && user.last_name ? user.first_name + " " + user.last_name : "No Name"}",user_path(user.id) %></h6>
                 <div><small><%= user.status %></small></div>
                 <div><small><%= user.age %> years old</small></div>
                 <small class="text-muted">Updated at <%= user.updated_at.strftime("%Y%b%d") %></small>
@@ -101,7 +101,7 @@
                             <span class = "small">
                               <%= education.period_start.strftime("%b, %Y") if education.period_start.present? %>
                               ~
-                              <%= education.period_end.strftime("%b, %Y") if education.period_start.present? %>
+                              <%= education.period_end.strftime("%b, %Y") if education.period_end.present? %>
                             </span>
                           </li>
                         <% end %>

@@ -16,7 +16,7 @@ class UsersController < ApplicationController
   def index
     @industries = Industry.all
     @job_categories = JobCategory.all
-    @q = User.ransack(params[:q])
+    @q = User.order(updated_at: "DESC").ransack(params[:q])
     @users = @q.result(distinct: true).page(params[:page]).per(PER)
   end
 

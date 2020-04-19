@@ -4,26 +4,26 @@
     <h5>Applications</h5>
     <thead class="thead-dark">
       <th>Post Title</th>
-      <th>Company</th>
-      <th>Candidate</th>
+      <th><%= user_signed_in? ? "Company" : "Candidate" %></th>
+      <% if company_signed_in? %>
       <th>Status</th>
+      <% end %>
       <th>Message</th>
     </thead>
     <tbody>
+    <% if @applies.present? %>
       <% @applies.each do |apply| %>
       <tr>
-        <td>
-          <%= link_to apply.post.title, post_path(apply.post_id)%>
-        </td>
-        <td>
-          <%= link_to apply.post.company.name, company_path(apply.post.company_id)%>
-        </td>
-        <td>
-          <%= link_to apply.user.first_name, user_path(apply.user_id)%>
-        </td>
+        <td><%= link_to apply.post.title, post_path(apply.post_id)%></td>
+        <% if user_signed_in? %>
+          <td><%= link_to apply.post.company.name, company_path(apply.post.company_id)%></td>
+        <% end %>
+        <% if company_signed_in? %>
+        <td><%= link_to apply.user.first_name, user_path(apply.user_id)%></td>
         <td>
           <button type="button" class = "btn" data-toggle="modal" data-target = "#statusModal"><%= apply.status %></button>
         </td>
+        <% end %>
         <td class="text-center">
           <%= link_to(apply_apply_messages_path(apply.id)) do %>
           <button type="button" class = "btn btn-primary">
@@ -54,6 +54,13 @@
             </div>
           </div>
         </div>
+      <% end %>
+      <% else %>
+      <tr>
+        <td colspan=<%= user_signed_in? ? "3" : "4" %>>
+          <strong>Currently there are no applications.</strong>
+        </td>
+      </tr>
       <% end %>
     </tbody>
   </table>

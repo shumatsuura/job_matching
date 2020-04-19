@@ -1,5 +1,5 @@
 <div class="container">
-  <h1>Edit</h1>
+  <h3>Edit Company Information</h3>
   <div id="error_explanation">
     <% if @company.errors.any? %>
       <h2><%= pluralize(@company.errors.count, "error") %>prohibited this @user from being saved:</h2>
@@ -11,29 +11,49 @@
     <% end %>
   </div>
 
-  <%= form_with(model: @company, local: true) do |f| %>
-
+  <%= form_with(model: @company, local: true, html: {class: "needs-validation", novalidate: true}) do |f| %>
     <div class="form-group">
-      <%= f.label :logo %>
-      <%= f.file_field :logo, class: "form-control" %>
+      <%= f.label :logo %><br>
+      <img id="avatar_img_prev" src="#" width="150px" class='d-none' />
+      <%= image_tag(@company.logo.url, class: 'avatar_present_img') if @company.logo.present? %>
+      <%= f.file_field :logo,id: 'post_img', class: "form-control my-2" %>
+      <% if @company.logo.present? %>
+        <%= f.check_box :remove_logo %>
+        <%= f.label :remove_logo, 'Delete' %>
+      <% end %>
     </div>
 
     <div class="form-group">
-      <%= f.label :header_image %>
-      <%= f.file_field :header_image, class: "form-control" %>
+      <%= f.label :header_image %><br>
+      <img id="header_img_prev" src="#" width="500px" class='d-none' />
+      <%= image_tag(@company.header_image.url, class: 'header_present_img') if @company.header_image.present? %>
+      <%= f.file_field :header_image,id: 'post_header_img', class: "form-control my-2" %>
+      <% if @company.header_image.present? %>
+        <%= f.check_box :remove_header_image %>
+        <%= f.label :remove_header_image, 'Delete' %>
+      <% end %>
     </div>
 
     <div class="form-group">
       <%= f.label :name %>
-      <%= f.text_field :name, class: "form-control" %>
+      <%= f.text_field :name, class: "form-control",required: true %>
+      <div class="invalid-feedback">
+      Plese enter company name.
+      </div>
     </div>
     <div class="form-group">
       <%= f.label :phone_number %>
-      <%= f.text_field :phone_number, class: "form-control" %>
+      <%= f.text_field :phone_number, class: "form-control", pattern: "[0-9]+" %>
+      <div class="invalid-feedback">
+      Plese enter numbers without "-".
+      </div>
     </div>
     <div class="form-group">
       <%= f.label :location %>
-      <%= f.text_field :location, class: "form-control" %>
+      <%= f.text_field :location, class: "form-control",required: true %>
+      <div class="invalid-feedback">
+      Plese enter the head office lacation of company.
+      </div>
     </div>
     <div class="form-group">
       <%= f.label :address %>
@@ -41,17 +61,30 @@
     </div>
     <div class="form-group">
       <%= f.label :number_of_employees %>
-      <%= f.text_field :number_of_employees, class: "form-control" %>
+      <%= f.text_field :number_of_employees, class: "form-control", pattern: "[0-9]+" %>
+      <div class="invalid-feedback">
+      Plese enter only numbers.
+      </div>
     </div>
 
     <div class="form-group">
       <%= f.label :date_of_incorporation %>
-      <%= f.datetime_select :date_of_incorporation, start_year: 1800,end_year: 2020, discard_day: true, discard_hour: true, class: "form-control" %>
+      <div class="form-inline">
+      <%= f.datetime_select :date_of_incorporation, {start_year: 1800,end_year: 2020, discard_day: true, discard_hour: true}, class: "form-control" %>
+      </div>
     </div>
 
     <div class="form-group">
       <%= f.label :paid_up_capital %>
-      <%= f.text_field :paid_up_capital, discard_date: true, class: "form-control" %>
+      <div class="input-group">
+        <div class="input-group-prepend">
+          <span class="input-group-text">USD</span>
+        </div>
+        <%= f.text_field :paid_up_capital, class: "form-control", pattern: "[0-9]+" %>
+        <div class="invalid-feedback">
+        Plese enter only numbers.
+        </div>
+      </div>
     </div>
 
     <div class="form-group industry_relations">

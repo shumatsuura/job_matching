@@ -53,6 +53,7 @@ class CompaniesController < ApplicationController
       :paid_up_capital,
       :logo,
       :logo_cache,
+      :remove_logo,
       :header_image,
       :header_image_cache,
       :image,

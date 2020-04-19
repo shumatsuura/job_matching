@@ -3,7 +3,7 @@
     <%= render 'error_messages' %>
   </div>
 
-  <%= form_with(model: @user, remote: true, html: {class: "needs-validation", novalidate: true} ) do |f| %>
+  <%= form_with(model: @user, remote: true, html: {class: "needs-validation was-validated", novalidate: true} ) do |f| %>
   <% if controller.action_name == "edit" || edit_target == "upload_image" %>
     <div class="form-group">
       <%= f.label :image %><br>
@@ -12,7 +12,7 @@
       <%= f.file_field :image, id: 'post_img', class: "form-control-file" %>
       <% if @user.image.present? %>
         <%= f.check_box :remove_image %>
-        <%= f.label :remove_image, 'Remove' %>
+        <%= f.label :remove_image, 'Delete' %>
       <% end %>
     </div>
   <% end %>
@@ -24,7 +24,7 @@
     <span class="small">*Only pdf file is allowed.</span>
     <% if @user.cv.present? %>
       <%= f.check_box :remove_cv %>
-      <%= f.label :remove_cv, 'Remove' %>
+      <%= f.label :remove_cv, 'Delete' %>
     <% end %>
   </div>
   <% end %>
@@ -36,7 +36,7 @@
       <span class="badge badge-sm badge-info">Required</span>
       <%= f.text_field :first_name, class: "form-control", placeholder: "First Name", required: true %>
       <div class="invalid-feedback">
-      Plese input.
+      Plese enter your name.
       </div>
     </div>
 
@@ -73,7 +73,10 @@
 
   <div class="form-group">
     <%= f.label :phone_number %>
-    <%= f.text_field :phone_number, class: "form-control" %>
+    <%= f.text_field :phone_number, class: "form-control", pattern: "[0-9]+" %>
+    <div class="invalid-feedback">
+    Plese enter numbers without "-".
+    </div>
   </div>
 
   <div class="form-row">
@@ -99,7 +102,10 @@
         <div class="input-group-prepend">
           <span class="input-group-text">USD</span>
         </div>
-        <%= f.text_field :expected_salary, class: "form-control" %>
+        <%= f.text_field :expected_salary, class: "form-control", pattern: "[0-9]+" %>
+        <div class="invalid-feedback">
+        Plese enter only numbers.
+        </div>
       </div>
     </div>
   </div>

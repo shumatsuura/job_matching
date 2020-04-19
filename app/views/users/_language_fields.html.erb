@@ -4,11 +4,11 @@
       <div class="form-row">
         <%= f.label :name, class: "col-sm-3 col-form-label" %>
         <div class="col-sm-3">
-          <%= f.text_field :name, class: "form-control" %>
+          <%= f.text_field :name, class: "form-control",required: true %>
         </div>
         <%= f.label :level,class: "col-sm-1 col-form-label" %>
         <div class="col-sm-3 d-flex align-items-center">
-          <%= f.select :level, Language.levels.keys, {include_blank: true}, class: "form-control" %>
+          <%= f.select :level, Language.levels.keys, {include_blank: true}, class: "form-control",required: true %>
         </div>
         <div class="col-sm-2 text-right">
           <%= f.hidden_field :_destroy %>

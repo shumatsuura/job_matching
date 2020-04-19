@@ -4,7 +4,7 @@
     <div class="form-row">
       <div class="col-auto">
         <%= f.label :name %>
-        <%= f.text_field :name, class: "form-control" %>
+        <%= f.text_field :name, class: "form-control",required: true %>
       </div>
       <div class="col-auto">
         <%= f.label :date_of_acquisition %>
@@ -17,7 +17,8 @@
             end_year: 2020,
             discard_day: true,
             discard_hour: true},
-            class: "form-control" %>
+            class: "form-control",
+            required: true %>
         </div>
       </div>
 

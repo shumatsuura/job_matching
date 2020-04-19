@@ -10,16 +10,20 @@ class ScoutsController < ApplicationController
   end
 
   def create
-    scout = Scout.new(scout_params)
-    if scout.save
-      Notification.create(
-        target_model: "user",
-        target_model_id: scout.user_id,
-        action_model: "scout",
-        action_model_id: scout.id)
-      redirect_to user_path(scout.user_id), notice: "#{scout.user.first_name}さんをスカウトしました"
+    if current_company.name.present?
+      scout = Scout.new(scout_params)
+      if scout.save
+        Notification.create(
+          target_model: "user",
+          target_model_id: scout.user_id,
+          action_model: "scout",
+          action_model_id: scout.id)
+        redirect_to user_path(scout.user_id), notice: "#{scout.user.first_name}さんをスカウトしました"
+      else
+        redirect_to user_path(scout.user_id), notice: "#{scout.user.first_name}さんをスカウトできませんでした。"
+      end
     else
-      redirect_to user_path(scout.user_id), notice: "#{scout.user.first_name}さんをスカウトできませんでした。"
+      redirect_to dashboard_company_path(current_company.id), alert: "Please enter basic information before scouting."
     end
   end
 

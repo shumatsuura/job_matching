@@ -15,12 +15,15 @@ class PostsController < ApplicationController
 
   def new
     @company = current_company || Company.find_by(id: params[:company_id])
-    @post = @company.posts.build
-    @post.post_industries.build
-    @post.post_job_categories.build
-    @post.post_skills.build
-
-    @skills = @company.company_skills
+    if @company.name.present?
+      @post = @company.posts.build
+      @post.post_industries.build
+      @post.post_job_categories.build
+      @post.post_skills.build
+      @skills = @company.company_skills
+    else
+      redirect_to dashboard_company_path(@company.id), alert: "Please enter profile Information before posting."
+    end
   end
 
   def create

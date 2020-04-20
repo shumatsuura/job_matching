@@ -1,5 +1,5 @@
 class ApplicationController < ActionController::Base
-  before_action :basic, if: :production?
+  # before_action :basic, if: :production?
 
   private
 

@@ -26,7 +26,7 @@
     <div class="form-group">
       <%= f.label :header_image %><br>
       <img id="header_img_prev" src="#" width="500px" class='d-none' />
-      <%= image_tag(@company.header_image.url, class: 'header_present_img') if @company.header_image.present? %>
+      <%= image_tag(@company.header_image.url, class: 'header_present_img img-fluid', width: "1500px") if @company.header_image.present? %>
       <%= f.file_field :header_image,id: 'post_header_img', class: "form-control my-2" %>
       <% if @company.header_image.present? %>
         <%= f.check_box :remove_header_image %>

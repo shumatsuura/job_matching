@@ -56,6 +56,7 @@ class CompaniesController < ApplicationController
       :remove_logo,
       :header_image,
       :header_image_cache,
+      :remove_header_image,
       :image,
       :email_for_inquiry,
       :member_status,

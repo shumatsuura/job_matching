@@ -43,6 +43,6 @@ class Notification < ApplicationRecord
   end
 
   def time
-    created_at.strftime("%m/%d/%y at %l:%M %p")
+    created_at.strftime("%m/%d/%Y at %l:%M %p")
   end
 end

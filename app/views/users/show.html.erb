@@ -59,7 +59,7 @@
       </tr>
       <tr>
         <th><%= t('view.expected_salary') %>:</th>
-        <td><%= @user.expected_salary %></td>
+        <td><%= @user.expected_salary.to_s(:delimited) if @user.expected_salary.present? %></td>
         <th>CV</th>
         <td align="center">
           <%= @user.cv.present? ? link_to("Download", @user.cv.url) : "N/A" %>
@@ -123,9 +123,9 @@
           <th class="w-25">Company</th>
           <td class="w-25"><%= work_experience.company %></td>
           <th class="w-25">Period</th>
-          <td class="w-25"><%= work_experience.period_start.strftime("%b, %Y") if work_experience.period_start.present? %>
+          <td class="w-25"><%= work_experience.period_start.strftime("%b %Y") if work_experience.period_start.present? %>
           ~
-          <%= work_experience.period_end.strftime("%b, %Y") if work_experience.period_end.present? %></td>
+          <%= work_experience.period_end.strftime("%b %Y") if work_experience.period_end.present? %></td>
         </tr>
         <tr>
           <th><strong>Position:</strong></th>
@@ -193,9 +193,9 @@
           <th>Major</th>
           <td><%= education.major %></td>
           <th>Period</th>
-          <td><%= education.period_start.strftime("%b, %Y") if education.period_start.present? %>
+          <td><%= education.period_start.strftime("%b %Y") if education.period_start.present? %>
           ~
-          <%= education.period_end.strftime("%b, %Y") if education.period_end.present? %></td>
+          <%= education.period_end.strftime("%b %Y") if education.period_end.present? %></td>
         </tr>
         <% end %>
       <% else %>
@@ -221,7 +221,7 @@
           <button class = "ml-2 btn btn-sm btn-primary" data-toggle="modal" data-target = "#edit_skill_Modal">Edit</button>
           <% end %>
         </th>
-        <td colspan="2">
+        <td colspan="5">
           <% @user.user_skills.each do |skill| %>
           <button class="badge badge-primary"><%= skill.name %></button>
           <% end %>
@@ -239,8 +239,12 @@
         <% end %>
       </tr>
       <tr>
-        <th>Language <button class = "ml-2 btn btn-sm btn-primary" data-toggle="modal" data-target = "#edit_language_Modal">Edit</button></th>
-        <td>
+        <th>Language
+          <% if current_user == @user %>
+          <button class = "ml-2 btn btn-sm btn-primary" data-toggle="modal" data-target = "#edit_language_Modal">Edit</button>
+          <% end %>
+        </th>
+        <td colspan="5">
           <% @user.languages.each do |language| %>
           <%= language.name %>
           <span class = "small"><%= language.level %></span>
@@ -508,12 +512,12 @@
         <div class="modal-body">
           <%= form_with(model: @scout) do |f| %>
             <div class="form-group">
-              <%= f.label :title %>
+              <%= f.label :title, "Scout Title" %>
               <%= f.text_field :title, class: "form-control" %>
             </div>
             <%= f.fields_for :scout_messages do |message_f| %>
               <div class="form-group">
-                <%= message_f.label :body %>
+                <%= message_f.label :body, "Message" %>
                 <%= message_f.text_area :body, class: "form-control" %>
               </div>
               <%= message_f.text_field :company_id, value: current_company.id, type: "hidden" if company_signed_in? %>

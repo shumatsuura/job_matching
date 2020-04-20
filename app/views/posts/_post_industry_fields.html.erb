@@ -1,6 +1,5 @@
 <fieldset>
-  <h3>Industry<span class="users_child_index"><%= f.index + 1 %><span></h3>
-  <%= f.label :industry %>
+  <h5>Industry<span class="users_child_index"><%= f.index + 1 %><span></h5>
   <%= f.select :industry_id, Industry.select(:id, :name).map{ |n| [n.name.to_sym,n.id]}.to_h, {include_blank: true}, class:"form-control" %>
 
   <%= f.hidden_field :company_id, :value => params[:id] %>

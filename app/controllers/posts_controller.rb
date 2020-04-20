@@ -19,7 +19,6 @@ class PostsController < ApplicationController
       @post = @company.posts.build
       @post.post_industries.build
       @post.post_job_categories.build
-      @post.post_skills.build
       @skills = @company.company_skills
     else
       redirect_to dashboard_company_path(@company.id), alert: "Please enter profile Information before posting."
@@ -32,6 +31,7 @@ class PostsController < ApplicationController
     if @post.save
       redirect_to post_path(@post), notice: 'Created post successfully.'
     else
+      @skills = @company.company_skills
       render 'new'
     end
   end
@@ -45,6 +45,7 @@ class PostsController < ApplicationController
     if @post.update(post_params)
       redirect_to post_path(@post), notice: 'Updated post successfully.'
     else
+      @skills = @company.company_skills
       render 'edit'
     end
   end

@@ -1,4 +1,10 @@
 class Post < ApplicationRecord
+  validates :title, presence: true
+  validates :salary, presence: true
+  validates :number_of_recruits, presence: true
+  validates :description, presence: true
+  validates :location, presence: true
+
   enum status:{Open: 0, Closed: 1}
   belongs_to :company
 

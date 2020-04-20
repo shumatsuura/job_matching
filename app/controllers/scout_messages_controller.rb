@@ -6,7 +6,7 @@ class ScoutMessagesController < ApplicationController
   before_action :authenticate_for_scout_messages
 
   def index
-    @messages = @scout.scout_messages
+    @messages = @scout.scout_messages.order(created_at: "ASC")
     if @messages.length > 10
       @over_ten = true
       @messages = ScoutMessage.where(id: @messages[-10..-1].pluck(:id))
@@ -14,7 +14,7 @@ class ScoutMessagesController < ApplicationController
 
     if params[:m]
       @over_ten = false
-      @messages = @scout.scout_messages
+      @messages = @scout.scout_messages.order(created_at: "ASC")
     end
 
     if @messages.last && user_signed_in?
@@ -25,29 +25,32 @@ class ScoutMessagesController < ApplicationController
       @messages.where(company_id: nil).update_all(read: true)
     end
 
-    @messages = @messages.order(:created_at)
     @message = @scout.scout_messages.build
   end
 
   def create
     @message = @scout.scout_messages.build(scout_message_params)
-    if @message.save!
-      if @message.company_id
-        Notification.create(
-          target_model: "user",
-          target_model_id: @scout.user_id,
-          action_model: "scout_message",
-          action_model_id: @message.id)
-      elsif @message.user_id
-        Notification.create(
-          target_model: "company",
-          target_model_id: @scout.company_id,
-          action_model: "scout_message",
-          action_model_id: @message.id)
+    respond_to do |format|
+      if @message.save!
+        if @message.company_id
+          Notification.create(
+            target_model: "user",
+            target_model_id: @scout.user_id,
+            action_model: "scout_message",
+            action_model_id: @message.id)
+        elsif @message.user_id
+          Notification.create(
+            target_model: "company",
+            target_model_id: @scout.company_id,
+            action_model: "scout_message",
+            action_model_id: @message.id)
+        end
+        format.js { render :index }
+        format.html { redirect_to scout_scout_messages_path(@scout) }
+      else
+        format.js { render :index }
+        format.html { render 'index'}
       end
-      redirect_to scout_scout_messages_path(@scout)
-    else
-      render 'index'
     end
   end
 

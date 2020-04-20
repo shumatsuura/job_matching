@@ -16,7 +16,7 @@ class UsersController < ApplicationController
   def index
     @industries = Industry.all
     @job_categories = JobCategory.all
-    @q = User.ransack(params[:q])
+    @q = User.order(updated_at: "DESC").ransack(params[:q])
     @users = @q.result(distinct: true).page(params[:page]).per(PER)
   end
 
@@ -83,7 +83,9 @@ class UsersController < ApplicationController
       :status,
       :image,
       :image_cache,
+      :remove_image,
       :cv,
+      :remove_cv,
       :edit_target,
       educations_attributes: [:id,:school_name,:major,:period_start,:period_end,:_destroy],
       languages_attributes: [:id,:name,:level,:_destroy],

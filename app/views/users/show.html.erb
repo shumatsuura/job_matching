@@ -1,41 +1,40 @@
 <div class ="container">
-  <h4><%= @user.first_name %>のページ</h4>
+  <h4><%= @user.first_name || "No Name" %>のページ</h4>
     <table class="table table-bordered">
       <thead class="thead-dark">
         <tr>
           <th colspan="4">
             <div class="row d-flex justify-content-between align-items-center">
-              <div class="ml-3">
-                プロフィール
+              <div class="col-3">
+                Profile
               </div>
-              <div class="mr-3">
-            <% if current_user == @user %>
-              <button class = "btn btn-primary btn-sm" data-toggle="modal" data-target = "#edit_basic_profile_Modal">Edit Basic Profile</button>
-              <button class = "btn btn-primary btn-sm" data-toggle="modal" data-target = "#upload_cv_Modal">Upload CV</button>
-              <button class = "btn btn-primary btn-sm" data-toggle="modal" data-target = "#upload_profile_image_Modal">Upload Profile Image</button>
-            <% end %>
-            <% if company_signed_in? %>
-              <% if current_company.scouts.pluck(:user_id).include?(@user.id) %>
-              <%= link_to "スカウト解除", scout_path(user_id: @user.id), method: :delete, class:"btn btn-danger" %>
-              <% else %>
-              <button class = "btn btn-primary btn-sm" data-toggle="modal" data-target = "#new_scout_Modal">スカウトする</button>
-              <% end %>
-            <% end %>
+              <div class="col-9 text-right">
+                <% if current_user == @user %>
+                  <button class = "btn btn-primary btn-sm" data-toggle="modal" data-target = "#edit_basic_profile_Modal">Edit Profile</button>
+                  <button class = "btn btn-primary btn-sm" data-toggle="modal" data-target = "#upload_cv_Modal">Upload CV</button>
+                  <button class = "btn btn-primary btn-sm" data-toggle="modal" data-target = "#upload_profile_image_Modal">Upload Image</button>
+                <% end %>
+                <% if company_signed_in? %>
+                  <% if current_company.scouts.pluck(:user_id).include?(@user.id) %>
+                  <%= link_to "スカウト解除", scout_path(user_id: @user.id), method: :delete, class:"btn btn-danger" %>
+                  <% else %>
+                  <button class = "btn btn-primary btn-sm" data-toggle="modal" data-target = "#new_scout_Modal">スカウトする</button>
+                  <% end %>
+                <% end %>
 
-            <% if company_signed_in? %>
-              <% if current_company.like_users.pluck(:user_id).include?(@user.id) %>
-                <%= link_to(like_user_path(user_id: @user.id), method: :delete) do %>
-                <i class="far fa-heart"></i>
+                <% if company_signed_in? %>
+                  <% if current_company.like_users.pluck(:user_id).include?(@user.id) %>
+                    <%= link_to(like_user_path(user_id: @user.id), method: :delete) do %>
+                    <i class="far fa-heart"></i>
+                    <% end %>
+                  <% else %>
+                    <%= link_to(like_users_path(like_user:{user_id: @user.id, company_id: current_company.id}), method: :post) do %>
+                    <i class="fas fa-heart"></i>
+                    <% end %>
+                  <% end %>
                 <% end %>
-              <% else %>
-                <%= link_to(like_users_path(like_user:{user_id: @user.id, company_id: current_company.id}), method: :post) do %>
-                <i class="fas fa-heart"></i>
-                <% end %>
-              <% end %>
-            <% end %>
+              </div>
             </div>
-
-          </div>
           </th>
         </tr>
       </thead>
@@ -43,7 +42,10 @@
         <th class="align-middle">User Name:</th>
         <td class="w-25 align-middle"><%= @user.first_name %> <%= @user.last_name %></td>
         <th rowspan="2">Profile Image:</th>
-        <td rowspan="2"><%= image_tag(@user.image.url, class: "img-thumbnail img-fluid", width: "100px") if @user.image.present? %></td>
+        <td rowspan="2" align="center">
+          <%= image_tag(@user.image.url, class: "img-thumbnail img-fluid", width: "100px") if @user.image.present? %>
+          <%= image_tag("default_image.jpeg", class: 'img-thumbnail img-fluid', width: "100px") unless @user.image.present? %>
+        </td>
       </tr>
       <tr>
         <th class="align-middle">Age:</th>
@@ -57,9 +59,9 @@
       </tr>
       <tr>
         <th><%= t('view.expected_salary') %>:</th>
-        <td><%= @user.expected_salary %></td>
+        <td><%= @user.expected_salary.to_s(:delimited) if @user.expected_salary.present? %></td>
         <th>CV</th>
-        <td>
+        <td align="center">
           <%= @user.cv.present? ? link_to("Download", @user.cv.url) : "N/A" %>
         </td>
       </tr>
@@ -96,65 +98,110 @@
       </tr>
     </table>
 
-  <% if current_user == @user %>
-    <button class = "btn btn-primary btn-sm" data-toggle="modal" data-target = "#edit_work_experience_Modal">Edit Work Experience</button>
-  <% end %>
-  <% @user.work_experiences.each_with_index do |work_experience,i| %>
-    <table class="table table-bordered mt-3 mb-3">
-      <thead class="thead-dark">
+  <!-- Work Experience -->
+  <% if @user.work_experiences.present? %>
+    <% @user.work_experiences.each_with_index do |work_experience,i| %>
+      <table class="table table-bordered mt-3 mb-3">
+        <thead class="thead-dark">
+          <tr>
+            <th colspan="4">
+              <div class="row">
+                <div class="col align-self-center">
+                  Work Experience <%= i + 1 %>
+                </div>
+                <% if current_user == @user %>
+                <div class="col text-right">
+                  <button class = "btn btn-primary btn-sm" data-toggle="modal" data-target = "#edit_work_experience_Modal">Edit Work Experience</button>
+                </div>
+                <% end %>
+              </div>
+            </th>
+          </tr>
+        </thead>
+        <tbody>
         <tr>
-          <th colspan="4">
-            Work Experience <%= i + 1 %>
-          </th>
+          <th class="w-25">Company</th>
+          <td class="w-25"><%= work_experience.company %></td>
+          <th class="w-25">Period</th>
+          <td class="w-25"><%= work_experience.period_start.strftime("%b %Y") if work_experience.period_start.present? %>
+          ~
+          <%= work_experience.period_end.strftime("%b %Y") if work_experience.period_end.present? %></td>
         </tr>
-      </thead>
-      <tbody>
-      <tr>
-        <th class="w-25">Company</th>
-        <td class="w-25"><%= work_experience.company %></td>
-        <th class="w-25">Period</th>
-        <td class="w-25"><%= work_experience.period_start.strftime("%b, %Y") if work_experience.period_start.present? %>
-        ~
-        <%= work_experience.period_end.strftime("%b, %Y") if work_experience.period_end.present? %></td>
-      </tr>
-      <tr>
-        <th><strong>Position:</strong></th>
-        <td><%= work_experience.position %></td>
-        <th><strong>Salary:</strong></th>
-        <td><%= work_experience.salary %></td>
-      </tr>
-
-      <tr>
-        <th>Description</th>
-        <td colspan="3"><%= simple_format(work_experience.description) %></td>
-      </tr>
-      </tbody>
-    </table>
-  <% end %>
-
-  <% if current_user == @user %>
-    <button class = "btn btn-primary btn-sm" data-toggle="modal" data-target = "#edit_education_Modal">Edit Education</button>
-  <% end %>
+        <tr>
+          <th><strong>Position:</strong></th>
+          <td><%= work_experience.position %></td>
+          <th><strong>Salary:</strong></th>
+          <td><%= work_experience.salary %></td>
+        </tr>
+        <tr>
+          <th>Description</th>
+          <td colspan="3"><%= simple_format(work_experience.description) %></td>
+        </tr>
+        </tbody>
+      </table>
+    <% end %>
+  <% else %>
   <table class="table table-bordered mt-3 mb-3">
     <thead class="thead-dark">
       <tr>
-        <th colspan="6">
-          Education
+        <th>
+          <div class="row">
+            <div class="col align-self-center">
+              Work Experience
+            </div>
+            <% if current_user == @user %>
+            <div class="col text-right">
+              <button class = "btn btn-primary btn-sm" data-toggle="modal" data-target = "#edit_work_experience_Modal">Edit Work Experience</button>
+            </div>
+            <% end %>
+          </div>
         </th>
       </tr>
     </thead>
     <tbody>
-      <% @user.educations.each_with_index do |education,i| %>
+    <tr>
+      <td>No Information.</td>
+    </tr>
+    </tbody>
+  </table>
+  <% end %>
+
+  <!-- Education -->
+  <table class="table table-bordered mt-3 mb-3">
+    <thead class="thead-dark">
       <tr>
-        <th>School</th>
-        <td><%= education.school_name %></td>
-        <th>Major</th>
-        <td><%= education.major %></td>
-        <th>Period</th>
-        <td><%= education.period_start.strftime("%b, %Y") if education.period_start.present? %>
-        ~
-        <%= education.period_end.strftime("%b, %Y") if education.period_end.present? %></td>
-      </tr>
+        <th colspan="6" valign="middle">
+          <div class="row">
+            <div class="col align-self-center">
+              <span>Education</span>
+            </div>
+            <% if current_user == @user %>
+              <div class="col text-right">
+                <button class = "btn btn-primary btn-sm" data-toggle="modal" data-target = "#edit_education_Modal">Edit Education</button>
+              </div>
+            <% end %>
+          </div>
+        </th>
+        </tr>
+    </thead>
+    <tbody>
+      <% if @user.educations.present? %>
+        <% @user.educations.each_with_index do |education,i| %>
+        <tr>
+          <th>School</th>
+          <td><%= education.school_name %></td>
+          <th>Major</th>
+          <td><%= education.major %></td>
+          <th>Period</th>
+          <td><%= education.period_start.strftime("%b %Y") if education.period_start.present? %>
+          ~
+          <%= education.period_end.strftime("%b %Y") if education.period_end.present? %></td>
+        </tr>
+        <% end %>
+      <% else %>
+        <tr>
+          <td colspan="6">No Information.</td>
+        </tr>
       <% end %>
     </tbody>
   </table>
@@ -174,7 +221,7 @@
           <button class = "ml-2 btn btn-sm btn-primary" data-toggle="modal" data-target = "#edit_skill_Modal">Edit</button>
           <% end %>
         </th>
-        <td colspan="2">
+        <td colspan="5">
           <% @user.user_skills.each do |skill| %>
           <button class="badge badge-primary"><%= skill.name %></button>
           <% end %>
@@ -192,8 +239,12 @@
         <% end %>
       </tr>
       <tr>
-        <th>Language <button class = "ml-2 btn btn-sm btn-primary" data-toggle="modal" data-target = "#edit_language_Modal">Edit</button></th>
-        <td>
+        <th>Language
+          <% if current_user == @user %>
+          <button class = "ml-2 btn btn-sm btn-primary" data-toggle="modal" data-target = "#edit_language_Modal">Edit</button>
+          <% end %>
+        </th>
+        <td colspan="5">
           <% @user.languages.each do |language| %>
           <%= language.name %>
           <span class = "small"><%= language.level %></span>
@@ -236,7 +287,7 @@
       <div class="modal-content">
         <div class="modal-header">
           <div class="modal-title" id="upload_cv_Modal">
-            Upload Profile Image
+            Upload CV
           </div>
           <button type="button" class ="close" data-dismiss="modal" aria-label="Close" name="button">
             <span aria-hidden="true">&times;</span>
@@ -461,12 +512,12 @@
         <div class="modal-body">
           <%= form_with(model: @scout) do |f| %>
             <div class="form-group">
-              <%= f.label :title %>
+              <%= f.label :title, "Scout Title" %>
               <%= f.text_field :title, class: "form-control" %>
             </div>
             <%= f.fields_for :scout_messages do |message_f| %>
               <div class="form-group">
-                <%= message_f.label :body %>
+                <%= message_f.label :body, "Message" %>
                 <%= message_f.text_area :body, class: "form-control" %>
               </div>
               <%= message_f.text_field :company_id, value: current_company.id, type: "hidden" if company_signed_in? %>

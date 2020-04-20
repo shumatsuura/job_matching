@@ -1,24 +1,32 @@
 <div class="container">
   <br>
-<div class="d-flex justify-content-between">
-    <h5>Prefered Posts</h5>
-</div>
-<table class = "table table-bordered">
-  <thead class="thead-dark">
-    <tr>
-      <th>Company</th>
-      <th>Title</th>
-      <th>Status</th>
-      <th></th>
-    </tr>
-  </thead>
-  <% @like_posts.each do |like_post| %>
-  <tr>
-    <td><%= link_to like_post.post.company.name, company_path(like_post.post.company_id) %></td>
-    <td><%= link_to like_post.post.title, post_path(like_post.post_id) %></td>
-    <td><%= like_post.post.status %></td>
-    <td><%= like_post.created_at.strftime("%d %b, %Y") %></td>
-  </tr>
-  <% end %>
-</table>
+  <div class="d-flex justify-content-between">
+    <h5>Favorite Posts</h5>
+  </div>
+  <table class = "table table-bordered">
+    <thead class="thead-dark">
+      <tr>
+        <th>Company</th>
+        <th>Title</th>
+        <th>Status</th>
+        <th></th>
+      </tr>
+    </thead>
+    <tbody>
+      <% if @like_posts.present? %>
+        <% @like_posts.each do |like_post| %>
+        <tr>
+          <td><%= link_to like_post.post.company.name, company_path(like_post.post.company_id) %></td>
+          <td><%= link_to like_post.post.title, post_path(like_post.post_id) %></td>
+          <td><%= like_post.post.status %></td>
+          <td><%= like_post.created_at.strftime("%d %b, %Y") %></td>
+        </tr>
+        <% end %>
+      <% else %>
+        <tr>
+          <td colspan="4">Currently there are no favorite posts.</td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
 </div>

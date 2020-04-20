@@ -17,10 +17,8 @@
         <% @industries.each do |industry| %>
           <li>
             <div class="form-inline mb-1">
-              <%= f.label :industries_id_in do %>
               <%= f.check_box :industries_id_in, {multiple: true, include_hidden: false, class:"mr-2 align-self-start mt-1"}, industry.id %>
-              <small><%= industry.name %></small>
-              <% end %>
+              <%= f.label :industries_id_in, industry.name, {value: industry.id, class: "small"} %>
             </div>
           </li>
         <% end %>
@@ -34,10 +32,8 @@
         <% @job_categories.each do |job_category| %>
         <li>
           <div class="form-inline mb-1">
-            <%= f.label :job_categories_id_in do %>
             <%= f.check_box :job_categories_id_in, {multiple: true, include_hidden: false, class:"mr-2 align-self-start mt-1"}, job_category.id %>
-            <small><%= job_category.name %></small>
-            <% end %>
+            <%= f.label :job_categories_id_in, job_category.name, {value: job_category.id, class: "small"} %>
           </div>
         </li>
         <% end %>

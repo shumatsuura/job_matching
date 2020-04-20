@@ -51,24 +51,22 @@ RSpec.describe 'Scout Test', type: :system, js: true do
 
     it 'ダッシュボードに未読メッセージ数が表示され、アクセスすると未読メッセージ数が0になる' do
       visit dashboard_company_path(@company.id)
-
-      expect(page).to have_content 2
+      expect(all('.badge-light')[0].text).to eq "2"
       visit scout_scout_messages_path(@scout.id)
 
       visit dashboard_company_path(@company.id)
-      expect(page).to have_content 0
-      expect(page).not_to have_content 2
+      expect(all('.badge-light')[0].text).to eq "0"
     end
 
     it 'スカウトインデックスに未読メッセージ数が表示され、アクセスすると未読メッセージ数が0になる' do
       visit scouts_path
 
-      expect(page).to have_content 2
+      expect(all('.badge-light')[0].text).to eq "2"
       visit scout_scout_messages_path(@scout.id)
 
       visit scouts_path
-      expect(page).to have_content 0
-      expect(page).not_to have_content 2
+      expect(all('.badge-light')[0].text).to eq "0"
+      
     end
   end
 
@@ -109,13 +107,13 @@ RSpec.describe 'Scout Test', type: :system, js: true do
       visit dashboard_user_path(@user.id)
 
       count_list = all('.scout_count_badge')
-      expect(count_list[0]).to have_content 2
+      expect(count_list[0].text).to eq "2"
       visit scout_scout_messages_path(@scout.id)
 
       visit dashboard_user_path(@user.id)
       count_list = all('.scout_count_badge')
-      expect(count_list[0]).to have_content 0
-      expect(count_list[0]).not_to have_content 2
+      expect(count_list[0].text).to eq "0"
+      expect(count_list[0].text).not_to eq "2"
 
     end
 

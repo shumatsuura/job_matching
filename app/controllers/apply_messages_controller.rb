@@ -7,7 +7,6 @@ class ApplyMessagesController < ApplicationController
 
   def index
     @messages = @apply.apply_messages.order(created_at: "ASC")
-
     if @messages.length > 10
       @over_ten = true
       @messages = ApplyMessage.where(id: @messages[-10..-1].pluck(:id))

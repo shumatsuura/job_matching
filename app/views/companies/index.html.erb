@@ -16,7 +16,7 @@
                 <%= image_tag("default_image.jpeg", class: 'img-fluid rounded', width: "150") unless company.logo.present? %>
               </div>
               <div class="text-left">
-                <h6 class="mt-1"><%= link_to company.name, company_path(company.id) %></h6>
+                <h6 class="mt-1"><%= link_to(company.name || "No Name", company_path(company.id)) %></h6>
               </div>
             </div>
           </div>

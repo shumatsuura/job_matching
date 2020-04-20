@@ -19,8 +19,10 @@
       <ul class="collapse list-unstyled" id="industrySubmenu">
         <% @industries.each do |industry| %>
         <li>
-          <%= f.check_box :industries_id_in, {multiple: true, include_hidden: false}, industry.id %>
-          <%= f.label :industries_id_in, industry.name %>
+          <div class="form-inline mb-1">
+          <%= f.check_box :industries_id_in, {multiple: true, include_hidden: false, class:"mr-2 align-self-start mt-1"}, industry.id %>
+          <%= f.label :industries_id_in, industry.name, {value: industry.id, class: "small"} %>
+          </div>
         </li>
         <% end %>
       </ul>
@@ -33,8 +35,10 @@
       <ul class="collapse list-unstyled" id="jobcategorySubmenu">
         <% @job_categories.each do |job_category| %>
         <li>
-          <%= f.check_box :job_categories_id_in, {multiple: true, include_hidden: false}, job_category.id %>
-          <%= job_category.name %>
+          <div class="form-inline mb-1">
+          <%= f.check_box :job_categories_id_in, {multiple: true, include_hidden: false, class:"mr-2 align-self-start mt-1"}, job_category.id %>
+          <%= f.label :job_categories_id_in, job_category.name, {value: job_category.id, class: "small"} %>
+          </div>
         </li>
         <% end %>
       </ul>
@@ -68,7 +72,7 @@
       </a>
       <ul class="collapse list-unstyled" id="genderSubmenu">
         <li>
-          <%= f.radio_button :gender_eq, '', {:checked => true} %>指定なし
+          <%= f.radio_button :gender_eq, '', {:checked => true} %>Unspecified
         </li>
         <li>
           <%= f.radio_button :gender_eq, "Male" %>Male
@@ -97,7 +101,7 @@
             Max
           </div>
           <div class="col-10">
-            <%= f.number_field :date_of_birth_to_age_lteq, {class: "form-control"} %>才以上
+            <%= f.number_field :date_of_birth_to_age_lteq, {class: "form-control"} %>
           </div>
         </div>
       </div>

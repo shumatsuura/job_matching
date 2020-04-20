@@ -3,7 +3,7 @@
     <span class="text-light"><%= "Company: #{@apply.post.company.name}" if current_user %></span>
     <span class="text-light"><%= "Candidate: #{@apply.user.first_name}" if current_company %></span>
     <br><span class="text-light"><%= @apply.post.title%></span>
-    </p>
+  </p>
 </div>
 <div class="container">
   <div id="messages_area">
@@ -20,7 +20,7 @@
       <%= f.text_field :user_id, value: current_user.id, type: "hidden"  if user_signed_in? %>
     <div>
       <br>
-      <%= f.submit "Send message",class: "btn btn-primary" ,id: "new_message"%>
+      <%= f.submit "Send message", class: "btn btn-primary" ,id: "new_message" %>
     </div>
   </div>
   </div>

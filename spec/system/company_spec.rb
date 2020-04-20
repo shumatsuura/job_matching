@@ -14,7 +14,7 @@ RSpec.describe 'カンパニー機能', type: :system, js: true do
         visit root_path
 
         click_on 'For Employer'
-        click_on 'C Sign-Up'
+        click_on 'Sign-Up', match: :first
 
         fill_in 'Email', with: 'shunsukE@sample.com'
         fill_in 'Password', with: "password"
@@ -222,11 +222,11 @@ RSpec.describe 'カンパニー機能', type: :system, js: true do
     it 'カンパニーアカウント情報を編集できる' do
       visit admin_companies_path
 
-      click_on 'Edit Account',match: :first
+      click_on 'Edit', match: :first
+      click_on 'Edit Account'
 
       fill_in 'Email', with: 'company1-b@sample.com'
       fill_in 'Password', with: "passwordo"
-      fill_in 'Password confirmation', with: "passwordo"
 
       click_on 'Update'
 
@@ -236,6 +236,11 @@ RSpec.describe 'カンパニー機能', type: :system, js: true do
 
     it 'カンパニーのメンバーシップを編集できる' do
       visit admin_companies_path
+      click_on 'Edit', match: :first
+      click_on 'Edit Account'
+
+      select 'Premium', from: 'company_member_status'
+      click_on 'Update'
       expect(page).to have_content 'successfully'
     end
 
@@ -243,8 +248,9 @@ RSpec.describe 'カンパニー機能', type: :system, js: true do
       visit admin_companies_path
       x = Company.all.count
 
+      click_on 'Edit', match: :first
       accept_alert do
-        click_link 'Delete', match: :first
+        click_link 'Delete'
       end
 
       sleep 1

@@ -1,13 +1,9 @@
 <fieldset>
-  <h3>Job Category<span class="users_child_index"><%= f.index + 1 %><span></h3>
+  <h5>Job Category<span class="users_child_index"><%= f.index + 1 %><span></h5>
     <div class="select_job_category">
-
-  <%= f.label :job_category %>
-  <%= f.select :job_category_id, JobCategory.select(:id, :name).map{ |n| [n.name.to_sym,n.id]}.to_h, {include_blank: true},class: "form-control" %>
-</div>
-
-  <%= f.hidden_field :company_id, :value => params[:id] %>
-
-  <%= f.hidden_field :_destroy %>
-  <%= link_to "削除", '#', class: "remove_fields" %>
-</fieldset>
+      <%= f.select :job_category_id, JobCategory.select(:id, :name).map{ |n| [n.name.to_sym,n.id]}.to_h, {include_blank: true},class: "form-control" %>
+    </div>
+    <%= f.hidden_field :company_id, :value => params[:id] %>
+    <%= f.hidden_field :_destroy %>
+    <%= link_to "削除", '#', class: "remove_fields" %>
+  </fieldset>

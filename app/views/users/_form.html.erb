@@ -1,27 +1,31 @@
 <div class="container">
-  <div id="error_explanation">
-    <% if @user.errors.any? %>
-    <h2><%= pluralize(@user.errors.count, "error") %>prohibited this @user from being saved:</h2>
-    <ul>
-      <% @user.errors.full_messages.each do |message| %>
-      <li><%= message %></li>
-      <% end %>
-    </ul>
-    <% end %>
+  <div class="error_explanation">
+    <%= render 'error_messages' %>
   </div>
 
-  <%= form_with(model: @user, remote: true, html: {class: "needs-validation", novalidate: true} ) do |f| %>
+  <%= form_with(model: @user, remote: true, html: {class: "needs-validation was-validated", novalidate: true} ) do |f| %>
   <% if controller.action_name == "edit" || edit_target == "upload_image" %>
     <div class="form-group">
-      <%= f.label :image %>
-      <%= f.file_field :image, class: "form-control-file" %>
+      <%= f.label :image %><br>
+      <img id="avatar_img_prev" src="#" width="150px" class='d-none' />
+      <%= image_tag(@user.image.url, class: 'avatar_present_img') if @user.image.present? %>
+      <%= f.file_field :image, id: 'post_img', class: "form-control-file" %>
+      <% if @user.image.present? %>
+        <%= f.check_box :remove_image %>
+        <%= f.label :remove_image, 'Delete' %>
+      <% end %>
     </div>
   <% end %>
 
   <% if controller.action_name == "edit" || edit_target == "upload_cv" %>
   <div class="form-group">
-    <%= f.label :cv %>
+    <%= f.label :cv, "CV"%>
     <%= f.file_field :cv, class: "form-control-file" %>
+    <span class="small">*Only pdf file is allowed.</span>
+    <% if @user.cv.present? %>
+      <%= f.check_box :remove_cv %>
+      <%= f.label :remove_cv, 'Delete' %>
+    <% end %>
   </div>
   <% end %>
 
@@ -32,7 +36,7 @@
       <span class="badge badge-sm badge-info">Required</span>
       <%= f.text_field :first_name, class: "form-control", placeholder: "First Name", required: true %>
       <div class="invalid-feedback">
-      Plese input.
+      Plese enter your name.
       </div>
     </div>
 
@@ -69,7 +73,10 @@
 
   <div class="form-group">
     <%= f.label :phone_number %>
-    <%= f.text_field :phone_number, class: "form-control" %>
+    <%= f.text_field :phone_number, class: "form-control", pattern: "[0-9]+" %>
+    <div class="invalid-feedback">
+    Plese enter numbers without "-".
+    </div>
   </div>
 
   <div class="form-row">
@@ -95,7 +102,10 @@
         <div class="input-group-prepend">
           <span class="input-group-text">USD</span>
         </div>
-        <%= f.text_field :expected_salary, class: "form-control" %>
+        <%= f.text_field :expected_salary, class: "form-control", pattern: "[0-9]+" %>
+        <div class="invalid-feedback">
+        Plese enter only numbers.
+        </div>
       </div>
     </div>
   </div>

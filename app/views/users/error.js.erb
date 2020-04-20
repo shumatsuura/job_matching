@@ -1,1 +1,1 @@
-$('#error_explanation').html("<%= j(render 'error_messages' ) %>");
+$('.error_explanation').html("<%= escape_javascript(render 'error_messages' ) %>");

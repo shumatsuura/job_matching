@@ -12,6 +12,10 @@ class Users::OmniauthCallbacksController < Devise::OmniauthCallbacksController
     callback_from :facebook
   end
 
+  def google_oauth2
+    callback_from :google
+  end
+
   # More info at:
   # https://github.com/plataformatec/devise#omniauth
 

@@ -33,23 +33,27 @@ class ApplyMessagesController < ApplicationController
     respond_to do |format|
       if @message.save!
         if @message.company_id
-          Notification.create(
+          notification = Notification.create(
             target_model: "user",
             target_model_id: @apply.user_id,
             action_model: "apply_message",
             action_model_id: @message.id)
+          notification.message = notification.create_message
+          notification.save
         elsif @message.user_id
-          Notification.create(
+          notification = Notification.create(
             target_model: "company",
             target_model_id: @apply.post.company_id,
             action_model: "apply_message",
             action_model_id: @message.id)
+          notification.message = notification.create_message
+          notification.save
         end
-        format.js { render :index }
-        format.html { redirect_to apply_apply_messages_path(@apply) }
+          format.js { render :index }
+          format.html { redirect_to apply_apply_messages_path(@apply) }
       else
-        format.js { render :index }
-        format.html { render 'index'}
+          format.js { render :index }
+          format.html { render 'index'}
       end
     end
   end

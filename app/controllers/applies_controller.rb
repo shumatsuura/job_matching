@@ -14,11 +14,13 @@ class AppliesController < ApplicationController
   def create
     if current_user.first_name.present?
     apply = current_user.applies.create(apply_params)
-    Notification.create(
+    notification = Notification.create(
       target_model: "company",
       target_model_id: apply.post.company_id,
       action_model: "apply",
       action_model_id: apply.id)
+    notification.message = notification.create_message
+    notification.save
     redirect_to post_path(apply.post_id), notice: "Applied successfully."
     else
       redirect_to dashboard_user_path(current_user.id), alert: "Please enter basic profile before applying."

@@ -16,7 +16,7 @@
                 <% end %>
                 <% if company_signed_in? %>
                   <% if current_company.scouts.pluck(:user_id).include?(@user.id) %>
-                  <%= link_to "スカウト解除", scout_path(user_id: @user.id), method: :delete, class:"btn btn-danger" %>
+                    <%= link_to "Scouted", scout_scout_messages_path(current_company.scouts.find_by(user_id: @user.id).id), class:"text-white" %>
                   <% else %>
                   <button class = "btn btn-primary btn-sm" data-toggle="modal" data-target = "#new_scout_Modal">スカウトする</button>
                   <% end %>
@@ -25,11 +25,11 @@
                 <% if company_signed_in? %>
                   <% if current_company.like_users.pluck(:user_id).include?(@user.id) %>
                     <%= link_to(like_user_path(user_id: @user.id), method: :delete) do %>
-                    <i class="far fa-heart"></i>
+                    <i class="far fa-heart" style="color: white;"></i>
                     <% end %>
                   <% else %>
                     <%= link_to(like_users_path(like_user:{user_id: @user.id, company_id: current_company.id}), method: :post) do %>
-                    <i class="fas fa-heart"></i>
+                    <i class="fas fa-heart" style="color: white;"></i>
                     <% end %>
                   <% end %>
                 <% end %>

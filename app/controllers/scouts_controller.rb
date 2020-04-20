@@ -13,11 +13,13 @@ class ScoutsController < ApplicationController
     if current_company.name.present?
       scout = Scout.new(scout_params)
       if scout.save
-        Notification.create(
+        notification = Notification.create(
           target_model: "user",
           target_model_id: scout.user_id,
           action_model: "scout",
           action_model_id: scout.id)
+        notification.message = notification.create_message
+        notification.save
         redirect_to user_path(scout.user_id), notice: "#{scout.user.first_name}さんをスカウトしました"
       else
         redirect_to user_path(scout.user_id), notice: "#{scout.user.first_name}さんをスカウトできませんでした。"

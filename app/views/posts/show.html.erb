@@ -9,20 +9,24 @@
         </div>
           <div class="col-md-6 text-right">
             <% if user_signed_in? %>
+            <% if current_user.applies.pluck(:post_id).include?(@post.id) %>
+            <%= link_to "Applied", apply_apply_messages_path(@post.applies.find_by(user_id: current_user.id)) %>
+            <% else %>
+            <%= link_to "Apply Now", applies_path(apply:{user_id: current_user.id, post_id: @post.id}), method: :post, class: "btn btn-primary" %>
+            <% end %>
+            <% end %>
+            <% if user_signed_in? %>
               <% if current_user.like_posts.pluck(:post_id).include?(@post.id) %>
-                <%= link_to "Unlike", like_post_path(post_id: @post.id), method: :delete, class: "btn btn-primary" %>
+                <%= link_to(like_post_path(post_id: @post.id), method: :delete) do %>
+                <i class="fas fa-heart"></i>
+                <% end %>
               <% else %>
-                <%= link_to "Like", like_posts_path(like_post:{user_id: current_user.id, post_id: @post.id}), method: :post, class: "btn btn-primary" %>
+                <%= link_to(like_posts_path(like_post:{user_id: current_user.id, post_id: @post.id}), method: :post) do %>
+                <i class="far fa-heart"></i>
+                <% end %>
               <% end %>
             <% end %>
 
-            <% if user_signed_in? %>
-              <% if current_user.applies.pluck(:post_id).include?(@post.id) %>
-                <%= link_to "Delete Application", apply_path(post_id: @post.id), method: :delete, class: "btn btn-primary" %>
-              <% else %>
-                <%= link_to "Apply Now", applies_path(apply:{user_id: current_user.id, post_id: @post.id}), method: :post, class: "btn btn-primary" %>
-              <% end %>
-            <% end %>
           </div>
       </div>
       <%= link_to(company_path(@post.company_id)) do %>

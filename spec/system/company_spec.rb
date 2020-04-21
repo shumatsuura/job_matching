@@ -209,7 +209,7 @@ RSpec.describe 'カンパニー機能', type: :system, js: true do
       fill_in 'company_address', with:'street,11213'
 
       select '1986', from: 'company_date_of_incorporation_1i'
-      select 'November', from: 'company_date_of_incorporation_2i'
+      select '11月', from: 'company_date_of_incorporation_2i'
 
       fill_in 'company_paid_up_capital', with:'112130'
       select 'test_industry', from: "company_industry_relations_attributes_0_industry_id"

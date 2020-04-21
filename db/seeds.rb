@@ -79,7 +79,7 @@ n = 1
   n += 1
 end
 
-Companyの作成
+# Companyの作成
 n = 1
 30.times do
   company = Company.create(

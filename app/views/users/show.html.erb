@@ -216,7 +216,7 @@
     </thead>
     <tbody>
       <tr>
-        <th>Skill
+        <th class="d-flex justify-content-between">Skill
           <% if current_user == @user %>
           <button class = "ml-2 btn btn-sm btn-primary" data-toggle="modal" data-target = "#edit_skill_Modal">Edit</button>
           <% end %>
@@ -228,18 +228,20 @@
         </td>
       </tr>
       <tr>
-        <th>Qualification
+        <th class="d-flex justify-content-between">Qualification
           <% if current_user == @user %>
             <button class = "ml-2 btn btn-sm btn-primary" data-toggle="modal" data-target = "#edit_qualification_Modal">Edit</button>
           <% end %>
         </th>
-        <% @user.qualifications.each do |qualification| %>
-        <td><%= qualification.name %></td>
-        <td><%= qualification.date_of_acquisition.strftime("%b, %Y") if qualification.date_of_acquisition.present? %></td>
-        <% end %>
+        <td>
+          <% @user.qualifications.each do |qualification| %>
+            <strong><%= qualification.name %></strong>
+            <small><%= qualification.date_of_acquisition.strftime("%b, %Y") if qualification.date_of_acquisition.present? %></small>/
+          <% end %>
+        </td>
       </tr>
       <tr>
-        <th>Language
+        <th class="d-flex justify-content-between">Language
           <% if current_user == @user %>
           <button class = "ml-2 btn btn-sm btn-primary" data-toggle="modal" data-target = "#edit_language_Modal">Edit</button>
           <% end %>
@@ -247,7 +249,7 @@
         <td colspan="5">
           <% @user.languages.each do |language| %>
           <%= language.name %>
-          <span class = "small"><%= language.level %></span>
+          <span class = "small"><%= language.level %>/</span>
           <% end %>
         </td>
       </tr>

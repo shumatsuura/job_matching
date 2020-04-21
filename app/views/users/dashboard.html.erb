@@ -61,7 +61,7 @@
                   </div>
                   <div>
                     <strong>Expected Salary: </strong>
-                    <%= @user.expected_salary || " Blank" %>
+                    <%= @user.expected_salary.to_s(:delimited) if @user.expected_salary.present? || " Blank" %>
                   </div>
                 </div>
               </div>
@@ -245,13 +245,13 @@
           <% end %>
           <% else %>
           <tr>
-            <td colspan="3">Currently there are no applications.</td>
+            <td colspan="4">Currently there are no applications.</td>
           </tr>
           <% end %>
         </tbody>
       </table>
     </div>
-    <!-- アプライここまで -->
+    <!-- アプリケーションここまで -->
     <!-- スカウト -->
     <div class="col-md-6">
       <div class="d-flex justify-content-between">
@@ -293,7 +293,7 @@
         <% end %>
         <% else %>
         <tr>
-          <td colspan="3">Currently there are no scouts.</td>
+          <td colspan="4">Currently there are no scouts.</td>
         </tr>
         <% end %>
       </tbody>
@@ -352,7 +352,7 @@
         <thead class="thead-dark">
           <tr class="align-middle">
             <th class="py-1">Company</th>
-            <th class="py-1">Title</th>
+            <th class="py-1">Followed At</th>
           </tr>
         </thead>
         <tbody>

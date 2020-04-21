@@ -1,15 +1,15 @@
-require "csv"
-
-CSV.foreach('db/seeds/job_category.csv', headers: true) do |row|
-  JobCategory.create(name: row['Name']
-                )
-end
-
-CSV.foreach('db/seeds/industry.csv', headers: true) do |row|
-  Industry.create(name: row['Name']
-                )
-end
-
+# require "csv"
+#
+# CSV.foreach('db/seeds/job_category.csv', headers: true) do |row|
+#   JobCategory.create(name: row['Name']
+#                 )
+# end
+#
+# CSV.foreach('db/seeds/industry.csv', headers: true) do |row|
+#   Industry.create(name: row['Name']
+#                 )
+# end
+n = 1
 30.times do
   user = User.create(first_name: Faker::Name.first_name,
                      last_name: Faker::Name.last_name,
@@ -25,6 +25,7 @@ end
                      expected_salary: (10000..200000).to_a.sample,
                      status: ["Actively Looking","Closed","Open for Opportunity"].sample,
                      description: Faker::Lorem.paragraph(sentence_count: 5),
+                     image: File.open("db/icon/#{n}.jpg")
                    )
 
   3.times do
@@ -75,10 +76,11 @@ end
     job_category_id: JobCategory.all.pluck(:id).sample,
   )
   end
-
+  n += 1
 end
 
-#Companyの作成
+Companyの作成
+n = 1
 30.times do
   company = Company.create(
     name: Faker::Company.name,
@@ -91,13 +93,14 @@ end
     number_of_employees: rand(2..10000),
     date_of_incorporation: DateTime.now - rand(1..100).year,
     paid_up_capital: rand(20000..10000000),
-    # logo: null,
+    logo: File.open("db/logo/#{n}.png"),
     # header_image: null,
     # image: null,
     email_for_inquiry: Faker::Internet.email,
     member_status: rand(0..3),
     description: Faker::Lorem.paragraph(sentence_count: 5)
   )
+  n +=1
 
   company.industry_relations.create(
     industry_id: Industry.all.pluck(:id).sample

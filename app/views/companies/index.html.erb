@@ -43,9 +43,9 @@
               </span>
               <% end %>
 
-              <span><i class="fas fa-users mr-1"></i><strong>Employees:</strong><%= company.number_of_employees.to_s(:delimited) if company.number_of_employees.present? %></span>
+              <span class="text-nowrap"><i class="fas fa-users mr-1"></i><strong>Employees:</strong><%= company.number_of_employees.to_s(:delimited) if company.number_of_employees.present? %></span>
 
-              <strong>Paid up capital</strong>
+              <strong>Capital</strong>
               <span><%= company.paid_up_capital.to_s(:delimited) if company.paid_up_capital.present? %></span>
               <div class="mt-2">
                 <p>

@@ -1,14 +1,14 @@
-# require "csv"
-#
-# CSV.foreach('db/seeds/job_category.csv', headers: true) do |row|
-#   JobCategory.create(name: row['Name']
-#                 )
-# end
-#
-# CSV.foreach('db/seeds/industry.csv', headers: true) do |row|
-#   Industry.create(name: row['Name']
-#                 )
-# end
+require "csv"
+
+CSV.foreach('db/seeds/job_category.csv', headers: true) do |row|
+  JobCategory.create(name: row['Name']
+                )
+end
+
+CSV.foreach('db/seeds/industry.csv', headers: true) do |row|
+  Industry.create(name: row['Name']
+                )
+end
 
 30.times do
   user = User.create(first_name: Faker::Name.first_name,

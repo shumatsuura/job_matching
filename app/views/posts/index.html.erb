@@ -11,20 +11,34 @@
           <div class="row no-gutters">
             <div class="card-body">
               <h4 class="card-title"><%= link_to post.title, post_path(post.id), class: "card-link text-primary" %></h4>
-              <i class="fas fa-map-marker-alt"></i> <span><%= post.location %>,</span>
-              <strong>Job Category: </strong>
-              <% post.job_categories.each do |n| %>
-                <%= n.name %>,
-              <% end %>
 
-              <strong>Industry: </strong>
-              <% post.industries.each do |n| %>
-                <%= n.name %>,
-              <% end %>
-              <br>
-              <strong>Position: </strong><span><%= post.position %>,</span>
-              <i class="fas fa-dollar-sign"></i>
-              <span><%= post.salary.to_s(:delimited) + " USD" if post.salary.present? %>,</span>
+              <span class="mr-2"><i class="fas fa-map-marker-alt"></i> <%= post.location %></span>
+
+              <span class="mr-2">
+                <i class="fas fa-briefcase"></i>
+                <strong>Job Category: </strong>
+                <% post.job_categories.each do |n| %>
+                  <%= n.name %>
+                <% end %>
+              </span>
+
+              <span class="mr-2 text-nowrap">
+                <strong><i class="fas fa-industry"></i> Industry: </strong>
+                <% post.industries.each do |n| %>
+                  <%= n.name %>
+                <% end %>
+              </span>
+
+              <span class="mr-2 text-nowrap">
+                <i class="fas fa-dice-d6"></i>
+                <strong>Position: </strong>
+                <%= post.position %>
+              </span>
+
+              <span class="text-nowrap">
+              <strong><i class="fas fa-dollar-sign"></i> Salary: </strong>
+                <%= post.salary.to_s(:delimited) + " USD" if post.salary.present? %>
+              </span>
 
               <% if post.skills.present? %>
               <strong>Skill:</strong>
@@ -40,8 +54,8 @@
           </div>
           <div class="card-footer row no-gutters d-flex align-items-center pt-1 pb-1">
             <div class="col">
-              <%= image_tag post.company.logo.url, class: 'img-thumbnail', width: "50px" if post.company.logo.present? %>
-              <%= image_tag "default_image.jpeg", class: 'img-thumbnail', width: "50px" unless post.company.logo.present? %>
+              <%= image_tag post.company.logo.url, class: 'rounded', width: "50px" if post.company.logo.present? %>
+              <%= image_tag "default_image.jpeg", class: 'rounded', width: "50px" unless post.company.logo.present? %>
               <span class="card-text"><%= link_to post.company.name, company_path(post.company_id), class: 'text-info' if post.company.name %></span>
             </div>
             <div class="col text-right">

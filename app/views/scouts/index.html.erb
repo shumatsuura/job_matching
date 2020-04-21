@@ -1,6 +1,6 @@
 <br>
 <div class="container">
-  <table class="table table-bordered">
+  <table class="table table-bordered text-center">
     <h5>Scouts</h5>
     <thead class="thead-dark">
       <% if user_signed_in? %>
@@ -29,7 +29,7 @@
           <td><%= scout.title %></td>
           <td><%= scout.company.name %></td>
           <td><%= scout.company.industries.present? ? scout.company.industries.first.name : "" %></td>
-          <td><%= scout.company.number_of_employees %></td>
+          <td><%= scout.company.number_of_employees.to_s(:delimited) if scout.company.number_of_employees.present? %></td>
         <% elsif %>
           <% user = scout.user %>
           <td><%= scout.title %></td>
@@ -44,13 +44,11 @@
           <% end %>
           <td class="text-center">
             <%= link_to(scout_scout_messages_path(scout.id)) do %>
-              <button type="button" class = "btn btn-primary">
-                <span>
-                <span class="small">Message </span>
+              <button type="button" class="btn btn-primary p-1" style="width:60px">
+                <i class="far fa-envelope"></i>
                   <span class="badge badge-light scout_count_badge">
                     <%= company_signed_in? ? scout.scout_messages.where(read: false, user_id: user.id).count : scout.scout_messages.where(read: false, company_id: scout.company_id).count %>
                   </span>
-                </span>
               </button>
             <% end %>
           </td>

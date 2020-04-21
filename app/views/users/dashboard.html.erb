@@ -1,6 +1,5 @@
 <div class="container">
   <!-- プロフィール -->
-
   <div class="card mt-4 mb-4">
     <div class="card-header">
       <div class="row">
@@ -25,9 +24,7 @@
           <div><small>Age:<%= @user.age.present? ? "#{@user.age} years old" : " Blank" %> </small></div>
           <div><small>Gender:<%= @user.gender || " Blank" %></small></div>
           <div><small><%= @user.email %></small></div>
-
-          <p><%= @user.address %></p>
-          <small class="text-muted">Update: <%= @user.updated_at %></small>
+          <small class="text-muted">Last Update: <%= @user.updated_at.strftime('%m/%d/%Y') %></small>
         </div>
       </div>
       <!-- Profile Field -->
@@ -64,7 +61,7 @@
                   </div>
                   <div>
                     <strong>Expected Salary: </strong>
-                    <%= @user.expected_salary || " Blank" %>
+                    <%= @user.expected_salary.to_s(:delimited) if @user.expected_salary.present? || " Blank" %>
                   </div>
                 </div>
               </div>
@@ -218,11 +215,12 @@
           <%= link_to "show all", applies_path, class: "badge badge-primary" %>
         </div>
       </div>
-      <table class = "table table-bordered">
+      <table class = "table table-bordered text-center">
         <thead class="thead-dark">
-          <tr>
+          <tr class="align-middle text-center">
             <th class="py-1">Company</th>
             <th class="py-1">Title</th>
+            <th class="py-1">Applied at</th>
             <th class="py-1"></th>
           </tr>
         </thead>
@@ -232,26 +230,28 @@
           <tr>
             <td><%= link_to apply.post.company.name, company_path(apply.post.company_id) %></td>
             <td><%= link_to apply.post.title, post_path(apply.post_id) %></td>
-            <td><%= link_to(apply_apply_messages_path(apply.id)) do %>
-              <button type="button" class = "btn btn-primary">
-                <span>
-                  <span class="small">Message </span><span class="badge badge-light"><%= apply.apply_messages.where(read: false, company_id: apply.post.company_id).count %></span>
-                </span>
-              </button>
+            <td><%= apply.created_at.strftime("%d/%m/%Y") %></td>
+            <td>
+              <%= link_to(apply_apply_messages_path(apply.id)) do %>
+                <button type="button" class="btn btn-primary p-1" style="width:60px">
+                  <i class="far fa-envelope"></i>
+                    <span class="badge badge-light">
+                      <%= apply.apply_messages.where(read: false, company_id: apply.post.company_id).count %>
+                    </span>
+                </button>
               <% end %>
-              <small><%= apply.created_at.strftime("%d %b") %></small>
             </td>
           </tr>
           <% end %>
           <% else %>
           <tr>
-            <td colspan="3">Currently there are no applications.</td>
+            <td colspan="4">Currently there are no applications.</td>
           </tr>
           <% end %>
         </tbody>
       </table>
     </div>
-    <!-- アプライここまで -->
+    <!-- アプリケーションここまで -->
     <!-- スカウト -->
     <div class="col-md-6">
       <div class="d-flex justify-content-between">
@@ -262,12 +262,13 @@
           <%= link_to "show all", scouts_path, class: "badge badge-primary" %>
         </div>
       </div>
-      <table class = "table table-bordered">
+      <table class = "table table-bordered text-center">
         <thead class = "thead-dark">
           <tr>
             <th class="py-1">Company</th>
             <th class="py-1">Title</th>
-            <th class="py-1"></th>
+            <th class="py-1">Scouted at</th>
+            <th></th>
           </tr>
         </thead>
         <tbody>
@@ -276,23 +277,23 @@
         <tr>
           <td><%= link_to scout.company.name, company_path(scout.company_id) %></td>
           <td><%= scout.title %></td>
+          <td>
+            <%= scout.created_at.strftime("%d/%m/%Y") %>
+          </td>
           <td><%= link_to(scout_scout_messages_path(scout.id)) do %>
-            <button type="button" class = "btn btn-primary">
-              <span>
-                <span class="small">Message </span>
+              <button type="button" class="btn btn-primary p-1" style="width:60px">
+                <i class="far fa-envelope"></i>
                 <span class="badge badge-light scout_count_badge">
                   <%= scout.scout_messages.where(read: false, company_id: scout.company_id).count %>
                 </span>
-              </span>
             </button>
             <% end %>
-            <small><%= scout.created_at.strftime("%d %b") %></small>
           </td>
         </tr>
         <% end %>
         <% else %>
         <tr>
-          <td colspan="3">Currently there are no scouts.</td>
+          <td colspan="4">Currently there are no scouts.</td>
         </tr>
         <% end %>
       </tbody>
@@ -312,9 +313,9 @@
           <%= link_to "show all", like_posts_path, class: "badge badge-primary" %>
         </div>
       </div>
-      <table class = "table table-bordered">
+      <table class = "table table-bordered text-center">
         <thead class ="thead-dark">
-          <tr>
+          <tr class="align-middle">
             <th class="py-1">Company</th>
             <th class="py-1">Title</th>
             <th class="py-1">Created At</th>
@@ -326,7 +327,7 @@
         <tr>
           <td><%= link_to like_post.post.company.name, company_path(like_post.post.company_id) %></td>
           <td><%= link_to like_post.post.title, post_path(like_post.post_id) %></td>
-          <td><%= like_post.created_at.strftime("%d %b, %Y") %></td>
+          <td><%= like_post.created_at.strftime("%d/%m/%Y") %></td>
         </tr>
         <% end %>
         <% else %>
@@ -347,11 +348,11 @@
           <%= link_to "show all", follows_path, class: "badge badge-primary" %>
         </div>
       </div>
-      <table class = "table table-bordered">
+      <table class = "table table-bordered text-center">
         <thead class="thead-dark">
-          <tr>
+          <tr class="align-middle">
             <th class="py-1">Company</th>
-            <th class="py-1">Title</th>
+            <th class="py-1">Followed At</th>
           </tr>
         </thead>
         <tbody>
@@ -359,7 +360,7 @@
         <% @user.follows.limit(5).each do |follow| %>
         <tr>
           <td><%= link_to follow.company.name, company_path(follow.company_id) %></td>
-          <td><%= follow.created_at.strftime("%d %b, %Y") %></td>
+          <td><%= follow.created_at.strftime("%d/%m/%Y") %></td>
         </tr>
         <% end %>
         <% else %>

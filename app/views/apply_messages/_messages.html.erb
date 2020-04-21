@@ -1,6 +1,6 @@
-<div class="ui segment">
+<div class="container">
   <% if @over_ten %>
-  <%= link_to '以前のメッセージ', '?m=all' %>
+  <%= link_to 'Previous Messages', '?m=all' %>
   <% end %>
   <% last_sender = nil %>
   <% messages.each do |message| %>
@@ -17,7 +17,6 @@
           <% if last_sender != message.apply.user.first_name %>
           <%= link_to message.apply.user.first_name, user_path(message.apply.user.id) %>
           <% end %>
-
           <div class="card">
             <div class="card-body">
               <%= message.body %>
@@ -27,7 +26,7 @@
         <div class="col-3 align-self-end">
           <%= message.message_time %>
           <% if user_signed_in? %>
-          <%= message.read ? '既読' : '未読' %>
+          <%= message.read ? '/ Read' : '/ Unread' %>
           <% end %>
         </div>
       </div>
@@ -44,7 +43,7 @@
         <div class="col-7">
           <div class="text-right">
             <% if last_sender != message.post.company.name %>
-            <%= message.post.company.name %>
+            <%= link_to message.post.company.name, company_path(message.post.company_id) %>
             <% end %>
           </div>
           <div class="card bg-light">
@@ -55,9 +54,8 @@
         </div>
         <div class="col-3 align-self-end text-right">
           <% if company_signed_in? && message.company_id.present? %>
-            <%= message.read ? '既読' : '未読' %><br>
+            <%= message.read ? '/ Read' : '/ Unread' %><br>
           <% end %>
-
           <%= message.message_time %>
         </div>
       </div>

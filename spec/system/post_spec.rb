@@ -6,7 +6,7 @@ RSpec.describe 'Post Test', type: :system, js: true do
     @user1 = User.create(email: 'user1@sample.com', password: "password", password_confirmation: "password")
     @company = Company.create!(name: "sample_company", :email => 'test@example.com', :password => 'f4k3p455w0rd')
     @post = FactoryBot.create(:post, company_id: @company.id)
-    @company1 = Company.create(email: 'company1@sample.com', password: "password", password_confirmation: "password")
+    @company1 = Company.create(name: "sample1_company",email: 'company1@sample.com', password: "password", password_confirmation: "password")
     @post1 = FactoryBot.create(:post, company_id: @company1.id)
     @company1.company_skills.create(name: "test_skill")
     JobCategory.create(name: "test_category")
@@ -79,7 +79,7 @@ RSpec.describe 'Post Test', type: :system, js: true do
       visit dashboard_company_path(@company.id)
 
       accept_alert do
-        click_link 'delete'
+        click_link 'Delete'
       end
       sleep 1
       y = @company.posts.count
@@ -111,7 +111,7 @@ RSpec.describe 'Post Test', type: :system, js: true do
     it 'ポストページにアクセスできる' do
       visit post_path(@post1.id)
       expect(page).to have_current_path post_path(@post1.id)
-      expect(page).to have_content 'Like'
+      expect(all('.fa-heart').empty?).not_to eq true
       expect(page).to have_content 'Apply Now'
     end
 
@@ -136,7 +136,7 @@ RSpec.describe 'Post Test', type: :system, js: true do
     it 'ポストページにアクセスできる' do
       visit post_path(@post1.id)
       expect(page).to have_current_path post_path(@post1.id)
-      expect(page).not_to have_content 'Like'
+      expect(page).not_to have_content '.fa-heart'
       expect(page).not_to have_content 'Apply Now'
     end
 

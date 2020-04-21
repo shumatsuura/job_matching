@@ -1,9 +1,9 @@
-<div class="container-fluid bg-dark">
-  <p>
-    <span class="text-light"><%= "Company: #{@apply.post.company.name}" if current_user %></span>
-    <span class="text-light"><%= "Candidate: #{@apply.user.first_name}" if current_company %></span>
-    <br><span class="text-light"><%= @apply.post.title%></span>
-  </p>
+<div class="container-fluid bg-dark py-2 mb-3">
+  <div class="container">
+    <div class="text-light"><%= "Company: #{@apply.post.company.name}" if current_user %></div>
+    <div class="text-light"><%= "Candidate: #{@apply.user.first_name}" if current_company %></div>
+    <div class="text-light">Post Title: <%= @apply.post.title%></div>
+  </div>
 </div>
 <div class="container">
   <div id="messages_area">
@@ -25,4 +25,5 @@
   </div>
   </div>
   <% end %>
+  <br>
 </div>

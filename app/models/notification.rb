@@ -17,7 +17,7 @@ class Notification < ApplicationRecord
     end
   end
 
-  def message
+  def create_message
     case action_model
     when "scout"
       Scout.find_by(id: action_model_id).present? ? "You are scouted by #{Scout.find_by(id: action_model_id).company.name}" : "Deleted"

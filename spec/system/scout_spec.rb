@@ -46,7 +46,7 @@ RSpec.describe 'Scout Test', type: :system, js: true do
       click_on 'Send message'
 
       expect(page).to have_content 'test message'
-      expect(page).to have_content '未読'
+      expect(page).to have_content 'Unread'
     end
 
     it 'ダッシュボードに未読メッセージ数が表示され、アクセスすると未読メッセージ数が0になる' do
@@ -66,7 +66,7 @@ RSpec.describe 'Scout Test', type: :system, js: true do
 
       visit scouts_path
       expect(all('.badge-light')[0].text).to eq "0"
-      
+
     end
   end
 
@@ -100,7 +100,7 @@ RSpec.describe 'Scout Test', type: :system, js: true do
       click_on 'Send message'
 
       expect(page).to have_content 'test message'
-      expect(page).to have_content '未読'
+      expect(page).to have_content 'Unread'
     end
 
     it 'ダッシュボードに未読メッセージ数が表示され、アクセスすると未読メッセージ数が0になる' do

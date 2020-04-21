@@ -49,7 +49,7 @@ RSpec.describe 'Apply Test', type: :system, js: true do
       click_on 'Send message'
 
       expect(page).to have_content 'test message'
-      expect(page).to have_content '未読'
+      expect(page).to have_content 'Unread'
     end
 
     it 'マネージページに未読メッセージ数が表示され、アクセスすると未読メッセージ数が0になる' do
@@ -97,7 +97,7 @@ RSpec.describe 'Apply Test', type: :system, js: true do
       click_on 'Send message'
 
       expect(page).to have_content 'test message'
-      expect(page).to have_content '未読'
+      expect(page).to have_content 'Unread'
     end
 
     it 'アプライインデックスに未読メッセージ数が表示され、アクセスすると未読メッセージ数が0になる' do

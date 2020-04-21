@@ -124,7 +124,7 @@ RSpec.describe 'ユーザー機能', type: :system, js: true do
 
       it '自分の詳細ページから基本情報を編集できること' do
         visit user_path(@user.id)
-        click_on 'Edit Basic Profile'
+        click_on 'Edit Profile'
 
         fill_in 'user_first_name', with:'test'
         fill_in 'user_last_name', with:'test'
@@ -229,6 +229,11 @@ RSpec.describe 'ユーザー機能', type: :system, js: true do
       select '1986', from: 'user_date_of_birth_1i'
       select 'November', from: 'user_date_of_birth_2i'
       select '2', from: 'user_date_of_birth_3i'
+
+
+      fill_in 'user_languages_attributes_0_name', with: 'English'
+      select 'Native', from: 'user_languages_attributes_0_level'
+
       select 'test_category', from: "user_desired_job_categories_attributes_0_job_category_id"
       select 'test_industry', from: "user_desired_industries_attributes_0_industry_id"
       fill_in 'user_educations_attributes_0_school_name', with: "test_school"
@@ -238,6 +243,13 @@ RSpec.describe 'ユーザー機能', type: :system, js: true do
       select '1999', from: 'user_work_experiences_attributes_0_period_start_1i'
       select 'April', from: 'user_work_experiences_attributes_0_period_start_2i'
 
+      select '1999', from: 'user_qualifications_attributes_0_date_of_acquisition_1i'
+      select 'April', from: 'user_qualifications_attributes_0_date_of_acquisition_2i'
+
+      fill_in 'user_qualifications_attributes_0_name', with: 'test_qualification'
+
+      fill_in 'user_user_skills_attributes_0_name', with: 'test_skill'
+      sleep 10
 
       click_on 'Update User'
 

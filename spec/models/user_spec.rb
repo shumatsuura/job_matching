@@ -38,8 +38,8 @@ RSpec.describe User, type: :model do
       it '編集時にバリデーションが通る' do
         expect(@user).to be_valid(:update)
       end
-
     end
+  end
 
   # it '通常ユーザーの削除' do
   #   x = User.all

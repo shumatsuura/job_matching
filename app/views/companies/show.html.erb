@@ -8,7 +8,7 @@
   <div class="row d-flex mt-1">
     <div class="col-2 align-self-start text-right">
       <%= image_tag(@company.logo.url, class: 'rounded-circle',width: "70px") if @company.logo.present? %>
-      <%= image_tag("default_image.jpeg", class: '', width: "70px") unless @company.logo.present? %>
+      <%= image_tag("default_image.jpeg", class: 'rounded', width: "70px") unless @company.logo.present? %>
     </div>
     <div class="col-10 col-md-3">
       <h4>
@@ -89,7 +89,7 @@
   <%= raw @company.description %>
   <div class="row mt-3">
     <h3>List of Posts</h3>
-    <table class = "table table-bordered">
+    <table class = "table table-bordered text-center">
       <thead class= "thead-dark">
         <tr>
           <th>No.</th>
@@ -108,7 +108,7 @@
             <td><%= post.title %></td>
             <td><%= post.position %></td>
             <td><%= post.job_categories.first.name if post.job_categories.present? %></td>
-            <td><%= post.salary %></td>
+            <td><%= post.salary.to_s(:delimited) if post.salary.present? %></td>
             <td><%= link_to "Detail", post_path(post.id) %></td>
           </tr>
           <% end %>

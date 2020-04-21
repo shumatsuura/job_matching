@@ -130,7 +130,7 @@ RSpec.describe 'ユーザー機能', type: :system, js: true do
         fill_in 'user_last_name', with:'test'
         select 'Male', from:'user_gender'
         select '1986', from: 'user_date_of_birth_1i'
-        select 'November', from: 'user_date_of_birth_2i'
+        select '11月', from: 'user_date_of_birth_2i'
         select '2', from: 'user_date_of_birth_3i'
         select 'Closed', from:'user_status'
         click_on 'Update User'
@@ -227,7 +227,7 @@ RSpec.describe 'ユーザー機能', type: :system, js: true do
       select 'Male', from:'user_gender'
       select 'Closed', from:'user_status'
       select '1986', from: 'user_date_of_birth_1i'
-      select 'November', from: 'user_date_of_birth_2i'
+      select '11月', from: 'user_date_of_birth_2i'
       select '2', from: 'user_date_of_birth_3i'
 
 

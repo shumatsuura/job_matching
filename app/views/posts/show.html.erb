@@ -53,7 +53,7 @@
 
         <strong>Salary</strong>
         <span>
-          <%= @post.salary %>
+          <%= @post.salary.to_s(:delimited) if @post.salary.present? %>
         </span>
 
         <% if @post.skills.present? %>

@@ -10,7 +10,7 @@ class PostsController < ApplicationController
     @industries = Industry.all
     @job_categories = JobCategory.all
     @q = Post.ransack(params[:q])
-    @posts = @q.result(distinct: true).page(params[:page]).per(PER)
+    @posts = @q.result(distinct: true).order(updated_at: "DESC").page(params[:page]).per(PER)
   end
 
   def new

@@ -1,19 +1,19 @@
 ja:
-  activerecord:
-    models:
-      company: company
-      user: user
-    attributes:
-      company:
-        name: name
-        email: email
-      user:
-        first_name: 性
-        last_name: 名
-        email: email
-        current_password: 現在のパスワード
-        password: パスワード
-        password_confirmation: 確認用パスワード
+  # activerecord:
+  #   models:
+  #     company: company
+  #     user: user
+  #   attributes:
+  #     company:
+  #       name: name
+  #       email: email
+  #     user:
+  #       first_name: 性
+  #       last_name: 名
+  #       email: email
+  #       current_password: 現在のパスワード
+  #       password: パスワード
+  #       password_confirmation: 確認用パスワード
   date:
     formats:
       default: "%Y/%m/%d"

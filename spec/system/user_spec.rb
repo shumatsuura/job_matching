@@ -238,18 +238,17 @@ RSpec.describe 'ユーザー機能', type: :system, js: true do
       select 'test_industry', from: "user_desired_industries_attributes_0_industry_id"
       fill_in 'user_educations_attributes_0_school_name', with: "test_school"
       select '1999', from: 'user_educations_attributes_0_period_start_1i'
-      select 'April', from: 'user_educations_attributes_0_period_start_2i'
+      select '4月', from: 'user_educations_attributes_0_period_start_2i'
       fill_in 'user_work_experiences_attributes_0_company', with: "test_company"
       select '1999', from: 'user_work_experiences_attributes_0_period_start_1i'
-      select 'April', from: 'user_work_experiences_attributes_0_period_start_2i'
+      select '4月', from: 'user_work_experiences_attributes_0_period_start_2i'
 
       select '1999', from: 'user_qualifications_attributes_0_date_of_acquisition_1i'
-      select 'April', from: 'user_qualifications_attributes_0_date_of_acquisition_2i'
+      select '4月', from: 'user_qualifications_attributes_0_date_of_acquisition_2i'
 
       fill_in 'user_qualifications_attributes_0_name', with: 'test_qualification'
 
       fill_in 'user_user_skills_attributes_0_name', with: 'test_skill'
-      sleep 10
 
       click_on 'Update User'
 

@@ -20,7 +20,7 @@ class ScoutsController < ApplicationController
           action_model_id: scout.id)
         notification.message = notification.create_message
         notification.save
-        redirect_to user_path(scout.user_id), notice: "#{scout.user.first_name}さんをスカウトしました"
+        redirect_to user_path(scout.user_id), notice: "Scouted user successfully."
       else
         redirect_to user_path(scout.user_id), notice: "#{scout.user.first_name}さんをスカウトできませんでした。"
       end

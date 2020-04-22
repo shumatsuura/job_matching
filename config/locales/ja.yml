@@ -1,19 +1,19 @@
 ja:
-  # activerecord:
-  #   models:
-  #     company: 企業
-  #     user: ユーザー
-  #   attributes:
-  #     company:
-  #       name: 名前
-  #       date_of_incorporation: 設立日
-  #     user:
-  #       first_name: 性
-  #       last_name: 名
-  #       email: メールアドレス
-  #       current_password: 現在のパスワード
-  #       password: パスワード
-  #       password_confirmation: 確認用パスワード
+  activerecord:
+    models:
+      company: company
+      user: user
+    attributes:
+      company:
+        name: name
+        email: email
+      user:
+        first_name: 性
+        last_name: 名
+        email: email
+        current_password: 現在のパスワード
+        password: パスワード
+        password_confirmation: 確認用パスワード
   date:
     formats:
       default: "%Y/%m/%d"
@@ -38,3 +38,10 @@ ja:
       long: "%Y年%m月%d日(%a) %H時%M分%S秒 %Z"
     am: "午前"
     pm: "午後"
+  views:
+      pagination:
+        first: '最初'
+        last: '最後'
+        previous: '前'
+        next: '次'
+        truncate: '...'

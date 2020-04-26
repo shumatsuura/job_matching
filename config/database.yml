@@ -17,12 +17,13 @@
 default: &default
   adapter: postgresql
   encoding: unicode
-  # host: db
-  # username: postgres
   # For details on connection pooling, see Rails configuration guide
   # http://guides.rubyonrails.org/configuring.html#database-pooling
-  # password: password
   pool: <%= ENV.fetch("RAILS_MAX_THREADS") { 5 } %>
+  # Dockerでは下記が必要
+  host: db
+  username: postgres
+  password: password
 
 development:
   <<: *default

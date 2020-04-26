@@ -12,3 +12,5 @@ RUN gem install bundler
 RUN bundle install
 
 ADD . /myproject
+
+RUN mkdir -p tmp/sockets

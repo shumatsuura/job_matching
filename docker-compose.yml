@@ -39,7 +39,7 @@ services:
 
 volumes:
   postgresql-data:
-    driver: local
+    #driver: local
   public-data:
   tmp-data:
   log-data:

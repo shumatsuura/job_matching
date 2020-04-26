@@ -32,7 +32,7 @@ gem 'omniauth-google-oauth2'
 
 gem 'fog-aws'
 
-gem 'unicorn'
+gem 'unicorn', '5.4.1'
 gem 'mini_racer', platforms: :ruby
 gem 'sendgrid-ruby'
 

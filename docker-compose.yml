@@ -7,7 +7,7 @@ services:
 
     tty: true #コンテナを起動させ続けることができる
     stdin_open: true #標準出力をオン
-    command: bundle exec puma -C config/puma.rb　#pumaを起動
+    command: bundle exec puma -C config/puma.rb #pumaを起動
     #command: bundle exec unicorn_rails -c config/unicorn.rb #unicornを起動
     #command: bundle exec unicorn_rails -c config/unicorn.rb -E production -D
     depends_on: #依存関係、dbの後に起動

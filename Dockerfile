@@ -13,4 +13,5 @@ RUN bundle install
 
 ADD . /myproject
 
-#RUN mkdir -p tmp/sockets
+RUN rm -rf tmp/sockets
+RUN mkdir -p tmp/sockets

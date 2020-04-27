@@ -2,7 +2,7 @@ class LikePostsController < ApplicationController
   before_action :authenticate_user!
 
   def index
-    @like_posts = current_user.like_posts
+    @like_posts = current_user.like_posts.order(created_at: "DESC")
   end
 
   def create

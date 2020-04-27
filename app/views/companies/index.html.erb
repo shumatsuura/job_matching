@@ -4,7 +4,7 @@
     <%= render 'sidebar' %>
     <!-- Sidebar until here  -->
     <div class = "col-md-9">
-      <h3>Company List</h3>
+      <h3>Companies List</h3>
       <%= paginate @companies %>
       <% @companies.each do |company| %>
       <div class="card mb-3">
@@ -35,10 +35,10 @@
             <div class="card-body">
               <span class="mr-2"><i class="fas fa-map-marker-alt mr-2 green"></i><%= company.location %></span>
               <i class="fas fa-flag green"></i>
-              <span class="card-text mr-2"><strong>Incorporation: </strong><%= company.date_of_incorporation.strftime("%d %b, %Y") if company.date_of_incorporation %></span>
+              <span class="card-text mr-2"><strong>Incorporation: </strong><%= company.date_of_incorporation.strftime("%b, %Y") if company.date_of_incorporation %></span>
 
               <span class="text-nowrap">
-              <strong><i class="fas fa-industry green"></i> Industry: </strong>
+              <strong><i class="fas fa-industry mr-1 green"></i> Industry: </strong>
               <% company.industries.each do |industry| %>
               <span class="card-text  badge badge-light">
                 <%= industry.name %>
@@ -46,9 +46,9 @@
               <% end %>
               </span>
 
-              <span class="text-nowrap"><i class="fas fa-users mr-1 green"></i><strong>Employees:</strong><%= company.number_of_employees.to_s(:delimited) if company.number_of_employees.present? %></span>
+              <span class="text-nowrap mr-2"><i class="fas fa-users mr-2 green"></i><strong>Employees:</strong><%= company.number_of_employees.to_s(:delimited) if company.number_of_employees.present? %></span>
 
-              <strong><i class="fas fa-coins mr-1 green"></i>Capital</strong>
+              <strong><i class="fas fa-coins mr-1 green"></i>Capital: </strong>
               <span><%= company.paid_up_capital.to_s(:delimited) if company.paid_up_capital.present? %></span>
               <div class="mt-2">
                 <p>

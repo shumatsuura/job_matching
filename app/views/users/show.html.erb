@@ -59,7 +59,7 @@
       </tr>
       <tr>
         <th><%= t('view.expected_salary') %>:</th>
-        <td><%= @user.expected_salary.to_s(:delimited) if @user.expected_salary.present? %></td>
+        <td><%= (@user.expected_salary.to_s(:delimited) + " USD") if @user.expected_salary.present? %></td>
         <th>CV</th>
         <td align="center">
           <%= @user.cv.present? ? link_to("Download", @user.cv.url) : "N/A" %>
@@ -128,10 +128,10 @@
           <%= work_experience.period_end.strftime("%b %Y") if work_experience.period_end.present? %></td>
         </tr>
         <tr>
-          <th><strong>Position:</strong></th>
+          <th>Position:</th>
           <td><%= work_experience.position %></td>
-          <th><strong>Salary:</strong></th>
-          <td><%= work_experience.salary %></td>
+          <th>Salary:</th>
+          <td><%= (work_experience.salary.to_s(:delimited) + " USD") if work_experience.salary.present? %></td>
         </tr>
         <tr>
           <th>Description</th>

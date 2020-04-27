@@ -3,7 +3,6 @@ lock '3.6.0'
 # デプロイするアプリケーション名
 set :application, 'job_matching'
 # cloneするgitのレポジトリ
-# （xxxxxxxx：ユーザ名、yyyyyyyy：アプリケーション名）
 set :repo_url, 'https://github.com/shumatsuura/job_matching'
 # deployするブランチ。デフォルトはmasterなのでなくても可。
 set :branch, ENV['BRANCH'] || 'master'
@@ -14,16 +13,6 @@ set :linked_files, %w{.env config/secrets.yml}
 set :default_env, {
   rbenv_root: "/usr/local/rbenv",
   path: "/usr/local/rbenv/shims:/usr/local/rbenv/bin:$PATH",
-  # AWS_ACCESS_KEY_ID: ENV["AWS_ACCESS_KEY_ID"],
-  # AWS_SECRET_ACCESS_KEY: ENV["AWS_SECRET_ACCESS_KEY"],
-  # BASIC_AUTH_NAME: ENV["BASIC_AUTH_NAME"],
-  # BASIC_AUTH_PASSWORD: ENV["BASIC_AUTH_PASSWORD"],
-  #
-  # FACEBOOK_ID: ENV["FACEBOOK_ID"],
-  # FACEBOOK_SECRET_KEY: ENV["FACEBOOK_SECRET_KEY"],
-  #
-  # SENDGRID_API_KEY: ENV["SENDGRID_API_KEY"],
-  # MYDOMAIN: ENV["MYDOMAIN"],
 
 }
 set :linked_dirs, %w{log tmp/pids tmp/cache tmp/sockets public/uploads}
@@ -32,9 +21,7 @@ set :keep_releases, 5
 # Rubyのバージョン
 set :rbenv_ruby, '2.6.5'
 set :rbenv_type, :system
-# 出力するログのレベル。エラーログを詳細に見たい場合は :debug に設定する。
-# 本番環境用のものであれば、 :info程度が普通。
-# ただし挙動をしっかり確認したいのであれば :debug に設定する。
+# 出力するログのレベル
 set :log_level, :debug
 namespace :deploy do
   desc 'Restart application'
